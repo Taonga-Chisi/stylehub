@@ -149,7 +149,7 @@ const statusCfg: Record<ApptStatus, { label: string; dot: string; pill: string; 
   approved:  { label: "Approved",  dot: "bg-green-500",  pill: "bg-green-50  border border-green-200", text: "text-green-700"  },
   rejected:  { label: "Rejected",  dot: "bg-red-400",    pill: "bg-red-50    border border-red-200",   text: "text-red-700"    },
   cancelled: { label: "Cancelled", dot: "bg-gray-400",   pill: "bg-gray-100  border border-gray-200",  text: "text-gray-600"   },
-  completed: { label: "Completed", dot: "bg-blue-400",   pill: "bg-blue-50   border border-blue-200",  text: "text-blue-700"   },
+  completed: { label: "Completed", dot: "bg-[#C47A5A]",  pill: "bg-[#FAF2EE] border border-[#EACDBE]", text: "text-[#8E4424]"   },
 };
 
 function Badge({ status }: { status: ApptStatus }) {
@@ -316,24 +316,77 @@ function Nav({ current, go, unread }: { current: View; go: (v: View) => void; un
 
 /* ── Bottom mobile nav ────────────────────────────────── */
 const MOB_NAV = [
-  { view: "home"           as View, icon: "🏠", label: "Home"      },
-  { view: "find-salon"     as View, icon: "✂️",  label: "Salons"    },
-  { view: "my-appointments"as View, icon: "📅", label: "Bookings"  },
-  { view: "notifications"  as View, icon: "🔔", label: "Alerts"    },
-  { view: "client-dashboard"as View,icon: "👤", label: "Dashboard" },
+  {
+    view: "home" as View,
+    label: "Home",
+    icon: (active: boolean) => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill={active ? "#2C1810" : "none"} stroke={active ? "#2C1810" : "#8B7355"} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M3 9.5L12 3l9 6.5V20a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.5z" />
+        <polyline points="9 22 9 12 15 12 15 22" />
+      </svg>
+    ),
+  },
+  {
+    view: "find-salon" as View,
+    label: "Salons",
+    icon: (active: boolean) => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? "#2C1810" : "#8B7355"} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="6" cy="6" r="3" />
+        <circle cx="6" cy="18" r="3" />
+        <line x1="20" y1="4" x2="8.12" y2="15.88" />
+        <line x1="14.47" y1="14.48" x2="20" y2="20" />
+        <line x1="8.12" y1="8.12" x2="12" y2="12" />
+      </svg>
+    ),
+  },
+  {
+    view: "my-appointments" as View,
+    label: "Bookings",
+    icon: (active: boolean) => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={active ? "#2C1810" : "#8B7355"} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+        <line x1="16" y1="2" x2="16" y2="6" />
+        <line x1="8" y1="2" x2="8" y2="6" />
+        <line x1="3" y1="10" x2="21" y2="10" />
+      </svg>
+    ),
+  },
+  {
+    view: "notifications" as View,
+    label: "Alerts",
+    icon: (active: boolean) => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill={active ? "#2C1810" : "none"} stroke={active ? "#2C1810" : "#8B7355"} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+        <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+      </svg>
+    ),
+  },
+  {
+    view: "client-dashboard" as View,
+    label: "Dashboard",
+    icon: (active: boolean) => (
+      <svg width="20" height="20" viewBox="0 0 24 24" fill={active ? "#2C1810" : "none"} stroke={active ? "#2C1810" : "#8B7355"} strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+        <circle cx="12" cy="7" r="4" />
+      </svg>
+    ),
+  },
 ];
 
 function MobileNav({ current, go }: { current: View; go: (v: View) => void }) {
   return (
     <div className="fixed bottom-0 inset-x-0 lg:hidden z-50 glass border-t" style={{ borderColor: "#E8E0D5" }}>
       <div className="flex items-center justify-around pb-safe py-2">
-        {MOB_NAV.map(({ view, icon, label }) => (
-          <button key={view} onClick={() => go(view)}
-            className={`flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl transition-colors ${current === view ? "bg-[#F2EDE5]" : ""}`}>
-            <span className="text-[18px] leading-none">{icon}</span>
-            <span className={`text-[10px] font-semibold ${current === view ? "text-[#2C1810]" : "text-[#8B7355]"}`}>{label}</span>
-          </button>
-        ))}
+        {MOB_NAV.map(({ view, icon, label }) => {
+          const active = current === view;
+          return (
+            <button key={view} onClick={() => go(view)}
+              className={`flex flex-col items-center gap-0.5 py-1.5 px-3 rounded-xl transition-colors ${active ? "bg-[#F2EDE5]" : ""}`}>
+              <span className="flex items-center justify-center w-5 h-5">{icon(active)}</span>
+              <span className={`text-[10px] font-semibold ${active ? "text-[#2C1810]" : "text-[#8B7355]"}`}>{label}</span>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -1229,7 +1282,7 @@ function NotificationsPage() {
     rejected:  { icon:"✕", bg:"#FEF2F2", clr:"#EF4444" },
     cancelled: { icon:"–", bg:"#F9FAFB", clr:"#9CA3AF" },
     request:   { icon:"★", bg:"#FFFBEB", clr:"#F59E0B" },
-    reminder:  { icon:"🔔",bg:"#EFF6FF", clr:"#3B82F6" },
+    reminder:  { icon:"🔔",bg:"#FAF2EE", clr:"#C47A5A" },
   };
 
   return (
@@ -1623,8 +1676,8 @@ function SalonDashboardPage({ go }: { go: (v: View) => void }) {
     { time:"11:00", client:null },
     { time:"11:30", client:{ name:"John Asante",    svc:"Haircut",        bg:"#F0FDF4", border:"#BBF7D0" } },
     { time:"12:00", client:null },
-    { time:"12:30", client:{ name:"Amara Osei",     svc:"Cornrows",       bg:"#EFF6FF", border:"#BFDBFE" } },
-    { time:"13:00", client:{ name:"Amara Osei",     svc:"(cont.)",        bg:"#EFF6FF", border:"#BFDBFE" } },
+    { time:"12:30", client:{ name:"Amara Osei",     svc:"Cornrows",       bg:"#FAF2EE", border:"#EACDBE" } },
+    { time:"13:00", client:{ name:"Amara Osei",     svc:"(cont.)",        bg:"#FAF2EE", border:"#EACDBE" } },
     { time:"13:30", client:null },
     { time:"14:00", client:{ name:"Fatima Diallo",  svc:"Weaving",        bg:"#FFF8EE", border:"#F5E6C8" } },
     { time:"15:00", client:{ name:"Nana Boateng",   svc:"Hair Treatment", bg:"#F0FDF4", border:"#BBF7D0" } },
@@ -1649,7 +1702,7 @@ function SalonDashboardPage({ go }: { go: (v: View) => void }) {
         {[
           { label:"Today's Appointments", v:6, icon:"📅", clr:"#C4955A" },
           { label:"Pending Requests",     v:3, icon:"⏳", clr:"#F59E0B" },
-          { label:"This Week",            v:18,icon:"📊", clr:"#3B82F6" },
+          { label:"This Week",            v:18,icon:"📊", clr:"#C47A5A" },
           { label:"Completed Today",      v:4, icon:"✓",  clr:"#22C55E" },
         ].map(({ label,v,icon,clr }) => (
           <div key={label} className="rounded-2xl p-5 border" style={{ background:"white", borderColor:"#E8E0D5" }}>
@@ -1782,8 +1835,8 @@ function SalonCalendarPage() {
     { time:"11:00", entry:null },
     { time:"11:30", entry:{ name:"John Asante",   svc:"Haircut",       bg:"#F0FDF4", brd:"#BBF7D0" } },
     { time:"12:00", entry:null },
-    { time:"12:30", entry:{ name:"Amara Osei",    svc:"Cornrows",      bg:"#EFF6FF", brd:"#BFDBFE" } },
-    { time:"13:00", entry:{ name:"Amara Osei",    svc:"Cornrows",      bg:"#EFF6FF", brd:"#BFDBFE" } },
+    { time:"12:30", entry:{ name:"Amara Osei",    svc:"Cornrows",      bg:"#FAF2EE", brd:"#EACDBE" } },
+    { time:"13:00", entry:{ name:"Amara Osei",    svc:"Cornrows",      bg:"#FAF2EE", brd:"#EACDBE" } },
     { time:"13:30", entry:null },
     { time:"14:00", entry:{ name:"Fatima Diallo", svc:"Weaving",       bg:"#FFF8EE", brd:"#F5E6C8" } },
     { time:"14:30", entry:{ name:"Fatima Diallo", svc:"Weaving",       bg:"#FFF8EE", brd:"#F5E6C8" } },
