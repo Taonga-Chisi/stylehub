@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "./lib/supabase";
-import { signIn, signUp, signOut } from "./lib/auth";
+import { signIn, signUp, signOut, signUpSalonOwner } from "./lib/auth";
 
 /* ══════════════════════════════════════════════════════════
    TYPES
@@ -35,48 +35,48 @@ interface Appt {
 ══════════════════════════════════════════════════════════ */
 const SALONS = [
   {
-    id: "1", name: "Glam Studio", city: "Accra, Ghana", dist: "0.4 km",
+    id: "1", name: "Glam Studio", city: "Lusaka, Zambia", dist: "0.4 km",
     rating: 4.9, reviews: 312, hours: "9:00 AM – 7:00 PM",
-    price: "from GH₵ 80",
+    price: "from ZMK 80",
     tags: ["Braiding", "Weaving", "Natural Hair"],
     img:   "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=1400&h=520&fit=crop&auto=format",
-    about: "Glam Studio is Accra's premier destination for African hair artistry. Our master stylists specialise in traditional and contemporary braiding, weaving, and natural hair care — blending heritage craft with modern elegance since 2014.",
-    phone: "+233 20 123 4567",
-    email: "hello@glamstudio.gh",
+    about: "Glam Studio is Lusaka's premier destination for hair artistry. Our master stylists specialise in traditional and contemporary braiding, weaving, and natural hair care — blending heritage craft with modern elegance since 2014.",
+    phone: "+260 97 123 4567",
+    email: "hello@glamstudio.zm",
   },
   {
-    id: "2", name: "Natural Roots", city: "Lagos, Nigeria", dist: "1.2 km",
+    id: "2", name: "Natural Roots", city: "Kitwe, Zambia", dist: "1.2 km",
     rating: 4.7, reviews: 198, hours: "8:00 AM – 6:00 PM",
-    price: "from GH₵ 60",
+    price: "from ZMK 60",
     tags: ["Cornrows", "Dreadlocks", "Hair Treatment"],
     img:   "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1633681926035-ec1ac984418a?w=1400&h=520&fit=crop&auto=format",
     about: "Natural Roots celebrates the beauty of African hair in its most authentic form. We are specialists in locs, cornrows, and protective styles rooted in tradition.",
-    phone: "+234 80 234 5678",
-    email: "info@naturalroots.ng",
+    phone: "+260 96 234 5678",
+    email: "info@naturalroots.zm",
   },
   {
-    id: "3", name: "Afro Luxe", city: "Nairobi, Kenya", dist: "2.0 km",
+    id: "3", name: "Afro Luxe", city: "Ndola, Zambia", dist: "2.0 km",
     rating: 4.8, reviews: 254, hours: "10:00 AM – 8:00 PM",
-    price: "from GH₵ 100",
+    price: "from ZMK 100",
     tags: ["Styling", "Braiding", "Hair Cutting"],
     img:   "https://images.unsplash.com/photo-1706629504952-ab5e50f5c179?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=1400&h=520&fit=crop&auto=format",
     about: "Afro Luxe blends modern technique with traditional African styling to create looks that are bold, beautiful, and uniquely yours.",
-    phone: "+254 71 345 6789",
-    email: "luxe@afroluxe.ke",
+    phone: "+260 95 345 6789",
+    email: "luxe@afroluxe.zm",
   },
   {
-    id: "4", name: "Crown & Glory", city: "Abuja, Nigeria", dist: "3.1 km",
+    id: "4", name: "Crown & Glory", city: "Livingstone, Zambia", dist: "3.1 km",
     rating: 4.6, reviews: 167, hours: "9:00 AM – 6:00 PM",
-    price: "from GH₵ 75",
+    price: "from ZMK 75",
     tags: ["Natural Hair", "Hair Treatment", "Weaving"],
     img:   "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=1400&h=520&fit=crop&auto=format",
     about: "Crown & Glory is dedicated to nourishing and celebrating natural African hair with personalised care plans and premium products.",
-    phone: "+234 90 456 7890",
-    email: "crown@crownandglory.ng",
+    phone: "+260 97 456 7890",
+    email: "crown@crownandglory.zm",
   },
 ];
 
@@ -97,6 +97,7 @@ const SERVICES_LIST = [
     img: "https://images.unsplash.com/photo-1643956740911-62c19a5405f0?w=500&h=380&fit=crop&auto=format" },
   { id: "s8", name: "Hair Treatment",desc: "Deep conditioning, protein and scalp care",            dur: "1 hr",    price: 75,
     img: "https://images.unsplash.com/photo-1636302925868-52075f44d810?w=500&h=380&fit=crop&auto=format" },
+  // Note: prices above are in ZMK (Zambian Kwacha)
 ];
 
 const TIME_SLOTS = [
@@ -527,7 +528,7 @@ function HomePage({ go }: { go: (v: View) => void }) {
               <p className="font-display text-white text-lg font-semibold">Afro Natural</p>
               <div className="flex items-center justify-between mt-1">
                 <Stars n={5} size={12} />
-                <span className="text-xs" style={{ color: "#C4955A" }}>from GH₵ 90</span>
+                <span className="text-xs" style={{ color: "#C4955A" }}>from ZMK 90</span>
               </div>
             </div>
           </div>
@@ -577,7 +578,7 @@ function HomePage({ go }: { go: (v: View) => void }) {
               <div className="p-4">
                 <p className="text-xs leading-relaxed mb-3" style={{ color: "#8B7355" }}>{s.desc}</p>
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold" style={{ color: "#C4955A" }}>from GH₵ {s.price}</span>
+                  <span className="text-xs font-semibold" style={{ color: "#C4955A" }}>from ZMK {s.price}</span>
                   <span className="text-xs font-semibold" style={{ color: "#2C1810" }}>View →</span>
                 </div>
               </div>
@@ -622,28 +623,43 @@ function HomePage({ go }: { go: (v: View) => void }) {
 }
 
 /* ── Salon Card (reused) ─────────────────────────────── */
-function SalonCard({ salon, go }: { salon: typeof SALONS[0]; go: (v: View) => void }) {
+function SalonCard({ salon, go, onSelect }: { salon: any; go: (v: View) => void; onSelect?: (s: any) => void }) {
+  // DB salons have owner_id; mock salons have img
+  const coverImg = salon.cover_url || salon.img ||
+    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop&auto=format";
+  const logoImg  = salon.logo_url  || salon.img || "";
+  const rating   = salon.rating ?? 4.8;
+  const price    = salon.price  ?? "from ZMK 150";
+  const tags     = (salon.tags as string[]) || [];
+  const dist     = salon.dist ? ` · ${salon.dist}` : "";
+
+  const handleView = () => { if (onSelect) onSelect(salon); go("salon-detail"); };
+  const handleBook = () => { if (onSelect) onSelect(salon); go("booking"); };
+
   return (
     <div className="rounded-2xl overflow-hidden border card-hover cursor-pointer group" style={{ background: "white", borderColor: "#E8E0D5" }}>
-      <div className="relative h-48 bg-amber-50 overflow-hidden">
-        <img src={salon.img} alt={salon.name} className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-500" />
+      <div className="relative h-48 bg-[#F2EDE5] overflow-hidden">
+        <img src={coverImg} alt={salon.name}
+          className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-500"
+          onError={e => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop&auto=format"; }}
+        />
         <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold text-white"
-          style={{ background: "rgba(28,14,8,0.72)", backdropFilter: "blur(4px)" }}>★ {salon.rating}</div>
+          style={{ background: "rgba(28,14,8,0.72)", backdropFilter: "blur(4px)" }}>★ {rating}</div>
         <div className="absolute bottom-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full"
-          style={{ background: "rgba(196,149,90,0.92)", color: "white" }}>{salon.price}</div>
+          style={{ background: "rgba(196,149,90,0.92)", color: "white" }}>{price}</div>
       </div>
       <div className="p-4">
-        <h3 className="font-semibold mb-0.5" style={{ color: "#2C1810" }}>{salon.name}</h3>
-        <p className="text-xs mb-1" style={{ color: "#8B7355" }}>📍 {salon.city} · {salon.dist}</p>
-        <p className="text-xs mb-2.5" style={{ color: "#8B7355" }}>🕐 {salon.hours}</p>
-        <div className="flex flex-wrap gap-1 mb-4">
-          {salon.tags.slice(0,2).map(t => (
+        <h3 className="font-semibold mb-0.5 truncate" style={{ color: "#2C1810" }}>{salon.name}</h3>
+        <p className="text-xs mb-1 truncate" style={{ color: "#8B7355" }}>📍 {salon.city}{dist}</p>
+        <p className="text-xs mb-2.5 truncate" style={{ color: "#8B7355" }}>🕐 {salon.hours}</p>
+        <div className="flex flex-wrap gap-1 mb-4 h-5 overflow-hidden">
+          {tags.slice(0,2).map(t => (
             <span key={t} className="px-2 py-0.5 rounded-full text-[11px]" style={{ background: "#F2EDE5", color: "#8B7355" }}>{t}</span>
           ))}
         </div>
         <div className="flex gap-2">
-          <Btn variant="secondary" className="flex-1 py-2 text-xs" onClick={() => go("salon-detail")}>View</Btn>
-          <Btn variant="primary"   className="flex-1 py-2 text-xs" onClick={() => go("booking")}>Book</Btn>
+          <Btn variant="secondary" className="flex-1 py-2 text-xs" onClick={handleView}>View</Btn>
+          <Btn variant="primary"   className="flex-1 py-2 text-xs" onClick={handleBook}>Book</Btn>
         </div>
       </div>
     </div>
@@ -653,16 +669,34 @@ function SalonCard({ salon, go }: { salon: typeof SALONS[0]; go: (v: View) => vo
 /* ══════════════════════════════════════════════════════════
    FIND A SALON
 ══════════════════════════════════════════════════════════ */
-function FindSalonPage({ go }: { go: (v: View) => void }) {
-  const [q, setQ] = useState("");
-  const [svc, setSvc] = useState("all");
-  const [rat, setRat] = useState("all");
+function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectSalon: (s: any) => void }) {
+  const [q, setQ]         = useState("");
+  const [svc, setSvc]     = useState("all");
+  const [rat, setRat]     = useState("all");
+  const [dbSalons, setDbSalons] = useState<any[]>([]);
+  const [loadingDB, setLoadingDB] = useState(true);
 
-  const filtered = SALONS.filter(s => {
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("salons").select("*");
+      if (data) setDbSalons(data);
+      setLoadingDB(false);
+    })();
+  }, []);
+
+  // Merge: DB salons first, then mock salons not already covered
+  const allSalons: any[] = [
+    ...dbSalons,
+    ...SALONS.filter(ms => !dbSalons.some(db => db.name.toLowerCase() === ms.name.toLowerCase()))
+  ];
+
+  const filtered = allSalons.filter(s => {
     const qs = q.toLowerCase();
-    if (q && !s.name.toLowerCase().includes(qs) && !s.city.toLowerCase().includes(qs)) return false;
-    if (svc !== "all" && !s.tags.some(t => t.toLowerCase().includes(svc.toLowerCase()))) return false;
-    if (rat !== "all" && s.rating < Number(rat)) return false;
+    const city = (s.city || "").toLowerCase();
+    if (q && !s.name.toLowerCase().includes(qs) && !city.includes(qs)) return false;
+    if (svc !== "all" && s.tags && !s.tags.some((t: string) => t.toLowerCase().includes(svc.toLowerCase()))) return false;
+    const rating = s.rating || 4.8;
+    if (rat !== "all" && rating < Number(rat)) return false;
     return true;
   });
 
@@ -695,11 +729,22 @@ function FindSalonPage({ go }: { go: (v: View) => void }) {
         {["Available Today","Within 2 km","Top Rated","Budget-friendly","Open Now"].map(f => <Pill key={f} label={f} />)}
       </div>
 
-      <p className="text-xs font-semibold mb-6" style={{ color: "#8B7355" }}>{filtered.length} salon{filtered.length !== 1 ? "s" : ""} found</p>
+      <p className="text-xs font-semibold mb-6" style={{ color: "#8B7355" }}>
+        {loadingDB ? "Loading salons…" : `${filtered.length} salon${filtered.length !== 1 ? "s" : ""} found`}
+      </p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-        {filtered.map(s => <SalonCard key={s.id} salon={s} go={go} />)}
-        {filtered.length === 0 && (
+        {!loadingDB && filtered.map(s => <SalonCard key={s.id} salon={s} go={go} onSelect={onSelectSalon} />)}
+        {loadingDB && [1,2,3,4].map(i => (
+          <div key={i} className="rounded-2xl overflow-hidden border animate-pulse" style={{ background:"white", borderColor:"#E8E0D5" }}>
+            <div className="h-48 bg-[#F2EDE5]"/>
+            <div className="p-4 space-y-2">
+              <div className="h-4 bg-[#F2EDE5] rounded w-3/4"/>
+              <div className="h-3 bg-[#F2EDE5] rounded w-1/2"/>
+            </div>
+          </div>
+        ))}
+        {!loadingDB && filtered.length === 0 && (
           <div className="col-span-4 py-20 text-center">
             <p className="text-4xl mb-3">🔍</p>
             <p className="text-sm" style={{ color: "#8B7355" }}>No salons match your search.</p>
@@ -709,6 +754,7 @@ function FindSalonPage({ go }: { go: (v: View) => void }) {
     </div>
   );
 }
+
 
 /* ══════════════════════════════════════════════════════════
    SERVICES PAGE
@@ -732,7 +778,7 @@ function ServicesPage({ go }: { go: (v: View) => void }) {
             <div className="p-5">
               <p className="text-sm leading-relaxed mb-4" style={{ color: "#8B7355" }}>{s.desc}</p>
               <div className="flex items-center justify-between mb-4">
-                <span className="font-semibold text-sm" style={{ color: "#C4955A" }}>from GH₵ {s.price}</span>
+                <span className="font-semibold text-sm" style={{ color: "#C4955A" }}>from ZMK {s.price}</span>
                 <span className="text-xs px-2.5 py-1 rounded-full" style={{ background: "#F2EDE5", color: "#8B7355" }}>{s.dur}</span>
               </div>
               <Btn variant="primary" className="w-full py-2.5 text-sm" onClick={() => go("find-salon")}>View Shops</Btn>
@@ -747,15 +793,22 @@ function ServicesPage({ go }: { go: (v: View) => void }) {
 /* ══════════════════════════════════════════════════════════
    SALON DETAIL
 ══════════════════════════════════════════════════════════ */
-function SalonDetailPage({ go }: { go: (v: View) => void }) {
-  const s = SALONS[0];
+function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => void }) {
+  const s = salon || SALONS[0]; // fallback to mock if no salon selected
+  // Determine images: DB salons use cover_url/logo_url; mock use cover/img
+  const coverSrc = s.cover_url || s.cover ||
+    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=900&h=400&fit=crop&auto=format";
+  const logoSrc  = s.logo_url  || s.img   ||
+    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop&auto=format";
+  const isDB     = !!s.owner_id;
   const [tab, setTab] = useState<"services"|"reviews">("services");
 
   return (
     <div>
       {/* Cover */}
       <div className="relative h-64 sm:h-80 bg-amber-100 overflow-hidden">
-        <img src={s.cover} alt={s.name} className="w-full h-full object-cover" />
+        <img src={coverSrc} alt={s.name} className="w-full h-full object-cover"
+          onError={e => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=900&h=400&fit=crop&auto=format"; }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to top,rgba(28,14,8,0.55) 0%,transparent 60%)" }} />
         <button onClick={() => go("find-salon")} className="absolute top-6 left-6 flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-xl border glass" style={{ color: "#2C1810" }}>
           ← Back
@@ -766,16 +819,17 @@ function SalonDetailPage({ go }: { go: (v: View) => void }) {
         {/* Header card */}
         <div className="flex flex-col sm:flex-row gap-5 -mt-14 mb-10 relative z-10">
           <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl overflow-hidden flex-shrink-0 shadow-lg border-4 border-white bg-amber-50">
-            <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
+            <img src={logoSrc} alt={s.name} className="w-full h-full object-cover"
+              onError={e => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop&auto=format"; }} />
           </div>
           <div className="pt-2 sm:pt-16 flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
               <h1 className="font-display text-3xl sm:text-4xl font-semibold" style={{ color: "#2C1810" }}>{s.name}</h1>
-              <p className="text-sm mt-1" style={{ color: "#8B7355" }}>📍 {s.city} · {s.dist}</p>
+              <p className="text-sm mt-1" style={{ color: "#8B7355" }}>📍 {s.city}{s.dist ? ` · ${s.dist}` : ""}</p>
               <div className="flex items-center gap-2.5 mt-2">
                 <Stars n={5} />
-                <span className="font-semibold text-sm">{s.rating}</span>
-                <span className="text-sm" style={{ color: "#8B7355" }}>({s.reviews} reviews)</span>
+                <span className="font-semibold text-sm">{s.rating || "4.8"}</span>
+                <span className="text-sm" style={{ color: "#8B7355" }}>{s.reviews ? `(${s.reviews} reviews)` : ""}</span>
               </div>
             </div>
             <Btn variant="primary" className="flex-shrink-0 px-8 py-3.5 text-sm" onClick={() => go("booking")}>Book Appointment</Btn>
@@ -785,7 +839,7 @@ function SalonDetailPage({ go }: { go: (v: View) => void }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 pb-20">
           {/* Main */}
           <div className="lg:col-span-2">
-            <p className="text-sm leading-relaxed mb-8" style={{ color: "#8B7355" }}>{s.about}</p>
+            <p className="text-sm leading-relaxed mb-8" style={{ color: "#8B7355" }}>{s.about || "No description provided yet."}</p>
 
             {/* Tabs */}
             <div className="flex gap-1 p-1 rounded-2xl mb-8 w-fit" style={{ background: "#F2EDE5" }}>
@@ -809,7 +863,7 @@ function SalonDetailPage({ go }: { go: (v: View) => void }) {
                       <p className="text-xs" style={{ color: "#8B7355" }}>{sv.desc}</p>
                     </div>
                     <div className="flex items-center gap-4 flex-shrink-0">
-                      <span className="font-bold text-sm" style={{ color: "#C4955A" }}>GH₵ {sv.price}</span>
+                      <span className="font-bold text-sm" style={{ color: "#C4955A" }}>ZMK {sv.price}</span>
                       <Btn variant="primary" className="px-4 py-2 text-xs" onClick={() => go("booking")}>Select</Btn>
                     </div>
                   </div>
@@ -923,7 +977,7 @@ function BookingPage({ go }: { go: (v: View) => void }) {
                     <p className="text-xs" style={{ color: "#8B7355" }}>{sv.desc}</p>
                   </div>
                   <div className="flex items-center gap-3 ml-4 flex-shrink-0">
-                    <span className="font-bold text-sm" style={{ color: "#C4955A" }}>GH₵ {sv.price}</span>
+                    <span className="font-bold text-sm" style={{ color: "#C4955A" }}>ZMK {sv.price}</span>
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${sel ? "border-[#C4955A]" : "border-[#E8E0D5]"}`}>
                       {sel && <div className="w-2.5 h-2.5 rounded-full bg-[#C4955A]" />}
                     </div>
@@ -1041,7 +1095,7 @@ function BookingPage({ go }: { go: (v: View) => void }) {
               { l: "Date",     v: selDate ? `September ${selDate}, 2026` : "Sep 13, 2026" },
               { l: "Time",     v: selTime || "11:00 AM" },
               { l: "Duration", v: selSvc?.dur || "3–4 hrs" },
-              { l: "Price",    v: `GH₵ ${selSvc?.price || 150}` },
+              { l: "Price",    v: `ZMK ${selSvc?.price || 150}` },
             ].map(({ l, v }) => (
               <div key={l} className="flex justify-between items-center py-3.5 border-b last:border-0" style={{ borderColor: "#E8E0D5" }}>
                 <span className="text-sm" style={{ color: "#8B7355" }}>{l}</span>
@@ -1155,7 +1209,7 @@ function MyAppointmentsPage({ appts, setAppts, go, setDetail }: {
                   <span>📅 {a.date}</span>
                   <span>🕐 {a.time}</span>
                   <span>⏱ {a.duration}</span>
-                  <span className="font-semibold" style={{ color: "#C4955A" }}>GH₵ {a.price}</span>
+                  <span className="font-semibold" style={{ color: "#C4955A" }}>ZMK {a.price}</span>
                 </div>
                 <div className="flex gap-2 flex-wrap">
                   <Btn variant="secondary" className="px-4 py-1.5 text-xs" onClick={() => { setDetail(a); go("appointment-detail"); }}>
@@ -1256,7 +1310,7 @@ function ApptDetailPage({ appt, go }: { appt: Appt|null; go: (v: View) => void }
             { l:"Date",     v:a.date     },
             { l:"Time",     v:a.time     },
             { l:"Duration", v:a.duration },
-            { l:"Price",    v:`GH₵ ${a.price}` },
+            { l:"Price",    v:`ZMK ${a.price}` },
             { l:"Booked On",v:a.bookedOn },
           ].map(({ l, v }) => (
             <div key={l} className="flex justify-between py-3.5 border-t" style={{ borderColor: "#E8E0D5" }}>
@@ -1381,7 +1435,7 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
                   <div className="flex flex-wrap gap-4 text-sm mb-4">
                     <span style={{ color:"#8B7355" }}>📅 {upcoming[0].date}</span>
                     <span style={{ color:"#8B7355" }}>🕐 {upcoming[0].time}</span>
-                    <span className="font-semibold" style={{ color:"#C4955A" }}>GH₵ {upcoming[0].price}</span>
+                    <span className="font-semibold" style={{ color:"#C4955A" }}>ZMK {upcoming[0].price}</span>
                   </div>
                   <div className="flex gap-3">
                     <Btn variant="secondary" className="px-4 py-2 text-xs" onClick={() => { setDetail(upcoming[0]); go("appointment-detail"); }}>View Details</Btn>
@@ -1445,22 +1499,110 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
    CLIENT PROFILE  (Screen 15)
 ══════════════════════════════════════════════════════════ */
 function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void }) {
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing]       = useState(false);
+
+  // ── Business section ─────────────────────────────────────
+  const [salons,        setSalons]       = useState<any[]>([]);
+  const [bizOpen,       setBizOpen]      = useState(false);
+  const [showForm,      setShowForm]     = useState(false);
+  const [formId,        setFormId]       = useState<string | null>(null);
+  const [bizForm,       setBizForm]      = useState({
+    name: "", city: "", phone: "", email: "", hours: "", about: "",
+    cover_url: "", logo_url: ""
+  });
+  const [logoFile,      setLogoFile]     = useState<File | null>(null);
+  const [coverFile,     setCoverFile]    = useState<File | null>(null);
+  const [bizLoading,    setBizLoading]   = useState(false);
+  const [bizLoadingTxt, setBizLoadingTxt]= useState("Saving...");
+  const [bizMsg,        setBizMsg]       = useState<{type:"ok"|"err";text:string}|null>(null);
+
+  const fetchSalons = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+    const { data } = await supabase.from("salons").select("*").eq("owner_id", user.id);
+    if (data) setSalons(data);
+  };
+
+  useEffect(() => { fetchSalons(); }, []);
+
+  const openNewForm = () => {
+    setFormId(null);
+    setBizForm({ name:"", city:"", phone:"", email:"", hours:"", about:"", cover_url:"", logo_url:"" });
+    setLogoFile(null); setCoverFile(null);
+    setShowForm(true); setBizOpen(true);
+  };
+
+  const editSalon = (s: any) => {
+    setFormId(s.id);
+    setBizForm({ name:s.name||"", city:s.city||"", phone:s.phone||"", email:s.email||"",
+      hours:s.hours||"", about:s.about||"", cover_url:s.cover_url||"", logo_url:s.logo_url||"" });
+    setLogoFile(null); setCoverFile(null);
+    setShowForm(true); setBizOpen(true);
+  };
+
+  async function handleBizSave(e: React.FormEvent) {
+    e.preventDefault();
+    setBizMsg(null); setBizLoading(true); setBizLoadingTxt("Saving changes...");
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setBizMsg({ type:"err", text:"Not logged in." }); setBizLoading(false); return; }
+
+    let finalLogoUrl  = bizForm.logo_url;
+    let finalCoverUrl = bizForm.cover_url;
+
+    try {
+      if (logoFile) {
+        setBizLoadingTxt("Uploading logo photo...");
+        const ext = logoFile.name.split(".").pop();
+        const path = `${user.id}/logo_${Date.now()}.${ext}`;
+        const { error: uErr } = await supabase.storage.from("salon-images").upload(path, logoFile);
+        if (uErr) throw uErr;
+        finalLogoUrl = supabase.storage.from("salon-images").getPublicUrl(path).data.publicUrl;
+      }
+      if (coverFile) {
+        setBizLoadingTxt("Uploading cover photo...");
+        const ext = coverFile.name.split(".").pop();
+        const path = `${user.id}/cover_${Date.now()}.${ext}`;
+        const { error: uErr } = await supabase.storage.from("salon-images").upload(path, coverFile);
+        if (uErr) throw uErr;
+        finalCoverUrl = supabase.storage.from("salon-images").getPublicUrl(path).data.publicUrl;
+      }
+    } catch (err: any) {
+      setBizMsg({ type:"err", text:"Upload failed: " + err.message });
+      setBizLoading(false); return;
+    }
+
+    setBizLoadingTxt("Almost done...");
+    const payload: any = {
+      owner_id: user.id, name: bizForm.name, city: bizForm.city,
+      phone: bizForm.phone, email: bizForm.email, hours: bizForm.hours,
+      about: bizForm.about, cover_url: finalCoverUrl, logo_url: finalLogoUrl,
+      updated_at: new Date().toISOString(),
+    };
+    if (formId) payload.id = formId;
+
+    const { error } = await supabase.from("salons").upsert(payload);
+    setBizLoading(false);
+    if (error) {
+      setBizMsg({ type:"err", text:"Could not save: " + error.message });
+    } else {
+      setBizMsg({ type:"ok", text:"Salon saved!" });
+      fetchSalons();
+      setTimeout(() => { setBizMsg(null); setShowForm(false); }, 1500);
+    }
+  }
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">
       <PageHeading label="Account" title="My Profile" />
 
       {/* Profile card */}
       <div className="rounded-3xl overflow-hidden border mb-8" style={{ background:"white", borderColor:"#E8E0D5" }}>
-        {/* Banner */}
         <div className="h-36 relative overflow-hidden" style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
           <img src="https://images.unsplash.com/photo-1593351799227-75df2026356b?w=900&h=280&fit=crop&auto=format"
             alt="Banner" className="w-full h-full object-cover opacity-30" />
-          <button className="absolute bottom-3 right-4 text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/30 text-white" style={{ background:"rgba(255,255,255,0.15)" }}>
-            Edit Banner
-          </button>
+          <button className="absolute bottom-3 right-4 text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/30 text-white"
+            style={{ background:"rgba(255,255,255,0.15)" }}>Edit Banner</button>
         </div>
-
         <div className="px-6 pb-6">
           <div className="flex items-end gap-4 -mt-10 mb-5">
             <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor:"white" }}>
@@ -1474,10 +1616,9 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
               {editing ? "Cancel" : "Edit Profile"}
             </Btn>
           </div>
-
           {editing ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[["Full Name","Zara Asante"],["Phone","+233 24 567 8901"],["Email","zara@email.com"],["Location","Accra, Ghana"],["Preferred Service","Braiding"],["Date of Birth","March 15, 1995"]].map(([l,v]) => (
+              {[["Full Name","Zara Asante"],["Phone","+260 97 567 8901"],["Email","zara@email.com"],["Location","Lusaka, Zambia"],["Preferred Service","Braiding"],["Date of Birth","March 15, 1995"]].map(([l,v]) => (
                 <div key={l}>
                   <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>{l}</label>
                   <input defaultValue={v} className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
@@ -1489,7 +1630,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[["Full Name","Zara Asante"],["Phone","+233 24 567 8901"],["Email","zara@email.com"],["Location","Accra, Ghana"],["Preferred Service","Braiding"],["Member Since","January 2025"]].map(([l,v]) => (
+              {[["Full Name","Zara Asante"],["Phone","+260 97 567 8901"],["Email","zara@email.com"],["Location","Lusaka, Zambia"],["Preferred Service","Braiding"],["Member Since","January 2025"]].map(([l,v]) => (
                 <div key={l} className="py-3 border-b last:border-0" style={{ borderColor:"#F2EDE5" }}>
                   <p className="text-[11px] font-semibold uppercase tracking-wide mb-1" style={{ color:"#8B7355" }}>{l}</p>
                   <p className="text-sm font-medium" style={{ color:"#2C1810" }}>{v}</p>
@@ -1503,15 +1644,180 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
       {/* Quick stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {[
-          { label:"Total Appointments", v:appts.length,              clr:"#C4955A" },
-          { label:"Completed",          v:appts.filter(a=>a.status==="completed").length, clr:"#22C55E" },
-          { label:"Saved Salons",       v:3,                         clr:"#EF4444" },
+          { label:"Total Appointments", v:appts.length, clr:"#C4955A" },
+          { label:"Completed", v:appts.filter(a=>a.status==="completed").length, clr:"#22C55E" },
+          { label:"Saved Salons", v:3, clr:"#EF4444" },
         ].map(({ label,v,clr }) => (
           <div key={label} className="rounded-2xl p-4 border text-center" style={{ background:"white", borderColor:"#E8E0D5" }}>
             <p className="font-display text-3xl font-semibold mb-1" style={{ color:clr }}>{v}</p>
             <p className="text-xs" style={{ color:"#8B7355" }}>{label}</p>
           </div>
         ))}
+      </div>
+
+      {/* ── MY BUSINESS ──────────────────────────────── */}
+      <div className="rounded-3xl border overflow-hidden mb-8" style={{ background:"white", borderColor:"#E8E0D5" }}>
+
+        {/* Header toggle */}
+        <button onClick={() => { setBizOpen(o => !o); if (bizOpen) setShowForm(false); }}
+          className="w-full flex items-center justify-between px-6 py-5 hover:bg-[#FAF7F2] transition-colors">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
+              style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+              <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+            </div>
+            <div className="text-left">
+              <p className="font-semibold text-sm" style={{ color:"#2C1810" }}>My Salons & Barbershops</p>
+              <p className="text-xs mt-0.5" style={{ color:"#8B7355" }}>{salons.length} listing{salons.length !== 1 ? "s" : ""}</p>
+            </div>
+          </div>
+          <svg width="18" height="18" fill="none" stroke="#8B7355" strokeWidth="2" viewBox="0 0 24 24"
+            className={`transition-transform duration-200 ${bizOpen ? "rotate-180" : ""}`}>
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        {/* Salon list */}
+        {bizOpen && !showForm && (
+          <div className="border-t px-6 py-6" style={{ borderColor:"#E8E0D5" }}>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="font-semibold text-sm" style={{ color:"#2C1810" }}>Managed Properties</h3>
+              <button onClick={openNewForm} className="text-xs font-semibold px-3 py-1.5 rounded-xl border"
+                style={{ borderColor:"#C4955A", color:"#C4955A", background:"#FAF7F2" }}>
+                + Add New
+              </button>
+            </div>
+            <div className="space-y-3">
+              {salons.length === 0 ? (
+                <div className="text-center py-8 border-2 border-dashed rounded-2xl" style={{ borderColor:"#E8E0D5" }}>
+                  <p className="text-2xl mb-2">🏪</p>
+                  <p className="text-sm font-medium" style={{ color:"#2C1810" }}>No salons listed yet</p>
+                  <p className="text-xs mt-1" style={{ color:"#8B7355" }}>Click "+ Add New" to register your first salon</p>
+                </div>
+              ) : salons.map(s => (
+                <div key={s.id} className="flex items-center gap-4 p-4 border rounded-xl" style={{ borderColor:"#E8E0D5" }}>
+                  <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-[#E8E0D5]">
+                    {s.logo_url
+                      ? <img src={s.logo_url} alt="logo" className="w-full h-full object-cover" />
+                      : <div className="w-full h-full flex items-center justify-center text-[9px] font-bold text-[#8B7355]">LOGO</div>
+                    }
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-semibold text-sm truncate" style={{ color:"#2C1810" }}>{s.name}</p>
+                    <p className="text-xs truncate" style={{ color:"#8B7355" }}>📍 {s.city} · 🕐 {s.hours}</p>
+                  </div>
+                  <button onClick={() => editSalon(s)}
+                    className="text-xs font-semibold px-3 py-1.5 rounded-lg border flex-shrink-0"
+                    style={{ borderColor:"#E8E0D5", color:"#8B7355" }}>Edit</button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Add / Edit form */}
+        {bizOpen && showForm && (
+          <div className="border-t" style={{ borderColor:"#E8E0D5", background:"#FAF7F2" }}>
+            <form onSubmit={handleBizSave} className="px-6 py-6 space-y-4">
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="font-semibold text-sm" style={{ color:"#2C1810" }}>
+                  {formId ? "Edit Salon" : "Register New Salon"}
+                </h3>
+                <button type="button" onClick={() => setShowForm(false)}
+                  className="text-xs text-[#8B7355] underline">← Back to list</button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Text fields */}
+                {(([
+                  { label:"Salon Name",      key:"name",  placeholder:"e.g. Glam Studio",         span:2 },
+                  { label:"City / Location", key:"city",  placeholder:"e.g. Lusaka, Zambia",       span:1 },
+                  { label:"Business Phone",  key:"phone", placeholder:"e.g. +260 97 123 4567",     span:1 },
+                  { label:"Business Email",  key:"email", placeholder:"hello@mysalon.zm",          span:1 },
+                  { label:"Opening Hours",   key:"hours", placeholder:"e.g. 9:00 AM – 6:00 PM",   span:1 },
+                ]) as {label:string;key:keyof typeof bizForm;placeholder:string;span:number}[]).map(({label,key,placeholder,span}) => (
+                  <div key={key} className={span===2 ? "sm:col-span-2" : ""}>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>{label}</label>
+                    <input type="text" placeholder={placeholder} value={bizForm[key]}
+                      onChange={e => setBizForm(f => ({...f, [key]: e.target.value}))}
+                      className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors"
+                      style={{ borderColor:"#E8E0D5", background:"white", color:"#2C1810" }} />
+                  </div>
+                ))}
+
+                {/* Logo Upload */}
+                <div>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Logo Image</label>
+                  <label className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl border cursor-pointer transition-colors hover:bg-white"
+                    style={{ borderColor:"#E8E0D5", background:"white" }}>
+                    <span className="flex-shrink-0 px-3 py-1 rounded-lg text-xs font-semibold" style={{ background:"#F2EDE5", color:"#8B7355" }}>Choose File</span>
+                    <span className="text-xs truncate" style={{ color:"#8B7355" }}>{logoFile ? logoFile.name : bizForm.logo_url ? "Current image set" : "No file chosen"}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={e => setLogoFile(e.target.files?.[0]||null)} />
+                  </label>
+                  {logoFile && (
+                    <div className="mt-2 relative w-16 h-16 rounded-lg overflow-hidden border" style={{ borderColor:"#E8E0D5" }}>
+                      <img src={URL.createObjectURL(logoFile)} className="w-full h-full object-cover" alt="preview" />
+                    </div>
+                  )}
+                </div>
+
+                {/* Cover Upload */}
+                <div>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Cover Image</label>
+                  <label className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl border cursor-pointer transition-colors hover:bg-white"
+                    style={{ borderColor:"#E8E0D5", background:"white" }}>
+                    <span className="flex-shrink-0 px-3 py-1 rounded-lg text-xs font-semibold" style={{ background:"#F2EDE5", color:"#8B7355" }}>Choose File</span>
+                    <span className="text-xs truncate" style={{ color:"#8B7355" }}>{coverFile ? coverFile.name : bizForm.cover_url ? "Current image set" : "No file chosen"}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={e => setCoverFile(e.target.files?.[0]||null)} />
+                  </label>
+                  {coverFile && (
+                    <div className="mt-2 relative w-full h-28 rounded-xl overflow-hidden border" style={{ borderColor:"#E8E0D5" }}>
+                      <img src={URL.createObjectURL(coverFile)} className="w-full h-full object-cover" alt="preview" />
+                    </div>
+                  )}
+                </div>
+
+                {/* About */}
+                <div className="sm:col-span-2">
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>About the Salon</label>
+                  <textarea placeholder="Tell clients what makes your salon special…" value={bizForm.about}
+                    onChange={e => setBizForm(f => ({...f, about: e.target.value}))} rows={3}
+                    className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors resize-none"
+                    style={{ borderColor:"#E8E0D5", background:"white", color:"#2C1810" }} />
+                </div>
+              </div>
+
+              {/* Feedback message */}
+              {bizMsg && (
+                <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm"
+                  style={bizMsg.type==="ok"
+                    ? { background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#166534" }
+                    : { background:"#FEF2F2", border:"1px solid #FECACA", color:"#B91C1C" }}>
+                  {bizMsg.type==="ok"
+                    ? <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    : <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  }
+                  {bizMsg.text}
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-1">
+                <button type="submit" disabled={bizLoading}
+                  className="px-7 py-3 rounded-2xl text-sm font-semibold transition-all active:scale-[.98] disabled:opacity-60"
+                  style={{ background:"#2C1810", color:"#FAF7F2" }}>
+                  {bizLoading ? bizLoadingTxt : "Save Salon"}
+                </button>
+                <button type="button" onClick={() => setShowForm(false)} disabled={bizLoading}
+                  className="px-5 py-3 rounded-2xl text-sm font-semibold border transition-colors hover:bg-white disabled:opacity-60"
+                  style={{ borderColor:"#E8E0D5", color:"#8B7355" }}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
       </div>
 
       {/* Danger zone */}
@@ -1598,12 +1904,45 @@ function ReviewsSection() {
 /* ══════════════════════════════════════════════════════════
    SALON OWNER LOGIN  (Screen 17)
 ══════════════════════════════════════════════════════════ */
+type SalonAuthTab = "signin" | "signup";
+
 function SalonLoginPage({ go }: { go: (v: View) => void }) {
-  const [form, setForm] = useState({ email:"", password:"", remember: false });
+  const [tab, setTab]           = useState<SalonAuthTab>("signin");
+  const [salonName, setSalonName] = useState("");
+  const [email, setEmail]       = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw]     = useState(false);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState<string | null>(null);
+  const [success, setSuccess]   = useState<string | null>(null);
+
+  const switchTab = (t: SalonAuthTab) => { setTab(t); setError(null); setSuccess(null); };
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null); setSuccess(null); setLoading(true);
+
+    if (tab === "signup") {
+      const res = await signUpSalonOwner(email, password, salonName);
+      setLoading(false);
+      if (res.error) { setError(res.error); return; }
+      if (res.user && res.session) {
+        go("salon-dashboard");
+      } else {
+        setSuccess("Account created! Check your inbox to verify your email, then sign in.");
+      }
+    } else {
+      const res = await signIn(email, password);
+      setLoading(false);
+      if (res.error) { setError(res.error); return; }
+      go("salon-dashboard");
+    }
+  }
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-6 py-20">
       <div className="w-full max-w-md">
+
         {/* Logo */}
         <div className="flex items-center justify-center gap-2.5 mb-10">
           <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
@@ -1616,51 +1955,109 @@ function SalonLoginPage({ go }: { go: (v: View) => void }) {
           <span className="font-display font-semibold text-2xl" style={{ color:"#2C1810" }}>StyleHub</span>
         </div>
 
-        <div className="rounded-3xl border p-8 shadow-xl" style={{ background:"white", borderColor:"#E8E0D5" }}>
-          <div className="text-center mb-8">
-            <h1 className="font-display text-3xl font-semibold mb-2" style={{ color:"#2C1810" }}>Salon Owner Login</h1>
-            <p className="text-sm" style={{ color:"#8B7355" }}>Sign in to manage your salon and appointments.</p>
-          </div>
+        <div className="rounded-3xl border overflow-hidden shadow-xl" style={{ background:"white", borderColor:"#E8E0D5" }}>
+          {/* Accent bar */}
+          <div className="h-1.5" style={{ background:"linear-gradient(90deg,#C4955A 0%,#2C1810 100%)" }} />
 
-          <div className="space-y-4 mb-6">
-            {[
-              { label:"Email Address", type:"email",    placeholder:"hello@salon.com",  key:"email"    },
-              { label:"Password",      type:"password", placeholder:"Enter your password",key:"password" },
-            ].map(({ label, type, placeholder, key }) => (
-              <div key={key}>
-                <label className="block text-xs font-semibold uppercase tracking-wide mb-2" style={{ color:"#8B7355" }}>{label}</label>
-                <input type={type} placeholder={placeholder}
-                  value={(form as any)[key]}
-                  onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
-                  className="w-full px-4 py-3.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
-              </div>
-            ))}
+          <div className="px-8 pt-8 pb-0">
+            <div className="text-center mb-6">
+              <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color:"#C4955A" }}>For Salon & Barbershop Owners</p>
+              <h1 className="font-display text-2xl font-semibold" style={{ color:"#2C1810" }}>
+                {tab === "signin" ? "Welcome back" : "Register your salon"}
+              </h1>
+            </div>
 
-            <div className="flex items-center justify-between">
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input type="checkbox" checked={form.remember} onChange={e => setForm(f => ({ ...f, remember: e.target.checked }))} className="w-4 h-4 rounded accent-amber-700" />
-                <span className="text-sm" style={{ color:"#8B7355" }}>Remember me</span>
-              </label>
-              <button className="text-sm font-semibold hover:opacity-70 transition-opacity" style={{ color:"#C4955A" }}>Forgot password?</button>
+            {/* Tabs */}
+            <div className="flex rounded-2xl p-1 mb-6" style={{ background:"#F2EDE5" }}>
+              {(["signin", "signup"] as SalonAuthTab[]).map((t) => (
+                <button key={t} id={`salon-tab-${t}`} onClick={() => switchTab(t)}
+                  className="flex-1 py-2 rounded-xl text-sm font-semibold transition-all"
+                  style={{ background: tab === t ? "#2C1810" : "transparent", color: tab === t ? "#FAF7F2" : "#8B7355" }}>
+                  {t === "signin" ? "Sign In" : "Register"}
+                </button>
+              ))}
             </div>
           </div>
 
-          <Btn variant="primary" className="w-full py-4 text-sm mb-4" onClick={() => go("salon-dashboard")}>Sign In to Salon Dashboard</Btn>
+          <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-4">
+            {tab === "signup" && (
+              <div>
+                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Salon / Barbershop Name</label>
+                <input id="salon-name" type="text" placeholder="e.g. Glam Studio" value={salonName}
+                  onChange={e => setSalonName(e.target.value)} required={tab === "signup"}
+                  className="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors"
+                  style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+              </div>
+            )}
 
-          <div className="relative flex items-center justify-center my-4">
-            <div className="flex-1 h-px" style={{ background:"#E8E0D5" }} />
-            <span className="px-3 text-xs" style={{ color:"#8B7355" }}>or</span>
-            <div className="flex-1 h-px" style={{ background:"#E8E0D5" }} />
-          </div>
+            <div>
+              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Email Address</label>
+              <input id="salon-email" type="email" placeholder="hello@mysalon.com" value={email}
+                onChange={e => setEmail(e.target.value)} required
+                className="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors"
+                style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+            </div>
 
-          <button className="w-full py-3.5 rounded-2xl text-sm font-semibold flex items-center justify-center gap-3 border hover:bg-[#F2EDE5] transition-colors" style={{ borderColor:"#E8E0D5", color:"#2C1810" }}>
-            <span className="text-lg">G</span> Continue with Google
-          </button>
+            <div>
+              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Password</label>
+              <div className="relative">
+                <input id="salon-password" type={showPw ? "text" : "password"}
+                  placeholder={tab === "signup" ? "Min. 6 characters" : "Your password"}
+                  value={password} onChange={e => setPassword(e.target.value)}
+                  required minLength={6}
+                  className="w-full px-4 py-3 pr-12 rounded-xl border text-sm outline-none transition-colors"
+                  style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+                <button type="button" onClick={() => setShowPw(p => !p)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100 transition-opacity">
+                  {showPw
+                    ? <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                    : <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                  }
+                </button>
+              </div>
+            </div>
 
-          <p className="text-center text-sm mt-6" style={{ color:"#8B7355" }}>
-            New to StyleHub?{" "}
-            <button className="font-semibold hover:opacity-70 transition-opacity" style={{ color:"#C4955A" }}>Register your salon</button>
-          </p>
+            {error && (
+              <div id="salon-auth-error" className="flex items-start gap-2.5 px-4 py-3 rounded-xl text-sm"
+                style={{ background:"#FEF2F2", border:"1px solid #FECACA", color:"#B91C1C" }}>
+                <svg className="flex-shrink-0 mt-0.5" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                {error}
+              </div>
+            )}
+            {success && (
+              <div id="salon-auth-success" className="flex items-start gap-2.5 px-4 py-3 rounded-xl text-sm"
+                style={{ background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#166534" }}>
+                <svg className="flex-shrink-0 mt-0.5" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                </svg>
+                {success}
+              </div>
+            )}
+
+            <button id="salon-auth-submit" type="submit" disabled={loading}
+              className="w-full py-3.5 rounded-2xl text-sm font-semibold transition-all active:scale-[.98] disabled:opacity-60"
+              style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)", color:"white" }}>
+              {loading
+                ? <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                    </svg>
+                    {tab === "signin" ? "Signing in…" : "Creating account…"}
+                  </span>
+                : tab === "signin" ? "Sign In to Dashboard" : "Register Salon"
+              }
+            </button>
+
+            <p className="text-center text-sm" style={{ color:"#8B7355" }}>
+              {tab === "signin" ? "New to StyleHub? " : "Already registered? "}
+              <button type="button" onClick={() => switchTab(tab === "signin" ? "signup" : "signin")}
+                className="font-semibold underline underline-offset-2" style={{ color:"#C4955A" }}>
+                {tab === "signin" ? "Register your salon" : "Sign in"}
+              </button>
+            </p>
+          </form>
         </div>
       </div>
     </div>
@@ -1808,7 +2205,7 @@ function AppointmentRequestsPage() {
                 <Badge status={r.status}/>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                {[["📅 Date",r.date],["🕐 Time",r.time],["⏱ Duration",r.dur],["💰 Price",`GH₵ ${r.price}`]].map(([l,v]) => (
+                {[["📅 Date",r.date],["🕐 Time",r.time],["⏱ Duration",r.dur],["💰 Price",`ZMK ${r.price}`]].map(([l,v]) => (
                   <div key={l} className="p-3 rounded-xl" style={{ background:"#F2EDE5" }}>
                     <p className="text-[11px]" style={{ color:"#8B7355" }}>{l}</p>
                     <p className="font-semibold text-sm mt-0.5" style={{ color:"#2C1810" }}>{v}</p>
@@ -1979,7 +2376,7 @@ function ManageServicesPage() {
                     <p className="text-xs" style={{ color:"#8B7355" }}>{s.desc}</p>
                   </div>
                   <div className="flex items-center gap-4 flex-shrink-0">
-                    <span className="font-bold text-sm" style={{ color:"#C4955A" }}>GH₵ {s.price}</span>
+                    <span className="font-bold text-sm" style={{ color:"#C4955A" }}>ZMK {s.price}</span>
                     {/* Toggle */}
                     <button onClick={() => setSvcs(sv => sv.map(x => x.id===s.id?{...x,active:!x.active}:x))}
                       className="w-11 h-6 rounded-full relative transition-colors"
@@ -2002,52 +2399,150 @@ function ManageServicesPage() {
    SALON PROFILE  (Screen 22)
 ══════════════════════════════════════════════════════════ */
 function SalonProfilePage() {
+  const [form, setForm] = useState({
+    name: "", city: "", phone: "", email: "", hours: "", instagram: "", about: "",
+  });
+  const [loading, setLoading]   = useState(false);
+  const [saveMsg, setSaveMsg]   = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [fetching, setFetching] = useState(true);
+
+  // Load existing salon profile on mount
+  useEffect(() => {
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setFetching(false); return; }
+      const { data } = await supabase
+        .from("salons")
+        .select("*")
+        .eq("owner_id", user.id)
+        .single();
+      if (data) {
+        setForm({
+          name:      data.name      || "",
+          city:      data.city      || "",
+          phone:     data.phone     || "",
+          email:     data.email     || "",
+          hours:     data.hours     || "",
+          instagram: data.instagram || "",
+          about:     data.about     || "",
+        });
+      }
+      setFetching(false);
+    })();
+  }, []);
+
+  async function handleSave(e: React.FormEvent) {
+    e.preventDefault();
+    setSaveMsg(null);
+    setLoading(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setSaveMsg({ type: "err", text: "Not logged in." }); setLoading(false); return; }
+
+    const { error } = await supabase.from("salons").upsert({
+      owner_id:  user.id,
+      name:      form.name,
+      city:      form.city,
+      phone:     form.phone,
+      email:     form.email,
+      hours:     form.hours,
+      about:     form.about,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: "owner_id" });
+
+    setLoading(false);
+    if (error) {
+      setSaveMsg({ type: "err", text: "Failed to save: " + error.message });
+    } else {
+      setSaveMsg({ type: "ok", text: "Profile saved successfully!" });
+      setTimeout(() => setSaveMsg(null), 3000);
+    }
+  }
+
+  if (fetching) return (
+    <div className="flex justify-center items-center min-h-[40vh]">
+      <svg className="animate-spin" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4955A" strokeWidth="2.5">
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+      </svg>
+    </div>
+  );
+
   return (
     <div className="max-w-3xl mx-auto px-6 py-10">
       <PageHeading label="Salon Owner" title="Salon Profile" sub="How clients see your salon on StyleHub." />
 
-      <div className="rounded-3xl border overflow-hidden mb-6" style={{ background:"white", borderColor:"#E8E0D5" }}>
-        {/* Cover */}
-        <div className="relative h-44 overflow-hidden bg-amber-100">
-          <img src={SALONS[0].cover} alt="Cover" className="w-full h-full object-cover" />
-          <Btn variant="secondary" className="absolute bottom-3 right-3 px-3 py-1.5 text-xs">Edit Cover</Btn>
-        </div>
-
-        <div className="p-6">
-          {/* Logo row */}
-          <div className="flex items-end gap-4 -mt-12 mb-6">
-            <div className="w-22 h-22 w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor:"white" }}>
-              <img src={SALONS[0].img} alt="Logo" className="w-full h-full object-cover" />
+      <form onSubmit={handleSave}>
+        <div className="rounded-3xl border overflow-hidden mb-6" style={{ background:"white", borderColor:"#E8E0D5" }}>
+          {/* Cover placeholder */}
+          <div className="relative h-44 overflow-hidden" style={{ background:"linear-gradient(135deg,#F2EDE5 0%,#E8D5C0 100%)" }}>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <p className="text-sm font-medium" style={{ color:"#8B7355" }}>Cover photo coming soon</p>
             </div>
-            <button className="mb-1.5 text-xs font-semibold hover:opacity-60 transition-opacity" style={{ color:"#C4955A" }}>Change Photo</button>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              ["Salon Name",     "Glam Studio"],
-              ["City / Location","Accra, Ghana"],
-              ["Phone",          "+233 20 123 4567"],
-              ["Email",          "hello@glamstudio.gh"],
-              ["Opening Hours",  "9:00 AM – 7:00 PM"],
-              ["Instagram",      "@glamstudio_gh"],
-            ].map(([l,v]) => (
-              <div key={l}>
-                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>{l}</label>
-                <input defaultValue={v} className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+          <div className="p-6">
+            {/* Avatar placeholder */}
+            <div className="flex items-end gap-4 -mt-12 mb-6">
+              <div className="w-20 h-20 rounded-2xl border-4 flex items-center justify-center flex-shrink-0"
+                style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)", borderColor:"white" }}>
+                <span className="text-white text-2xl font-bold">
+                  {form.name ? form.name.charAt(0).toUpperCase() : "S"}
+                </span>
               </div>
-            ))}
-            <div className="sm:col-span-2">
-              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>About the Salon</label>
-              <textarea defaultValue={SALONS[0].about} rows={3} className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors resize-none" style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {([
+                { label:"Salon / Barbershop Name", key:"name",      placeholder:"e.g. Glam Studio",       span:2 },
+                { label:"City / Location",          key:"city",      placeholder:"e.g. Lusaka, Zambia",    span:1 },
+                { label:"Phone",                    key:"phone",     placeholder:"e.g. +260 97 123 4567",  span:1 },
+                { label:"Business Email",            key:"email",     placeholder:"hello@mysalon.zm",       span:1 },
+                { label:"Opening Hours",             key:"hours",     placeholder:"e.g. 9:00 AM – 6:00 PM",span:1 },
+              ] as { label:string; key:keyof typeof form; placeholder:string; span:number }[]).map(({ label, key, placeholder, span }) => (
+                <div key={key} className={span === 2 ? "sm:col-span-2" : ""}>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>{label}</label>
+                  <input
+                    id={`salon-profile-${key}`}
+                    type="text"
+                    placeholder={placeholder}
+                    value={form[key]}
+                    onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
+                    className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors"
+                    style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }}
+                  />
+                </div>
+              ))}
+              <div className="sm:col-span-2">
+                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>About the Salon</label>
+                <textarea id="salon-profile-about" placeholder="Tell clients what makes your salon special…"
+                  value={form.about} onChange={e => setForm(f => ({ ...f, about: e.target.value }))}
+                  rows={4} className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors resize-none"
+                  style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+              </div>
+            </div>
+
+            {saveMsg && (
+              <div className={`mt-4 flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm`}
+                style={saveMsg.type === "ok"
+                  ? { background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#166534" }
+                  : { background:"#FEF2F2", border:"1px solid #FECACA", color:"#B91C1C" }}>
+                {saveMsg.type === "ok"
+                  ? <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  : <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                }
+                {saveMsg.text}
+              </div>
+            )}
+
+            <div className="flex gap-3 mt-6">
+              <button type="submit" disabled={loading}
+                className="px-8 py-3.5 text-sm font-semibold rounded-2xl transition-all active:scale-[.98] disabled:opacity-60"
+                style={{ background:"#2C1810", color:"#FAF7F2" }}>
+                {loading ? "Saving…" : "Save Changes"}
+              </button>
             </div>
           </div>
-
-          <div className="flex gap-3 mt-6">
-            <Btn variant="primary"   className="px-8 py-3.5 text-sm">Save Changes</Btn>
-            <Btn variant="secondary" className="px-6 py-3.5 text-sm">Preview Profile</Btn>
-          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
@@ -2313,9 +2808,10 @@ const PROTECTED_VIEWS: View[] = [
 ];
 
 export default function App() {
-  const [view,       setView]      = useState<View>("home");
-  const [appts,      setAppts]     = useState<Appt[]>(APPTS_INIT);
-  const [detail,     setDetail]    = useState<Appt|null>(null);
+  const [view,          setView]         = useState<View>("home");
+  const [appts,         setAppts]        = useState<Appt[]>(APPTS_INIT);
+  const [detail,        setDetail]       = useState<Appt|null>(null);
+  const [selectedSalon, setSelectedSalon]= useState<any>(null);
   const [authUser,   setAuthUser]  = useState<User | null>(null);
   const [authModal,  setAuthModal] = useState<{ open: boolean; defaultTab: "signin" | "signup" }>({ open: false, defaultTab: "signin" });
   const [authReady,  setAuthReady] = useState(false); // prevent flicker before session restore
@@ -2368,9 +2864,9 @@ export default function App() {
   function renderView() {
     switch (view) {
       case "home":                  return <HomePage go={go} />;
-      case "find-salon":            return <FindSalonPage go={go} />;
+      case "find-salon":            return <FindSalonPage go={go} onSelectSalon={setSelectedSalon} />;
       case "services":              return <ServicesPage go={go} />;
-      case "salon-detail":          return <SalonDetailPage go={go} />;
+      case "salon-detail":          return <SalonDetailPage salon={selectedSalon} go={go} />;
       case "booking":               return <BookingPage go={go} />;
       case "booking-sent":          return <BookingSentPage go={go} />;
       case "my-appointments":       return <MyAppointmentsPage appts={appts} setAppts={setAppts} go={go} setDetail={setDetail} />;

@@ -31,7 +31,33 @@ export async function signUp(
     email,
     password,
     options: {
-      data: { full_name },
+      data: { full_name, role: "client" },
+    },
+  });
+
+  return {
+    user: data.user ?? null,
+    session: data.session ?? null,
+    error: error ? _humaniseError(error) : null,
+  };
+}
+
+// ─── Sign Up (Salon Owner) ────────────────────────────────────────────────────
+
+/**
+ * Register a new salon owner. Sets role = 'salon_owner' in user_metadata
+ * so we can distinguish them from regular clients.
+ */
+export async function signUpSalonOwner(
+  email: string,
+  password: string,
+  salon_name: string
+): Promise<AuthResult> {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      data: { full_name: salon_name, role: "salon_owner" },
     },
   });
 
