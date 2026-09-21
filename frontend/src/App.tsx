@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import type { User } from "@supabase/supabase-js";
+import { supabase } from "./lib/supabase";
+import { signIn, signUp, signOut } from "./lib/auth";
 
 /* ══════════════════════════════════════════════════════════
    TYPES
@@ -2050,18 +2053,311 @@ function SalonProfilePage() {
 }
 
 /* ══════════════════════════════════════════════════════════
+   AUTH MODAL
+══════════════════════════════════════════════════════════ */
+type AuthTab = "signin" | "signup";
+
+function AuthModal({
+  onSuccess,
+  onClose,
+  defaultTab = "signin",
+}: {
+  onSuccess: (user: User) => void;
+  onClose: () => void;
+  defaultTab?: AuthTab;
+}) {
+  const [tab, setTab]           = useState<AuthTab>(defaultTab);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail]       = useState("");
+  const [password, setPassword] = useState("");
+  const [showPw, setShowPw]     = useState(false);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState<string | null>(null);
+  const [success, setSuccess]   = useState<string | null>(null);
+
+  const switchTab = (t: AuthTab) => {
+    setTab(t);
+    setError(null);
+    setSuccess(null);
+  };
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError(null);
+    setSuccess(null);
+    setLoading(true);
+
+    if (tab === "signup") {
+      const res = await signUp(email, password, fullName);
+      setLoading(false);
+      if (res.error) { setError(res.error); return; }
+      if (res.user && res.session) {
+        onSuccess(res.user);
+      } else {
+        // Email confirmation enabled — user must verify first
+        setSuccess("Account created! Check your inbox to verify your email, then sign in.");
+      }
+    } else {
+      const res = await signIn(email, password);
+      setLoading(false);
+      if (res.error) { setError(res.error); return; }
+      if (res.user) onSuccess(res.user);
+    }
+  }
+
+  return (
+    <div
+      id="auth-modal-overlay"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      style={{ background: "rgba(44,24,16,0.55)", backdropFilter: "blur(6px)" }}
+      onClick={(e) => e.currentTarget === e.target && onClose()}
+    >
+      <div
+        id="auth-modal"
+        className="relative w-full max-w-md rounded-3xl overflow-hidden shadow-2xl"
+        style={{ background: "#FAF7F2", border: "1px solid #E8E0D5" }}
+      >
+        {/* Gradient accent bar */}
+        <div className="h-1.5 w-full" style={{ background: "linear-gradient(90deg,#C4955A 0%,#2C1810 100%)" }} />
+
+        {/* Header */}
+        <div className="px-8 pt-8 pb-0">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
+              style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-xs font-semibold tracking-widest uppercase" style={{ color: "#C4955A" }}>StyleHub</p>
+              <h2 className="text-xl font-semibold leading-tight" style={{ color: "#2C1810" }}>
+                {tab === "signin" ? "Welcome back" : "Create your account"}
+              </h2>
+            </div>
+          </div>
+
+          {/* Tabs */}
+          <div className="flex rounded-2xl p-1 mb-6" style={{ background: "#F2EDE5" }}>
+            {(["signin", "signup"] as AuthTab[]).map((t) => (
+              <button
+                key={t}
+                id={`auth-tab-${t}`}
+                onClick={() => switchTab(t)}
+                className="flex-1 py-2 rounded-xl text-sm font-semibold transition-all"
+                style={{
+                  background: tab === t ? "#2C1810" : "transparent",
+                  color: tab === t ? "#FAF7F2" : "#8B7355",
+                }}
+              >
+                {t === "signin" ? "Sign In" : "Sign Up"}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-4">
+          {tab === "signup" && (
+            <div>
+              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>
+                Full Name
+              </label>
+              <input
+                id="auth-fullname"
+                type="text"
+                autoComplete="name"
+                placeholder="Amara Diallo"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                required={tab === "signup"}
+                className="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors"
+                style={{ borderColor: "#E8E0D5", background: "#FFFFFF", color: "#2C1810" }}
+              />
+            </div>
+          )}
+
+          <div>
+            <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>
+              Email Address
+            </label>
+            <input
+              id="auth-email"
+              type="email"
+              autoComplete="email"
+              placeholder="you@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors"
+              style={{ borderColor: "#E8E0D5", background: "#FFFFFF", color: "#2C1810" }}
+            />
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>
+              Password
+            </label>
+            <div className="relative">
+              <input
+                id="auth-password"
+                type={showPw ? "text" : "password"}
+                autoComplete={tab === "signup" ? "new-password" : "current-password"}
+                placeholder={tab === "signup" ? "Min. 6 characters" : "Your password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                className="w-full px-4 py-3 pr-12 rounded-xl border text-sm outline-none transition-colors"
+                style={{ borderColor: "#E8E0D5", background: "#FFFFFF", color: "#2C1810" }}
+              />
+              <button
+                type="button"
+                id="auth-toggle-pw"
+                onClick={() => setShowPw((p) => !p)}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100 transition-opacity"
+              >
+                {showPw ? (
+                  <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+                    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+                    <line x1="1" y1="1" x2="23" y2="23" />
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* Error / Success feedback */}
+          {error && (
+            <div id="auth-error" className="flex items-start gap-2.5 px-4 py-3 rounded-xl text-sm" style={{ background: "#FEF2F2", border: "1px solid #FECACA", color: "#B91C1C" }}>
+              <svg className="flex-shrink-0 mt-0.5" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+              {error}
+            </div>
+          )}
+          {success && (
+            <div id="auth-success" className="flex items-start gap-2.5 px-4 py-3 rounded-xl text-sm" style={{ background: "#F0FDF4", border: "1px solid #BBF7D0", color: "#166534" }}>
+              <svg className="flex-shrink-0 mt-0.5" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
+              {success}
+            </div>
+          )}
+
+          {/* Submit */}
+          <button
+            id="auth-submit-btn"
+            type="submit"
+            disabled={loading}
+            className="w-full py-3.5 rounded-2xl text-sm font-semibold transition-all active:scale-[.98] disabled:opacity-60"
+            style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)", color: "white" }}
+          >
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                </svg>
+                {tab === "signin" ? "Signing in…" : "Creating account…"}
+              </span>
+            ) : tab === "signin" ? "Sign In" : "Create Account"}
+          </button>
+
+          {/* Swap tab link */}
+          <p className="text-center text-sm" style={{ color: "#8B7355" }}>
+            {tab === "signin" ? "Don't have an account? " : "Already have an account? "}
+            <button
+              type="button"
+              id={tab === "signin" ? "auth-goto-signup" : "auth-goto-signin"}
+              onClick={() => switchTab(tab === "signin" ? "signup" : "signin")}
+              className="font-semibold underline underline-offset-2"
+              style={{ color: "#C4955A" }}
+            >
+              {tab === "signin" ? "Sign up" : "Sign in"}
+            </button>
+          </p>
+        </form>
+
+        {/* Close button */}
+        <button
+          id="auth-modal-close"
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full hover:bg-[#F2EDE5] transition-colors"
+          style={{ color: "#8B7355" }}
+          aria-label="Close"
+        >
+          <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
    ROOT APP
 ══════════════════════════════════════════════════════════ */
+// Protected client views that require authentication
+const PROTECTED_VIEWS: View[] = [
+  "find-salon", "services", "salon-detail", "booking", "booking-sent",
+  "my-appointments", "appointment-detail", "notifications",
+  "client-dashboard", "client-profile", "reviews",
+];
+
 export default function App() {
-  const [view,    setView]    = useState<View>("home");
-  const [appts,   setAppts]   = useState<Appt[]>(APPTS_INIT);
-  const [detail,  setDetail]  = useState<Appt|null>(null);
+  const [view,       setView]      = useState<View>("home");
+  const [appts,      setAppts]     = useState<Appt[]>(APPTS_INIT);
+  const [detail,     setDetail]    = useState<Appt|null>(null);
+  const [authUser,   setAuthUser]  = useState<User | null>(null);
+  const [authModal,  setAuthModal] = useState<{ open: boolean; defaultTab: "signin" | "signup" }>({ open: false, defaultTab: "signin" });
+  const [authReady,  setAuthReady] = useState(false); // prevent flicker before session restore
+
+  // Restore session from localStorage on mount
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      setAuthUser(data.session?.user ?? null);
+      setAuthReady(true);
+    });
+
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      setAuthUser(session?.user ?? null);
+    });
+
+    return () => listener.subscription.unsubscribe();
+  }, []);
 
   const unread = NOTIFS.filter(n => !n.read).length;
 
-  // Wrap setView to scroll to top on navigation
+  // Wrap setView to scroll to top on navigation, gating protected views
   const go = (v: View) => {
+    if (PROTECTED_VIEWS.includes(v) && !authUser) {
+      setAuthModal({ open: true, defaultTab: "signin" });
+      return;
+    }
     setView(v);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleAuthSuccess = (user: User) => {
+    setAuthUser(user);
+    setAuthModal({ open: false, defaultTab: "signin" });
+    // If they were trying to go somewhere, send them to find-salon as default
+    setView("find-salon");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setAuthUser(null);
+    setView("home");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -2093,6 +2389,23 @@ export default function App() {
     }
   }
 
+  if (!authReady) {
+    // Minimal loading state to prevent flicker while session is being restored
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAF7F2" }}>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-12 h-12 rounded-2xl flex items-center justify-center"
+            style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+            <svg className="animate-spin" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+            </svg>
+          </div>
+          <p className="text-sm font-medium" style={{ color: "#8B7355" }}>Loading StyleHub…</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-full" style={{ background:"#FAF7F2" }}>
       <Nav current={view} go={go} unread={unread} />
@@ -2117,6 +2430,28 @@ export default function App() {
         </div>
       )}
 
+      {/* User account pill (top-right, shown when logged in) */}
+      {authUser && (
+        <div className="fixed top-16 right-4 z-50 mt-2 hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full shadow-sm"
+          style={{ background: "#2C1810", border: "1px solid #3D2418" }}>
+          <div className="w-5 h-5 rounded-full flex items-center justify-center text-[9px] font-bold text-white"
+            style={{ background: "#C4955A" }}>
+            {(authUser.user_metadata?.full_name as string || authUser.email || "U").charAt(0).toUpperCase()}
+          </div>
+          <span className="text-[11px] font-medium max-w-[120px] truncate" style={{ color: "#FAF7F2" }}>
+            {(authUser.user_metadata?.full_name as string) || authUser.email}
+          </span>
+          <button
+            id="signout-btn"
+            onClick={handleSignOut}
+            className="text-[10px] font-semibold opacity-60 hover:opacity-100 transition-opacity ml-1"
+            style={{ color: "#FAF7F2" }}
+          >
+            Sign out
+          </button>
+        </div>
+      )}
+
       <div style={{ paddingTop: isSalonOwner && view !== "salon-login" ? "6.5rem" : "4rem" }}>
         {renderView()}
       </div>
@@ -2125,6 +2460,15 @@ export default function App() {
 
       {/* Mobile bottom nav */}
       <MobileNav current={view} go={go} />
+
+      {/* Auth Modal */}
+      {authModal.open && (
+        <AuthModal
+          defaultTab={authModal.defaultTab}
+          onSuccess={handleAuthSuccess}
+          onClose={() => setAuthModal({ open: false, defaultTab: "signin" })}
+        />
+      )}
     </div>
   );
 }
