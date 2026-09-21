@@ -5,3 +5,5 @@ djangorestframework
 django-cors-headers
 supabase
 python-decouple
+gunicorn
+whitenoise
