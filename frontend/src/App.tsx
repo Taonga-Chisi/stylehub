@@ -10,7 +10,7 @@ type View =
   | "home" | "find-salon" | "services" | "salon-detail"
   | "booking" | "booking-sent"
   | "my-appointments" | "appointment-detail"
-  | "notifications" | "client-dashboard" | "client-profile"
+  | "notifications" | "client-dashboard" | "client-profile" | "client-profile-add-salon"
   | "reviews"
   | "salon-login" | "salon-dashboard" | "appointment-requests"
   | "salon-calendar" | "manage-services" | "salon-profile";
@@ -295,11 +295,11 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
           </button>
 
           {isOwner ? (
-            <Btn variant="gold" className="hidden sm:flex px-4 py-2 text-[13px]" onClick={() => go("salon-dashboard")}>
+            <Btn variant="gold" className="px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-[13px]" onClick={() => go("salon-dashboard")}>
               💈 Salon Portal
             </Btn>
           ) : (
-            <button onClick={() => go("salon-login")} className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#8B7355] hover:text-[#2C1810] hover:bg-[#F2EDE5] border border-transparent transition-all">
+            <button onClick={() => go("client-profile-add-salon")} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#C4955A] bg-[#FFFBEB] hover:bg-[#F2EDE5] border border-[#F5E6C8] transition-all">
               💈 Register Salon
             </button>
           )}
@@ -320,7 +320,7 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
 
       {/* Mobile dropdown */}
       {open && (
-        <div className="lg:hidden border-t px-4 py-3 space-y-1 anim-down" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
+        <div className="lg:hidden border-t px-4 py-3 space-y-2 anim-down" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
           {navLinks.map(l => (
             <button key={l.view} onClick={() => { go(l.view); setOpen(false); }}
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors ${current === l.view ? "bg-[#F2EDE5] text-[#2C1810]" : "text-[#8B7355] hover:bg-[#F2EDE5]"}`}>
@@ -332,8 +332,9 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
               💈 Salon Owner Dashboard
             </Btn>
           ) : (
-            <button onClick={() => { go("salon-login"); setOpen(false); }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-[#8B7355] hover:bg-[#F2EDE5] mt-1">
-              💈 Register / Salon Owner Sign In
+            <button onClick={() => { go("client-profile-add-salon"); setOpen(false); }} className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-semibold text-[#C4955A] bg-[#FFFBEB] border border-[#F5E6C8] hover:bg-[#F2EDE5] mt-1 flex items-center justify-between shadow-sm">
+              <span className="flex items-center gap-2">💈 <span>Register New Salon / Barbershop</span></span>
+              <span className="text-xs">→</span>
             </button>
           )}
           <Btn variant="primary" className="w-full py-3 mt-1 text-sm" onClick={() => { go("find-salon"); setOpen(false); }}>
@@ -1476,7 +1477,72 @@ function ApptDetailPage({ appt, go }: { appt: Appt | null; go: (v: View) => void
    NOTIFICATIONS
 ══════════════════════════════════════════════════════════ */
 function NotificationsPage() {
-  const [notifs, setNotifs] = useState(NOTIFS);
+  const [notifs, setNotifs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchLiveNotifs = async () => {
+    setLoading(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setLoading(false); return; }
+
+    // Fetch user's salons if owner
+    const { data: ownedSalons } = await supabase.from("salons").select("id, name").eq("owner_id", user.id);
+    const ownerSalonIds = ownedSalons?.map(s => s.id) || [];
+
+    // Fetch bookings where user is client OR where salon belongs to owner
+    let resClient = await supabase.from("bookings").select("*").eq("client_id", user.id).order("created_at", { ascending: false });
+    let resOwner = ownerSalonIds.length > 0
+      ? await supabase.from("bookings").select("*").in("salon_id", ownerSalonIds).order("created_at", { ascending: false })
+      : { data: [] };
+
+    const clientBookings = resClient.data || [];
+    const ownerBookings = resOwner.data || [];
+
+    const liveNotifs: any[] = [];
+
+    // Notifications for salon owners (incoming requests & status changes)
+    ownerBookings.forEach((b: any) => {
+      liveNotifs.push({
+        id: `owner-${b.id}`,
+        type: b.status === "pending" ? "request" : b.status === "approved" ? "approved" : "rejected",
+        title: b.status === "pending" ? "New Booking Schedule" : `Booking ${b.status.toUpperCase()}`,
+        body: `${b.client_name || b.client_email} scheduled ${b.service_name} for ${b.date} at ${b.time} (ZMK ${b.service_price}).`,
+        time: new Date(b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        read: false,
+      });
+    });
+
+    // Notifications for clients (approval & rejection updates)
+    clientBookings.forEach((b: any) => {
+      if (b.status === "approved") {
+        liveNotifs.push({
+          id: `client-app-${b.id}`,
+          type: "approved",
+          title: "Appointment Approved 🎉",
+          body: `Your booking for ${b.service_name} on ${b.date} at ${b.time} has been approved by the salon!`,
+          time: new Date(b.updated_at || b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          read: false,
+        });
+      } else if (b.status === "rejected") {
+        liveNotifs.push({
+          id: `client-rej-${b.id}`,
+          type: "rejected",
+          title: "Appointment Request Denied ✕",
+          body: `Your booking for ${b.service_name} on ${b.date} was denied. ${b.notes ? `Salon note: "${b.notes}"` : "Please choose another time slot."}`,
+          time: new Date(b.updated_at || b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+          read: false,
+        });
+      }
+    });
+
+    setNotifs(liveNotifs);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchLiveNotifs();
+  }, []);
+
   const iconMap: Record<string, { icon: string; bg: string; clr: string }> = {
     approved: { icon: "✓", bg: "#F0FDF4", clr: "#22C55E" },
     rejected: { icon: "✕", bg: "#FEF2F2", clr: "#EF4444" },
@@ -1486,7 +1552,7 @@ function NotificationsPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-10">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10">
       <div className="flex items-center justify-between mb-8">
         <PageHeading label="Updates" title="Notifications" />
         <button onClick={() => setNotifs(n => n.map(x => ({ ...x, read: true })))} className="text-xs font-semibold self-center -mt-4 hover:opacity-60 transition-opacity" style={{ color: "#C4955A" }}>
@@ -1494,27 +1560,37 @@ function NotificationsPage() {
         </button>
       </div>
 
-      <div className="space-y-3">
-        {notifs.map(n => {
-          const c = iconMap[n.type] || iconMap.request;
-          return (
-            <div key={n.id} onClick={() => setNotifs(ns => ns.map(x => x.id === n.id ? { ...x, read: true } : x))}
-              className={`flex gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:shadow-md`}
-              style={{ background: n.read ? "white" : "#FFFDF7", borderColor: n.read ? "#E8E0D5" : "#F5E6C8" }}>
-              <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
-                style={{ background: c.bg, color: c.clr }}>{c.icon}</div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>{n.title}</h3>
-                  <span className="text-xs flex-shrink-0" style={{ color: "#8B7355" }}>{n.time}</span>
+      {loading ? (
+        <div className="space-y-3">{[1, 2, 3].map(i => <div key={i} className="h-20 rounded-2xl bg-[#F2EDE5] animate-pulse" />)}</div>
+      ) : notifs.length === 0 ? (
+        <div className="text-center py-16 border-2 border-dashed rounded-3xl" style={{ borderColor: "#E8E0D5" }}>
+          <p className="text-3xl mb-2">🔔</p>
+          <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>No notifications yet</p>
+          <p className="text-xs mt-1" style={{ color: "#8B7355" }}>Real-time booking requests and status updates will appear here.</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {notifs.map(n => {
+            const c = iconMap[n.type] || iconMap.request;
+            return (
+              <div key={n.id} onClick={() => setNotifs(ns => ns.map(x => x.id === n.id ? { ...x, read: true } : x))}
+                className={`flex gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:shadow-md`}
+                style={{ background: n.read ? "white" : "#FFFDF7", borderColor: n.read ? "#E8E0D5" : "#F5E6C8" }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
+                  style={{ background: c.bg, color: c.clr }}>{c.icon}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>{n.title}</h3>
+                    <span className="text-xs flex-shrink-0" style={{ color: "#8B7355" }}>{n.time}</span>
+                  </div>
+                  <p className="text-xs leading-relaxed mt-1" style={{ color: "#8B7355" }}>{n.body}</p>
                 </div>
-                <p className="text-xs leading-relaxed mt-1" style={{ color: "#8B7355" }}>{n.body}</p>
+                {!n.read && <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0 bg-[#C4955A]" />}
               </div>
-              {!n.read && <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0 bg-[#C4955A]" />}
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
@@ -1565,62 +1641,35 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
             <div>
               <h2 className="font-display text-xl font-semibold mb-4" style={{ color: "#2C1810" }}>Upcoming Appointment</h2>
               <div className="rounded-2xl overflow-hidden border" style={{ background: "white", borderColor: "#E8E0D5" }}>
-                <div className="relative h-36 bg-amber-50 overflow-hidden">
-                  <img src={upcoming[0].salonImg} alt="" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to right,rgba(28,14,8,0.72) 0%,transparent 65%)" }} />
-                  <div className="absolute top-4 left-5">
-                    <h3 className="font-display font-semibold text-white text-lg">{upcoming[0].salon}</h3>
-                    <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.75)" }}>{upcoming[0].service}</p>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <span className="text-xs font-semibold px-3 py-1 rounded-full bg-[#FAF7F2] text-[#C4955A] uppercase tracking-wider">
+                        {upcoming[0].status}
+                      </span>
+                      <h3 className="font-display text-xl font-semibold mt-2" style={{ color: "#2C1810" }}>{upcoming[0].salon}</h3>
+                      <p className="text-sm" style={{ color: "#8B7355" }}>{upcoming[0].service}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-semibold text-lg" style={{ color: "#C4955A" }}>ZMK {upcoming[0].price}</p>
+                      <p className="text-xs" style={{ color: "#8B7355" }}>{upcoming[0].date} · {upcoming[0].time}</p>
+                    </div>
                   </div>
-                  <div className="absolute top-4 right-4"><Badge status={upcoming[0].status} /></div>
-                </div>
-                <div className="p-5">
-                  <div className="flex flex-wrap gap-4 text-sm mb-4">
-                    <span style={{ color: "#8B7355" }}>📅 {upcoming[0].date}</span>
-                    <span style={{ color: "#8B7355" }}>🕐 {upcoming[0].time}</span>
-                    <span className="font-semibold" style={{ color: "#C4955A" }}>ZMK {upcoming[0].price}</span>
-                  </div>
-                  <div className="flex gap-3">
-                    <Btn variant="secondary" className="px-4 py-2 text-xs" onClick={() => { setDetail(upcoming[0]); go("appointment-detail"); }}>View Details</Btn>
-                    <Btn variant="danger" className="px-4 py-2 text-xs" onClick={() => go("my-appointments")}>Cancel</Btn>
+                  <div className="flex gap-3 pt-2">
+                    <Btn variant="secondary" className="px-5 py-2.5 text-xs" onClick={() => setDetail(upcoming[0])}>View Details</Btn>
                   </div>
                 </div>
               </div>
             </div>
           )}
-
-          {/* Recent */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-xl font-semibold" style={{ color: "#2C1810" }}>Recent Appointments</h2>
-              <button onClick={() => go("my-appointments")} className="text-xs font-semibold" style={{ color: "#C4955A" }}>View All →</button>
-            </div>
-            <div className="space-y-3">
-              {appts.slice(1, 4).map(a => (
-                <div key={a.id} className="flex items-center gap-4 p-4 rounded-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
-                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-amber-50 flex-shrink-0">
-                    <img src={a.salonImg} alt="" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <span className="font-semibold text-sm truncate" style={{ color: "#2C1810" }}>{a.salon}</span>
-                      <Badge status={a.status} />
-                    </div>
-                    <span className="text-xs" style={{ color: "#8B7355" }}>{a.service} · {a.date}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
 
-        {/* Saved Salons */}
         <div>
           <h2 className="font-display text-xl font-semibold mb-4" style={{ color: "#2C1810" }}>Saved Salons</h2>
           <div className="space-y-3">
             {SALONS.slice(0, 3).map(s => (
-              <div key={s.id} className="flex items-center gap-3 p-3 rounded-2xl border cursor-pointer card-hover" style={{ background: "white", borderColor: "#E8E0D5" }}>
-                <div className="w-12 h-12 rounded-xl overflow-hidden bg-amber-50 flex-shrink-0">
+              <div key={s.id} onClick={() => go("salon-detail")} className="flex items-center gap-3 p-3 rounded-2xl border bg-white cursor-pointer hover:border-[#C4955A] transition-colors" style={{ borderColor: "#E8E0D5" }}>
+                <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
                   <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -1641,7 +1690,7 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
 /* ══════════════════════════════════════════════════════════
    CLIENT PROFILE  (Screen 15)
 ══════════════════════════════════════════════════════════ */
-function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void }) {
+function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[]; go: (v: View) => void; autoOpenForm?: boolean }) {
   const [editing, setEditing] = useState(false);
 
   // ── Business section ─────────────────────────────────────
@@ -1651,7 +1700,12 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
   const [formId, setFormId] = useState<string | null>(null);
   const [bizForm, setBizForm] = useState({
     name: "", city: "", phone: "", email: "", hours: "", about: "",
-    cover_url: "", logo_url: ""
+    cover_url: "", logo_url: "",
+    services: [
+      { name: "Box Braids", price: 150, dur: "3–4 hrs" },
+      { name: "Cornrows", price: 80, dur: "1–2 hrs" },
+      { name: "Gentleman Haircut & Lineup", price: 70, dur: "45 mins" },
+    ]
   });
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [coverFile, setCoverFile] = useState<File | null>(null);
@@ -1670,16 +1724,35 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
 
   const openNewForm = () => {
     setFormId(null);
-    setBizForm({ name: "", city: "", phone: "", email: "", hours: "", about: "", cover_url: "", logo_url: "" });
+    setBizForm({
+      name: "", city: "", phone: "", email: "", hours: "", about: "", cover_url: "", logo_url: "",
+      services: [
+        { name: "Box Braids", price: 150, dur: "3–4 hrs" },
+        { name: "Cornrows", price: 80, dur: "1–2 hrs" },
+        { name: "Gentleman Haircut & Lineup", price: 70, dur: "45 mins" },
+      ]
+    });
     setLogoFile(null); setCoverFile(null);
     setShowForm(true); setBizOpen(true);
   };
+
+  useEffect(() => {
+    if (autoOpenForm) {
+      openNewForm();
+    }
+  }, [autoOpenForm]);
 
   const editSalon = (s: any) => {
     setFormId(s.id);
     setBizForm({
       name: s.name || "", city: s.city || "", phone: s.phone || "", email: s.email || "",
-      hours: s.hours || "", about: s.about || "", cover_url: s.cover_url || "", logo_url: s.logo_url || ""
+      hours: s.hours || "", about: s.about || "", cover_url: s.cover_url || "", logo_url: s.logo_url || "",
+      services: Array.isArray(s.services) && s.services.length > 0
+        ? s.services
+        : [
+            { name: "Box Braids", price: 150, dur: "3–4 hrs" },
+            { name: "Cornrows", price: 80, dur: "1–2 hrs" },
+          ]
     });
     setLogoFile(null); setCoverFile(null);
     setShowForm(true); setBizOpen(true);
@@ -1721,6 +1794,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
       owner_id: user.id, name: bizForm.name, city: bizForm.city,
       phone: bizForm.phone, email: bizForm.email, hours: bizForm.hours,
       about: bizForm.about, cover_url: finalCoverUrl, logo_url: finalLogoUrl,
+      services: bizForm.services,
       updated_at: new Date().toISOString(),
     };
     if (formId) payload.id = formId;
@@ -1737,7 +1811,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-10">
+    <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
       <PageHeading label="Account" title="My Profile" />
 
       {/* Profile card */}
@@ -1749,15 +1823,15 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
             style={{ background: "rgba(255,255,255,0.15)" }}>Edit Banner</button>
         </div>
         <div className="px-6 pb-6">
-          <div className="flex items-end gap-4 -mt-10 mb-5">
+          <div className="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 mb-5">
             <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor: "white" }}>
               <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=200&h=200&fit=crop&auto=format" alt="Avatar" className="w-full h-full object-cover" />
             </div>
             <div className="pb-1">
               <h2 className="font-display text-2xl font-semibold" style={{ color: "#2C1810" }}>Zara Asante</h2>
-              <p className="text-sm" style={{ color: "#8B7355" }}>Client · Member since Jan 2025</p>
+              <p className="text-sm" style={{ color: "#8B7355" }}>Member since Jan 2025</p>
             </div>
-            <Btn variant="secondary" className="ml-auto px-5 py-2.5 text-sm self-end" onClick={() => setEditing(!editing)}>
+            <Btn variant="secondary" className="sm:ml-auto px-5 py-2.5 text-sm self-start sm:self-end" onClick={() => setEditing(!editing)}>
               {editing ? "Cancel" : "Edit Profile"}
             </Btn>
           </div>
@@ -1787,11 +1861,11 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
       </div>
 
       {/* Quick stats */}
-      <div className="grid grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         {[
           { label: "Total Appointments", v: appts.length, clr: "#C4955A" },
           { label: "Completed", v: appts.filter(a => a.status === "completed").length, clr: "#22C55E" },
-          { label: "Saved Salons", v: 3, clr: "#EF4444" },
+          { label: "Registered Salons", v: salons.length, clr: "#2C1810" },
         ].map(({ label, v, clr }) => (
           <div key={label} className="rounded-2xl p-4 border text-center" style={{ background: "white", borderColor: "#E8E0D5" }}>
             <p className="font-display text-3xl font-semibold mb-1" style={{ color: clr }}>{v}</p>
@@ -1801,7 +1875,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
       </div>
 
       {/* ── MY BUSINESS ──────────────────────────────── */}
-      <div className="rounded-3xl border overflow-hidden mb-8" style={{ background: "white", borderColor: "#E8E0D5" }}>
+      <div className="rounded-3xl border overflow-hidden mb-8 shadow-sm" style={{ background: "white", borderColor: "#E8E0D5" }}>
 
         {/* Header toggle */}
         <button onClick={() => { setBizOpen(o => !o); if (bizOpen) setShowForm(false); }}
@@ -1826,12 +1900,12 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
 
         {/* Salon list */}
         {bizOpen && !showForm && (
-          <div className="border-t px-6 py-6" style={{ borderColor: "#E8E0D5" }}>
+          <div className="border-t px-4 sm:px-6 py-6" style={{ borderColor: "#E8E0D5" }}>
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>Managed Properties</h3>
-              <button onClick={openNewForm} className="text-xs font-semibold px-3 py-1.5 rounded-xl border"
+              <button onClick={openNewForm} className="text-xs font-semibold px-3 py-1.5 rounded-xl border flex items-center gap-1"
                 style={{ borderColor: "#C4955A", color: "#C4955A", background: "#FAF7F2" }}>
-                + Add New
+                + Add New Salon
               </button>
             </div>
             <div className="space-y-3">
@@ -1839,7 +1913,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
                 <div className="text-center py-8 border-2 border-dashed rounded-2xl" style={{ borderColor: "#E8E0D5" }}>
                   <p className="text-2xl mb-2">🏪</p>
                   <p className="text-sm font-medium" style={{ color: "#2C1810" }}>No salons listed yet</p>
-                  <p className="text-xs mt-1" style={{ color: "#8B7355" }}>Click "+ Add New" to register your first salon</p>
+                  <p className="text-xs mt-1" style={{ color: "#8B7355" }}>Click "+ Add New Salon" to register your business</p>
                 </div>
               ) : salons.map(s => (
                 <div key={s.id} className="flex items-center gap-4 p-4 border rounded-xl" style={{ borderColor: "#E8E0D5" }}>
@@ -1855,7 +1929,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
                   </div>
                   <button onClick={() => editSalon(s)}
                     className="text-xs font-semibold px-3 py-1.5 rounded-lg border flex-shrink-0"
-                    style={{ borderColor: "#E8E0D5", color: "#8B7355" }}>Edit</button>
+                    style={{ borderColor: "#E8E0D5", color: "#8B7355" }}>Edit Details</button>
                 </div>
               ))}
             </div>
@@ -1865,10 +1939,10 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
         {/* Add / Edit form */}
         {bizOpen && showForm && (
           <div className="border-t" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
-            <form onSubmit={handleBizSave} className="px-6 py-6 space-y-4">
+            <form onSubmit={handleBizSave} className="px-4 sm:px-6 py-6 space-y-4">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>
-                  {formId ? "Edit Salon" : "Register New Salon"}
+                  {formId ? "Edit Salon Details" : "Register New Salon / Barbershop"}
                 </h3>
                 <button type="button" onClick={() => setShowForm(false)}
                   className="text-xs text-[#8B7355] underline">← Back to list</button>
@@ -1877,7 +1951,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Text fields */}
                 {(([
-                  { label: "Salon Name", key: "name", placeholder: "e.g. Glam Studio", span: 2 },
+                  { label: "Salon / Barbershop Name", key: "name", placeholder: "e.g. Glam Studio & Barbershop", span: 2 },
                   { label: "City / Location", key: "city", placeholder: "e.g. Lusaka, Zambia", span: 1 },
                   { label: "Business Phone", key: "phone", placeholder: "e.g. +260 97 123 4567", span: 1 },
                   { label: "Business Email", key: "email", placeholder: "hello@mysalon.zm", span: 1 },
@@ -1885,7 +1959,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
                 ]) as { label: string; key: keyof typeof bizForm; placeholder: string; span: number }[]).map(({ label, key, placeholder, span }) => (
                   <div key={key} className={span === 2 ? "sm:col-span-2" : ""}>
                     <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>{label}</label>
-                    <input type="text" placeholder={placeholder} value={bizForm[key]}
+                    <input type="text" placeholder={placeholder} value={bizForm[key] as string}
                       onChange={e => setBizForm(f => ({ ...f, [key]: e.target.value }))}
                       className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors"
                       style={{ borderColor: "#E8E0D5", background: "white", color: "#2C1810" }} />
@@ -1932,6 +2006,84 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
                     className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors resize-none"
                     style={{ borderColor: "#E8E0D5", background: "white", color: "#2C1810" }} />
                 </div>
+
+                {/* Services & Prices Manager (ZMK) */}
+                <div className="sm:col-span-2 border-t pt-4 mt-2" style={{ borderColor: "#E8E0D5" }}>
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wide" style={{ color: "#2C1810" }}>
+                        Services Offered & Pricing (ZMK)
+                      </label>
+                      <p className="text-[11px]" style={{ color: "#8B7355" }}>
+                        List the services your salon offers and their prices in Zambian Kwacha (ZMK).
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setBizForm(f => ({ ...f, services: [...f.services, { name: "", price: 100, dur: "1 hr" }] }))}
+                      className="text-xs font-semibold px-3 py-1.5 rounded-xl border flex items-center gap-1 transition-all hover:bg-white"
+                      style={{ borderColor: "#C4955A", color: "#C4955A", background: "#FFFBEB" }}
+                    >
+                      + Add Service
+                    </button>
+                  </div>
+
+                  <div className="space-y-2.5">
+                    {bizForm.services.map((svc, idx) => (
+                      <div key={idx} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 p-3 rounded-xl border bg-white" style={{ borderColor: "#E8E0D5" }}>
+                        <input
+                          type="text"
+                          placeholder="Service Name (e.g. Box Braids)"
+                          value={svc.name}
+                          onChange={e => {
+                            const next = [...bizForm.services];
+                            next[idx].name = e.target.value;
+                            setBizForm(f => ({ ...f, services: next }));
+                          }}
+                          className="flex-1 px-3 py-2 rounded-lg border text-xs outline-none focus:border-[#C4955A]"
+                          style={{ borderColor: "#E8E0D5" }}
+                        />
+                        <div className="flex items-center gap-2">
+                          <div className="relative flex-1 sm:w-32">
+                            <span className="absolute left-2.5 top-2 text-[10px] font-bold" style={{ color: "#8B7355" }}>ZMK</span>
+                            <input
+                              type="number"
+                              placeholder="Price"
+                              value={svc.price}
+                              onChange={e => {
+                                const next = [...bizForm.services];
+                                next[idx].price = Number(e.target.value);
+                                setBizForm(f => ({ ...f, services: next }));
+                              }}
+                              className="w-full pl-10 pr-2 py-2 rounded-lg border text-xs outline-none font-semibold text-[#C4955A] focus:border-[#C4955A]"
+                              style={{ borderColor: "#E8E0D5" }}
+                            />
+                          </div>
+                          <input
+                            type="text"
+                            placeholder="Duration (e.g. 2 hrs)"
+                            value={svc.dur}
+                            onChange={e => {
+                              const next = [...bizForm.services];
+                              next[idx].dur = e.target.value;
+                              setBizForm(f => ({ ...f, services: next }));
+                            }}
+                            className="w-24 px-2 py-2 rounded-lg border text-xs outline-none focus:border-[#C4955A]"
+                            style={{ borderColor: "#E8E0D5" }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => setBizForm(f => ({ ...f, services: f.services.filter((_, i) => i !== idx) }))}
+                            className="px-2 py-2 text-xs text-red-500 hover:text-red-700 font-semibold"
+                            title="Remove Service"
+                          >
+                            🗑
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               {/* Feedback message */}
@@ -1977,6 +2129,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
     </div>
   );
 }
+
 
 /* ══════════════════════════════════════════════════════════
    REVIEWS PAGE
