@@ -39,7 +39,7 @@ const SALONS = [
     rating: 4.9, reviews: 312, hours: "9:00 AM – 7:00 PM",
     price: "from ZMK 80",
     tags: ["Braiding", "Weaving", "Natural Hair"],
-    img:   "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&h=400&fit=crop&auto=format",
+    img: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=1400&h=520&fit=crop&auto=format",
     about: "Glam Studio is Lusaka's premier destination for hair artistry. Our master stylists specialise in traditional and contemporary braiding, weaving, and natural hair care — blending heritage craft with modern elegance since 2014.",
     phone: "+260 97 123 4567",
@@ -50,7 +50,7 @@ const SALONS = [
     rating: 4.7, reviews: 198, hours: "8:00 AM – 6:00 PM",
     price: "from ZMK 60",
     tags: ["Cornrows", "Dreadlocks", "Hair Treatment"],
-    img:   "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=600&h=400&fit=crop&auto=format",
+    img: "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1633681926035-ec1ac984418a?w=1400&h=520&fit=crop&auto=format",
     about: "Natural Roots celebrates the beauty of African hair in its most authentic form. We are specialists in locs, cornrows, and protective styles rooted in tradition.",
     phone: "+260 96 234 5678",
@@ -61,7 +61,7 @@ const SALONS = [
     rating: 4.8, reviews: 254, hours: "10:00 AM – 8:00 PM",
     price: "from ZMK 100",
     tags: ["Styling", "Braiding", "Hair Cutting"],
-    img:   "https://images.unsplash.com/photo-1706629504952-ab5e50f5c179?w=600&h=400&fit=crop&auto=format",
+    img: "https://images.unsplash.com/photo-1706629504952-ab5e50f5c179?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=1400&h=520&fit=crop&auto=format",
     about: "Afro Luxe blends modern technique with traditional African styling to create looks that are bold, beautiful, and uniquely yours.",
     phone: "+260 95 345 6789",
@@ -72,7 +72,7 @@ const SALONS = [
     rating: 4.6, reviews: 167, hours: "9:00 AM – 6:00 PM",
     price: "from ZMK 75",
     tags: ["Natural Hair", "Hair Treatment", "Weaving"],
-    img:   "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=600&h=400&fit=crop&auto=format",
+    img: "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=600&h=400&fit=crop&auto=format",
     cover: "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=1400&h=520&fit=crop&auto=format",
     about: "Crown & Glory is dedicated to nourishing and celebrating natural African hair with personalised care plans and premium products.",
     phone: "+260 97 456 7890",
@@ -81,79 +81,77 @@ const SALONS = [
 ];
 
 const SERVICES_LIST = [
-  { id: "s1", name: "Box Braids",    desc: "Classic protective style with individual braids",     dur: "3–4 hrs", price: 150,
-    img: "https://images.unsplash.com/photo-1572955304332-bf714bd49add?w=500&h=380&fit=crop&auto=format" },
-  { id: "s2", name: "Cornrows",      desc: "Traditional African braiding close to the scalp",     dur: "1–2 hrs", price: 80,
-    img: "https://images.unsplash.com/photo-1673470907547-1c0c6a996095?w=500&h=380&fit=crop&auto=format" },
-  { id: "s3", name: "Weaving",       desc: "Sew-in or glue-in extensions for length and volume",  dur: "2–3 hrs", price: 200,
-    img: "https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?w=500&h=380&fit=crop&auto=format" },
-  { id: "s4", name: "Dreadlocks",    desc: "Loc installation, maintenance and retightening",       dur: "2–5 hrs", price: 180,
-    img: "https://images.unsplash.com/photo-1588527962980-72746d95973e?w=500&h=380&fit=crop&auto=format" },
-  { id: "s5", name: "Natural Hair",  desc: "Deep conditioning, twist-outs and moisture care",      dur: "1–2 hrs", price: 90,
-    img: "https://images.unsplash.com/photo-1616166183781-0fdd2ef83374?w=500&h=380&fit=crop&auto=format" },
-  { id: "s6", name: "Styling",       desc: "Blowouts, updos and special-occasion looks",           dur: "1 hr",    price: 110,
-    img: "https://images.unsplash.com/photo-1606415918835-88d0614e75ad?w=500&h=380&fit=crop&auto=format" },
-  { id: "s7", name: "Hair Cutting",  desc: "Precision cut and shape for all hair types",           dur: "45 min",  price: 60,
-    img: "https://images.unsplash.com/photo-1643956740911-62c19a5405f0?w=500&h=380&fit=crop&auto=format" },
-  { id: "s8", name: "Hair Treatment",desc: "Deep conditioning, protein and scalp care",            dur: "1 hr",    price: 75,
-    img: "https://images.unsplash.com/photo-1636302925868-52075f44d810?w=500&h=380&fit=crop&auto=format" },
+  {
+    id: "s1", name: "Box Braids", desc: "Classic protective style with individual braids", dur: "3–4 hrs", price: 150,
+    img: "https://images.unsplash.com/photo-1572955304332-bf714bd49add?w=500&h=380&fit=crop&auto=format"
+  },
+  {
+    id: "s2", name: "Cornrows", desc: "Traditional African braiding close to the scalp", dur: "1–2 hrs", price: 80,
+    img: "https://images.unsplash.com/photo-1673470907547-1c0c6a996095?w=500&h=380&fit=crop&auto=format"
+  },
+  {
+    id: "s3", name: "Weaving", desc: "Sew-in or glue-in extensions for length and volume", dur: "2–3 hrs", price: 200,
+    img: "https://images.unsplash.com/photo-1527203561188-dae1bc1a417f?w=500&h=380&fit=crop&auto=format"
+  },
+  {
+    id: "s4", name: "Dreadlocks", desc: "Loc installation, maintenance and retightening", dur: "2–5 hrs", price: 180,
+    img: "https://images.unsplash.com/photo-1588527962980-72746d95973e?w=500&h=380&fit=crop&auto=format"
+  },
+  {
+    id: "s5", name: "Natural Hair", desc: "Deep conditioning, twist-outs and moisture care", dur: "1–2 hrs", price: 90,
+    img: "https://images.unsplash.com/photo-1616166183781-0fdd2ef83374?w=500&h=380&fit=crop&auto=format"
+  },
+  {
+    id: "s6", name: "Styling", desc: "Blowouts, updos and special-occasion looks", dur: "1 hr", price: 110,
+    img: "https://images.unsplash.com/photo-1606415918835-88d0614e75ad?w=500&h=380&fit=crop&auto=format"
+  },
+  {
+    id: "s7", name: "Hair Cutting", desc: "Precision cut and shape for all hair types", dur: "45 min", price: 60,
+    img: "https://images.unsplash.com/photo-1643956740911-62c19a5405f0?w=500&h=380&fit=crop&auto=format"
+  },
+  {
+    id: "s8", name: "Hair Treatment", desc: "Deep conditioning, protein and scalp care", dur: "1 hr", price: 75,
+    img: "https://images.unsplash.com/photo-1636302925868-52075f44d810?w=500&h=380&fit=crop&auto=format"
+  },
   // Note: prices above are in ZMK (Zambian Kwacha)
 ];
 
 const TIME_SLOTS = [
   { t: "09:00 AM", booked: false }, { t: "09:30 AM", booked: false },
-  { t: "10:00 AM", booked: true  }, { t: "10:30 AM", booked: true  },
+  { t: "10:00 AM", booked: true }, { t: "10:30 AM", booked: true },
   { t: "11:00 AM", booked: false }, { t: "11:30 AM", booked: false },
-  { t: "12:00 PM", booked: false }, { t: "12:30 PM", booked: true  },
+  { t: "12:00 PM", booked: false }, { t: "12:30 PM", booked: true },
   { t: "01:00 PM", booked: false }, { t: "01:30 PM", booked: false },
-  { t: "02:00 PM", booked: true  }, { t: "02:30 PM", booked: false },
-  { t: "03:00 PM", booked: false }, { t: "03:30 PM", booked: true  },
+  { t: "02:00 PM", booked: true }, { t: "02:30 PM", booked: false },
+  { t: "03:00 PM", booked: false }, { t: "03:30 PM", booked: true },
   { t: "04:00 PM", booked: false }, { t: "04:30 PM", booked: false },
 ];
 
-const APPTS_INIT: Appt[] = [
-  { id: "a1", salon: "Glam Studio",   salonImg: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=200&h=200&fit=crop&auto=format", service: "Box Braids",   date: "Sat, Sep 13, 2026", time: "11:00 AM", price: 150, duration: "3–4 hrs", status: "approved",  bookedOn: "Sep 5, 2026" },
-  { id: "a2", salon: "Natural Roots", salonImg: "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=200&h=200&fit=crop&auto=format", service: "Cornrows",     date: "Tue, Sep 16, 2026", time: "09:00 AM", price: 80,  duration: "1–2 hrs", status: "pending",   bookedOn: "Sep 5, 2026" },
-  { id: "a3", salon: "Afro Luxe",     salonImg: "https://images.unsplash.com/photo-1706629504952-ab5e50f5c179?w=200&h=200&fit=crop&auto=format", service: "Weaving",       date: "Fri, Aug 29, 2026", time: "10:00 AM", price: 200, duration: "2–3 hrs", status: "completed", bookedOn: "Aug 22, 2026" },
-  { id: "a4", salon: "Crown & Glory", salonImg: "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=200&h=200&fit=crop&auto=format", service: "Hair Treatment",date: "Mon, Aug 18, 2026", time: "02:00 PM", price: 90,  duration: "1 hr",    status: "cancelled", bookedOn: "Aug 14, 2026" },
-  { id: "a5", salon: "Glam Studio",   salonImg: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=200&h=200&fit=crop&auto=format", service: "Styling",       date: "Wed, Jul 23, 2026", time: "01:00 PM", price: 110, duration: "1 hr",    status: "rejected",  bookedOn: "Jul 18, 2026" },
-];
+const APPTS_INIT: Appt[] = [];
 
 const NOTIFS = [
-  { id: "n1", type: "approved",  title: "Appointment Approved",      body: "Your appointment at Glam Studio has been approved for Saturday at 11:00 AM.",                              time: "2 hours ago",  read: false },
-  { id: "n2", type: "request",   title: "New Booking Request",       body: "Amara Diallo has requested an appointment for Box Braids on Sep 16 at 09:00 AM.",                         time: "4 hours ago",  read: false },
-  { id: "n3", type: "rejected",  title: "Appointment Not Available", body: "Unfortunately, Natural Roots could not accept your appointment at 02:00 PM on Sep 10.",                   time: "Yesterday",    read: true  },
-  { id: "n4", type: "cancelled", title: "Appointment Cancelled",     body: "Your appointment at Crown & Glory on Aug 18 has been cancelled successfully.",                             time: "2 days ago",   read: true  },
-  { id: "n5", type: "reminder",  title: "Tomorrow's Appointment",    body: "Reminder: Your Box Braids session at Glam Studio is tomorrow at 11:00 AM. Don't be late!",               time: "3 days ago",   read: true  },
-  { id: "n6", type: "approved",  title: "Review Your Visit",         body: "How was your Weaving session at Afro Luxe on Aug 29? Leave a review to help others.",                     time: "1 week ago",   read: true  },
+  { id: "n1", type: "approved", title: "Appointment Approved", body: "Your appointment at Glam Studio has been approved for Saturday at 11:00 AM.", time: "2 hours ago", read: false },
+  { id: "n2", type: "request", title: "New Booking Request", body: "Amara Diallo has requested an appointment for Box Braids on Sep 16 at 09:00 AM.", time: "4 hours ago", read: false },
+  { id: "n3", type: "rejected", title: "Appointment Not Available", body: "Unfortunately, Natural Roots could not accept your appointment at 02:00 PM on Sep 10.", time: "Yesterday", read: true },
 ];
 
 const REVIEWS = [
-  { id: "r1", name: "Aisha Mensah",   init: "AM", salon: "Glam Studio",   stars: 5, date: "Sep 2, 2026",  text: "Booking my braids through StyleHub was so easy. I could see the available times before booking and didn't have to call the salon at all. My stylist was absolutely wonderful!" },
-  { id: "r2", name: "Kofi Asante",    init: "KA", salon: "Natural Roots", stars: 5, date: "Aug 28, 2026", text: "I found Natural Roots through StyleHub and booked my locs retightening in under two minutes. The salon was exactly as described — clean, professional and welcoming." },
-  { id: "r3", name: "Fatima Diallo",  init: "FD", salon: "Afro Luxe",     stars: 4, date: "Aug 20, 2026", text: "Great platform! I love seeing which time slots are already booked so I know exactly when to show up. The approval confirmation was very reassuring." },
-  { id: "r4", name: "Nana Boateng",   init: "NB", salon: "Crown & Glory", stars: 5, date: "Aug 15, 2026", text: "StyleHub changed how I book my hair appointments. No more back-and-forth on WhatsApp. The appointment status feature is genius — I always know where things stand." },
-  { id: "r5", name: "Yemi Okafor",    init: "YO", salon: "Glam Studio",   stars: 5, date: "Aug 10, 2026", text: "Absolutely love this app! The African hair salon options in my area are extensive and the booking flow is seamless. Five stars without hesitation." },
-  { id: "r6", name: "Adwoa Sarpong",  init: "AS", salon: "Natural Roots", stars: 4, date: "Aug 5, 2026",  text: "Very reliable service. My stylist did an incredible job with my cornrows. I appreciated being notified when my appointment was approved." },
+  { id: "r1", name: "Aisha Mensah", init: "AM", salon: "Glam Studio", stars: 5, date: "Sep 2, 2026", text: "Booking my braids through StyleHub was so easy. I could see the available times before booking and didn't have to call the salon at all. My stylist was absolutely wonderful!" },
+  { id: "r2", name: "Kofi Asante", init: "KA", salon: "Natural Roots", stars: 5, date: "Aug 28, 2026", text: "I found Natural Roots through StyleHub and booked my locs retightening in under two minutes. The salon was exactly as described — clean, professional and welcoming." },
+  { id: "r3", name: "Fatima Diallo", init: "FD", salon: "Afro Luxe", stars: 4, date: "Aug 20, 2026", text: "Great platform! I love seeing which time slots are already booked so I know exactly when to show up. The approval confirmation was very reassuring." },
 ];
 
-const SALON_REQUESTS = [
-  { id: "r1", client: "Amara Diallo",  init: "AD", service: "Box Braids",    date: "Tue, Sep 16", time: "09:00 AM", dur: "3–4 hrs", price: 150, status: "pending"  as ApptStatus },
-  { id: "r2", client: "Kofi Mensah",   init: "KM", service: "Cornrows",      date: "Tue, Sep 16", time: "01:00 PM", dur: "1–2 hrs", price: 80,  status: "pending"  as ApptStatus },
-  { id: "r3", client: "Fatima Osei",   init: "FO", service: "Weaving",       date: "Wed, Sep 17", time: "11:00 AM", dur: "2–3 hrs", price: 200, status: "approved" as ApptStatus },
-  { id: "r4", client: "Nana Asante",   init: "NA", service: "Hair Treatment", date: "Wed, Sep 17", time: "03:00 PM", dur: "1 hr",    price: 90,  status: "rejected" as ApptStatus },
-  { id: "r5", client: "Abena Quartey", init: "AQ", service: "Dreadlocks",    date: "Thu, Sep 18", time: "10:00 AM", dur: "2–5 hrs", price: 180, status: "pending"  as ApptStatus },
-];
+const SALON_REQUESTS: any[] = [];
 
 /* ══════════════════════════════════════════════════════════
    SHARED MICRO-COMPONENTS
 ══════════════════════════════════════════════════════════ */
 const statusCfg: Record<ApptStatus, { label: string; dot: string; pill: string; text: string }> = {
-  pending:   { label: "Pending",   dot: "bg-amber-400",  pill: "bg-amber-50  border border-amber-200", text: "text-amber-700"  },
-  approved:  { label: "Approved",  dot: "bg-green-500",  pill: "bg-green-50  border border-green-200", text: "text-green-700"  },
-  rejected:  { label: "Rejected",  dot: "bg-red-400",    pill: "bg-red-50    border border-red-200",   text: "text-red-700"    },
-  cancelled: { label: "Cancelled", dot: "bg-gray-400",   pill: "bg-gray-100  border border-gray-200",  text: "text-gray-600"   },
-  completed: { label: "Completed", dot: "bg-[#C47A5A]",  pill: "bg-[#FAF2EE] border border-[#EACDBE]", text: "text-[#8E4424]"   },
+  pending: { label: "Pending", dot: "bg-amber-400", pill: "bg-amber-50  border border-amber-200", text: "text-amber-700" },
+  approved: { label: "Approved", dot: "bg-green-500", pill: "bg-green-50  border border-green-200", text: "text-green-700" },
+  rejected: { label: "Rejected", dot: "bg-red-400", pill: "bg-red-50    border border-red-200", text: "text-red-700" },
+  cancelled: { label: "Cancelled", dot: "bg-gray-400", pill: "bg-gray-100  border border-gray-200", text: "text-gray-600" },
+  completed: { label: "Completed", dot: "bg-[#C47A5A]", pill: "bg-[#FAF2EE] border border-[#EACDBE]", text: "text-[#8E4424]" },
 };
 
 function Badge({ status }: { status: ApptStatus }) {
@@ -169,17 +167,17 @@ function Badge({ status }: { status: ApptStatus }) {
 function Stars({ n, size = 14 }: { n: number; size?: number }) {
   return (
     <span className="inline-flex">
-      {[1,2,3,4,5].map(i => (
+      {[1, 2, 3, 4, 5].map(i => (
         <svg key={i} width={size} height={size} viewBox="0 0 20 20" fill={i <= n ? "#F59E0B" : "#E5E7EB"}>
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
     </span>
   );
 }
 
-function Avi({ initials, size = "md", color }: { initials: string; size?: "xs"|"sm"|"md"|"lg"; color?: string }) {
-  const sz = { xs:"w-6 h-6 text-[10px]", sm:"w-9 h-9 text-xs", md:"w-11 h-11 text-sm", lg:"w-16 h-16 text-xl" }[size];
+function Avi({ initials, size = "md", color }: { initials: string; size?: "xs" | "sm" | "md" | "lg"; color?: string }) {
+  const sz = { xs: "w-6 h-6 text-[10px]", sm: "w-9 h-9 text-xs", md: "w-11 h-11 text-sm", lg: "w-16 h-16 text-xl" }[size];
   return (
     <div className={`${sz} rounded-full flex-shrink-0 flex items-center justify-center font-bold text-white select-none`}
       style={{ background: color || "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
@@ -198,19 +196,19 @@ function Pill({ label, active, onClick }: { label: string; active?: boolean; onC
   );
 }
 
-function Btn({ children, variant = "primary", className = "", onClick }: {
-  children: React.ReactNode; variant?: "primary"|"secondary"|"ghost"|"danger"|"gold";
-  className?: string; onClick?: () => void;
+function Btn({ children, variant = "primary", className = "", onClick, disabled }: {
+  children: React.ReactNode; variant?: "primary" | "secondary" | "ghost" | "danger" | "gold";
+  className?: string; onClick?: () => void; disabled?: boolean;
 }) {
-  const base = "inline-flex items-center justify-center gap-2 font-semibold transition-all active:scale-[.97] rounded-2xl";
+  const base = "inline-flex items-center justify-center gap-2 font-semibold transition-all active:scale-[.97] rounded-2xl disabled:opacity-50 disabled:pointer-events-none";
   const v = {
-    primary:   "bg-[#2C1810] text-[#FAF7F2] hover:opacity-90",
+    primary: "bg-[#2C1810] text-[#FAF7F2] hover:opacity-90",
     secondary: "bg-[#F2EDE5] text-[#2C1810] hover:bg-[#EDE8E0] border border-[#E8E0D5]",
-    ghost:     "text-[#2C1810] hover:bg-[#F2EDE5]",
-    danger:    "bg-[#FEF2F2] text-red-600 border border-red-200 hover:bg-red-50",
-    gold:      "bg-[#C4955A] text-white hover:opacity-90",
+    ghost: "text-[#2C1810] hover:bg-[#F2EDE5]",
+    danger: "bg-[#FEF2F2] text-red-600 border border-red-200 hover:bg-red-50",
+    gold: "bg-[#C4955A] text-white hover:opacity-90",
   }[variant];
-  return <button onClick={onClick} className={`${base} ${v} ${className}`}>{children}</button>;
+  return <button disabled={disabled} onClick={onClick} className={`${base} ${v} ${className}`}>{children}</button>;
 }
 
 function SectionLabel({ children }: { children: string }) {
@@ -231,15 +229,25 @@ function PageHeading({ label, title, sub }: { label: string; title: string; sub?
    NAVIGATION
 ══════════════════════════════════════════════════════════ */
 const NAV_LINKS: { label: string; view: View }[] = [
-  { label: "Home",           view: "home"           },
-  { label: "Find a Salon",   view: "find-salon"     },
-  { label: "Services",       view: "services"       },
-  { label: "My Appointments",view: "my-appointments"},
-  { label: "Reviews",        view: "reviews"        },
+  { label: "Home", view: "home" },
+  { label: "Find a Salon", view: "find-salon" },
+  { label: "Services", view: "services" },
+  { label: "My Appointments", view: "my-appointments" },
+  { label: "Salon Portal 💈", view: "salon-dashboard" },
+  { label: "Reviews", view: "reviews" },
 ];
 
-function Nav({ current, go, unread }: { current: View; go: (v: View) => void; unread: number }) {
+function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) => void; unread: number; isOwner: boolean }) {
   const [open, setOpen] = useState(false);
+
+  const navLinks: { label: string; view: View }[] = [
+    { label: "Home", view: "home" },
+    { label: "Find a Salon", view: "find-salon" },
+    { label: "Services", view: "services" },
+    { label: "My Appointments", view: "my-appointments" },
+    ...(isOwner ? [{ label: "Salon Portal 💈", view: "salon-dashboard" as View }] : []),
+    { label: "Reviews", view: "reviews" },
+  ];
 
   return (
     <nav className="fixed inset-x-0 top-0 z-50 glass border-b" style={{ borderColor: "#E8E0D5" }}>
@@ -250,9 +258,9 @@ function Nav({ current, go, unread }: { current: View; go: (v: View) => void; un
           <div className="w-8 h-8 rounded-xl flex items-center justify-center"
             style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4"/>
-              <path d="M9 16.5c.85.63 1.88 1 3 1s2.15-.37 3-1"/>
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+              <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4" />
+              <path d="M9 16.5c.85.63 1.88 1 3 1s2.15-.37 3-1" />
             </svg>
           </div>
           <span className="font-display font-semibold text-[1.15rem] tracking-tight" style={{ color: "#2C1810" }}>StyleHub</span>
@@ -260,7 +268,7 @@ function Nav({ current, go, unread }: { current: View; go: (v: View) => void; un
 
         {/* Desktop links */}
         <div className="hidden lg:flex items-center gap-0.5">
-          {NAV_LINKS.map(l => (
+          {navLinks.map(l => (
             <button key={l.view} onClick={() => go(l.view)}
               className={`px-3.5 py-2 rounded-xl text-[13px] font-medium transition-colors ${current === l.view ? "bg-[#F2EDE5] text-[#2C1810]" : "text-[#8B7355] hover:text-[#2C1810] hover:bg-[#F2EDE5]"}`}>
               {l.label}
@@ -272,8 +280,8 @@ function Nav({ current, go, unread }: { current: View; go: (v: View) => void; un
         <div className="flex items-center gap-1.5">
           <button onClick={() => go("notifications")} className="relative w-9 h-9 flex items-center justify-center rounded-xl hover:bg-[#F2EDE5] transition-colors">
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C3A21" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
             </svg>
             {unread > 0 && (
               <span className="absolute top-1 right-1 w-4 h-4 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
@@ -281,10 +289,20 @@ function Nav({ current, go, unread }: { current: View; go: (v: View) => void; un
             )}
           </button>
 
-          <button onClick={() => go("client-profile")} className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 hover:opacity-90 transition-opacity ring-2 ring-[#E8E0D5]"
+          <button onClick={() => go("client-profile")} title="Account Profile" className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 hover:opacity-90 transition-opacity ring-2 ring-[#E8E0D5]"
             style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
             <div className="w-full h-full flex items-center justify-center text-xs font-bold text-white">ZA</div>
           </button>
+
+          {isOwner ? (
+            <Btn variant="gold" className="hidden sm:flex px-4 py-2 text-[13px]" onClick={() => go("salon-dashboard")}>
+              💈 Salon Portal
+            </Btn>
+          ) : (
+            <button onClick={() => go("salon-login")} className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#8B7355] hover:text-[#2C1810] hover:bg-[#F2EDE5] border border-transparent transition-all">
+              💈 Register Salon
+            </button>
+          )}
 
           <Btn variant="primary" className="hidden md:flex px-5 py-2 text-[13px]" onClick={() => go("find-salon")}>
             Book Appointment
@@ -293,8 +311,8 @@ function Nav({ current, go, unread }: { current: View; go: (v: View) => void; un
           {/* Hamburger */}
           <button onClick={() => setOpen(!open)} className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl hover:bg-[#F2EDE5] transition-colors">
             {open
-              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
             }
           </button>
         </div>
@@ -303,13 +321,22 @@ function Nav({ current, go, unread }: { current: View; go: (v: View) => void; un
       {/* Mobile dropdown */}
       {open && (
         <div className="lg:hidden border-t px-4 py-3 space-y-1 anim-down" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
-          {NAV_LINKS.map(l => (
+          {navLinks.map(l => (
             <button key={l.view} onClick={() => { go(l.view); setOpen(false); }}
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors ${current === l.view ? "bg-[#F2EDE5] text-[#2C1810]" : "text-[#8B7355] hover:bg-[#F2EDE5]"}`}>
               {l.label}
             </button>
           ))}
-          <Btn variant="primary" className="w-full py-3 mt-2 text-sm" onClick={() => { go("find-salon"); setOpen(false); }}>
+          {isOwner ? (
+            <Btn variant="gold" className="w-full py-3 mt-2 text-sm" onClick={() => { go("salon-dashboard"); setOpen(false); }}>
+              💈 Salon Owner Dashboard
+            </Btn>
+          ) : (
+            <button onClick={() => { go("salon-login"); setOpen(false); }} className="w-full text-left px-4 py-3 rounded-xl text-sm font-semibold text-[#8B7355] hover:bg-[#F2EDE5] mt-1">
+              💈 Register / Salon Owner Sign In
+            </button>
+          )}
+          <Btn variant="primary" className="w-full py-3 mt-1 text-sm" onClick={() => { go("find-salon"); setOpen(false); }}>
             Book Appointment
           </Btn>
         </div>
@@ -411,9 +438,9 @@ function Footer({ go }: { go: (v: View) => void }) {
               <div className="w-8 h-8 rounded-xl flex items-center justify-center"
                 style={{ background: "linear-gradient(135deg,#C4955A 0%,#7A5029 100%)" }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-                  <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4"/>
-                  <path d="M9 16.5c.85.63 1.88 1 3 1s2.15-.37 3-1"/>
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+                  <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4" />
+                  <path d="M9 16.5c.85.63 1.88 1 3 1s2.15-.37 3-1" />
                 </svg>
               </div>
               <span className="font-display font-semibold text-lg text-white">StyleHub</span>
@@ -434,7 +461,7 @@ function Footer({ go }: { go: (v: View) => void }) {
           <div className="md:col-span-3">
             <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#C4955A" }}>Platform</p>
             <ul className="space-y-2.5">
-              {(["home","find-salon","services","my-appointments","reviews"] as View[]).map(v => (
+              {(["home", "find-salon", "services", "my-appointments", "reviews"] as View[]).map(v => (
                 <li key={v}><button onClick={() => go(v)} className="text-sm hover:text-white transition-colors capitalize" style={{ color: "#7A6050" }}>
                   {v.replace(/-/g, " ")}
                 </button></li>
@@ -446,9 +473,9 @@ function Footer({ go }: { go: (v: View) => void }) {
           <div className="md:col-span-4">
             <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#C4955A" }}>For Salons</p>
             <ul className="space-y-2.5">
-              {(["salon-login","salon-dashboard","appointment-requests","manage-services","salon-profile"] as View[]).map((v,i) => (
+              {(["salon-login", "salon-dashboard", "appointment-requests", "manage-services", "salon-profile"] as View[]).map((v, i) => (
                 <li key={v}><button onClick={() => go(v)} className="text-sm hover:text-white transition-colors" style={{ color: "#7A6050" }}>
-                  {["Join StyleHub","Salon Dashboard","Appointment Requests","Manage Services","Salon Profile"][i]}
+                  {["Join StyleHub", "Salon Dashboard", "Appointment Requests", "Manage Services", "Salon Profile"][i]}
                 </button></li>
               ))}
             </ul>
@@ -458,7 +485,7 @@ function Footer({ go }: { go: (v: View) => void }) {
         <div className="pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: "#2C1810" }}>
           <p className="text-xs" style={{ color: "#4A3028" }}>© 2026 StyleHub. All rights reserved.</p>
           <div className="flex gap-6">
-            {["Privacy Policy","Terms of Service","Cookie Policy"].map(t => (
+            {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(t => (
               <span key={t} className="text-xs cursor-pointer hover:text-white transition-colors" style={{ color: "#4A3028" }}>{t}</span>
             ))}
           </div>
@@ -491,8 +518,8 @@ function HomePage({ go }: { go: (v: View) => void }) {
             </span>
 
             <h1 className="font-display text-5xl sm:text-6xl lg:text-[5.5rem] font-semibold text-white leading-[1.02] mb-6 tracking-tight">
-              Your Style.<br/>
-              <em className="not-italic" style={{ color: "#C4955A" }}>Your Time.</em><br/>
+              Your Style.<br />
+              <em className="not-italic" style={{ color: "#C4955A" }}>Your Time.</em><br />
               Your Salon.
             </h1>
 
@@ -509,7 +536,7 @@ function HomePage({ go }: { go: (v: View) => void }) {
 
             {/* Stats row */}
             <div className="flex gap-10 mt-14 pt-14 border-t" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
-              {[["500+","Hair Salons"],["12K+","Happy Clients"],["4.8 ★","Avg Rating"]].map(([n,l]) => (
+              {[["500+", "Hair Salons"], ["12K+", "Happy Clients"], ["4.8 ★", "Avg Rating"]].map(([n, l]) => (
                 <div key={l}>
                   <div className="font-display text-2xl font-semibold text-white">{n}</div>
                   <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.45)" }}>{l}</div>
@@ -541,9 +568,9 @@ function HomePage({ go }: { go: (v: View) => void }) {
           <h2 className="font-display text-2xl font-semibold mb-5" style={{ color: "#2C1810" }}>Find Your Perfect Style</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
             {[
-              { emoji: "📍", label: "Location",      placeholder: "e.g. Accra, Ghana"       },
-              { emoji: "✂️",  label: "Hair Service",  placeholder: "Braiding, Cornrows…"    },
-              { emoji: "📅", label: "Preferred Date", placeholder: "Pick a date"            },
+              { emoji: "📍", label: "Location", placeholder: "e.g. Accra, Ghana" },
+              { emoji: "✂️", label: "Hair Service", placeholder: "Braiding, Cornrows…" },
+              { emoji: "📅", label: "Preferred Date", placeholder: "Pick a date" },
             ].map(({ emoji, label, placeholder }) => (
               <div key={label}>
                 <label className="block text-[11px] font-semibold uppercase tracking-wide mb-2" style={{ color: "#8B7355" }}>{label}</label>
@@ -627,11 +654,11 @@ function SalonCard({ salon, go, onSelect }: { salon: any; go: (v: View) => void;
   // DB salons have owner_id; mock salons have img
   const coverImg = salon.cover_url || salon.img ||
     "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop&auto=format";
-  const logoImg  = salon.logo_url  || salon.img || "";
-  const rating   = salon.rating ?? 4.8;
-  const price    = salon.price  ?? "from ZMK 150";
-  const tags     = (salon.tags as string[]) || [];
-  const dist     = salon.dist ? ` · ${salon.dist}` : "";
+  const logoImg = salon.logo_url || salon.img || "";
+  const rating = salon.rating ?? 4.8;
+  const price = salon.price ?? "from ZMK 150";
+  const tags = (salon.tags as string[]) || [];
+  const dist = salon.dist ? ` · ${salon.dist}` : "";
 
   const handleView = () => { if (onSelect) onSelect(salon); go("salon-detail"); };
   const handleBook = () => { if (onSelect) onSelect(salon); go("booking"); };
@@ -653,13 +680,13 @@ function SalonCard({ salon, go, onSelect }: { salon: any; go: (v: View) => void;
         <p className="text-xs mb-1 truncate" style={{ color: "#8B7355" }}>📍 {salon.city}{dist}</p>
         <p className="text-xs mb-2.5 truncate" style={{ color: "#8B7355" }}>🕐 {salon.hours}</p>
         <div className="flex flex-wrap gap-1 mb-4 h-5 overflow-hidden">
-          {tags.slice(0,2).map(t => (
+          {tags.slice(0, 2).map(t => (
             <span key={t} className="px-2 py-0.5 rounded-full text-[11px]" style={{ background: "#F2EDE5", color: "#8B7355" }}>{t}</span>
           ))}
         </div>
         <div className="flex gap-2">
           <Btn variant="secondary" className="flex-1 py-2 text-xs" onClick={handleView}>View</Btn>
-          <Btn variant="primary"   className="flex-1 py-2 text-xs" onClick={handleBook}>Book</Btn>
+          <Btn variant="primary" className="flex-1 py-2 text-xs" onClick={handleBook}>Book</Btn>
         </div>
       </div>
     </div>
@@ -670,9 +697,9 @@ function SalonCard({ salon, go, onSelect }: { salon: any; go: (v: View) => void;
    FIND A SALON
 ══════════════════════════════════════════════════════════ */
 function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectSalon: (s: any) => void }) {
-  const [q, setQ]         = useState("");
-  const [svc, setSvc]     = useState("all");
-  const [rat, setRat]     = useState("all");
+  const [q, setQ] = useState("");
+  const [svc, setSvc] = useState("all");
+  const [rat, setRat] = useState("all");
   const [dbSalons, setDbSalons] = useState<any[]>([]);
   const [loadingDB, setLoadingDB] = useState(true);
 
@@ -708,13 +735,13 @@ function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectS
       <div className="flex flex-col sm:flex-row gap-3 mb-6">
         <div className="flex items-center gap-2.5 flex-1 px-4 py-3 rounded-xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8B7355" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
           <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search salon or location…" className="flex-1 text-sm bg-transparent outline-none" />
         </div>
         <select value={svc} onChange={e => setSvc(e.target.value)} className="px-4 py-3 rounded-xl border text-sm outline-none" style={{ background: "white", borderColor: "#E8E0D5", color: "#2C1810" }}>
           <option value="all">All Services</option>
-          {["Braiding","Cornrows","Dreadlocks","Weaving","Natural Hair","Styling","Hair Treatment","Hair Cutting"].map(s => <option key={s} value={s}>{s}</option>)}
+          {["Braiding", "Cornrows", "Dreadlocks", "Weaving", "Natural Hair", "Styling", "Hair Treatment", "Hair Cutting"].map(s => <option key={s} value={s}>{s}</option>)}
         </select>
         <select value={rat} onChange={e => setRat(e.target.value)} className="px-4 py-3 rounded-xl border text-sm outline-none" style={{ background: "white", borderColor: "#E8E0D5", color: "#2C1810" }}>
           <option value="all">Any Rating</option>
@@ -726,7 +753,7 @@ function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectS
 
       {/* Quick filters */}
       <div className="flex flex-wrap gap-2 mb-8">
-        {["Available Today","Within 2 km","Top Rated","Budget-friendly","Open Now"].map(f => <Pill key={f} label={f} />)}
+        {["Available Today", "Within 2 km", "Top Rated", "Budget-friendly", "Open Now"].map(f => <Pill key={f} label={f} />)}
       </div>
 
       <p className="text-xs font-semibold mb-6" style={{ color: "#8B7355" }}>
@@ -735,12 +762,12 @@ function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectS
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {!loadingDB && filtered.map(s => <SalonCard key={s.id} salon={s} go={go} onSelect={onSelectSalon} />)}
-        {loadingDB && [1,2,3,4].map(i => (
-          <div key={i} className="rounded-2xl overflow-hidden border animate-pulse" style={{ background:"white", borderColor:"#E8E0D5" }}>
-            <div className="h-48 bg-[#F2EDE5]"/>
+        {loadingDB && [1, 2, 3, 4].map(i => (
+          <div key={i} className="rounded-2xl overflow-hidden border animate-pulse" style={{ background: "white", borderColor: "#E8E0D5" }}>
+            <div className="h-48 bg-[#F2EDE5]" />
             <div className="p-4 space-y-2">
-              <div className="h-4 bg-[#F2EDE5] rounded w-3/4"/>
-              <div className="h-3 bg-[#F2EDE5] rounded w-1/2"/>
+              <div className="h-4 bg-[#F2EDE5] rounded w-3/4" />
+              <div className="h-3 bg-[#F2EDE5] rounded w-1/2" />
             </div>
           </div>
         ))}
@@ -798,10 +825,10 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
   // Determine images: DB salons use cover_url/logo_url; mock use cover/img
   const coverSrc = s.cover_url || s.cover ||
     "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=900&h=400&fit=crop&auto=format";
-  const logoSrc  = s.logo_url  || s.img   ||
+  const logoSrc = s.logo_url || s.img ||
     "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop&auto=format";
-  const isDB     = !!s.owner_id;
-  const [tab, setTab] = useState<"services"|"reviews">("services");
+  const isDB = !!s.owner_id;
+  const [tab, setTab] = useState<"services" | "reviews">("services");
 
   return (
     <div>
@@ -843,9 +870,9 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
 
             {/* Tabs */}
             <div className="flex gap-1 p-1 rounded-2xl mb-8 w-fit" style={{ background: "#F2EDE5" }}>
-              {(["services","reviews"] as const).map(t => (
-                <button key={t} onClick={() => setTab(t)} className={`px-6 py-2.5 rounded-xl text-sm font-semibold capitalize transition-all ${tab===t?"text-[#2C1810] shadow-sm":"text-[#8B7355] hover:text-[#2C1810]"}`}
-                  style={{ background: tab===t ? "white" : "transparent" }}>
+              {(["services", "reviews"] as const).map(t => (
+                <button key={t} onClick={() => setTab(t)} className={`px-6 py-2.5 rounded-xl text-sm font-semibold capitalize transition-all ${tab === t ? "text-[#2C1810] shadow-sm" : "text-[#8B7355] hover:text-[#2C1810]"}`}
+                  style={{ background: tab === t ? "white" : "transparent" }}>
                   {t}
                 </button>
               ))}
@@ -873,7 +900,7 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
 
             {tab === "reviews" && (
               <div className="space-y-4">
-                {REVIEWS.slice(0,4).map(r => (
+                {REVIEWS.slice(0, 4).map(r => (
                   <div key={r.id} className="p-5 rounded-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
                     <div className="flex items-start gap-3">
                       <Avi initials={r.init} size="sm" />
@@ -897,10 +924,10 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
             <div className="rounded-2xl p-5 border sticky top-24" style={{ background: "white", borderColor: "#E8E0D5" }}>
               <h3 className="font-semibold text-sm mb-4" style={{ color: "#2C1810" }}>Salon Info</h3>
               {[
-                { icon: "🕐", label: "Hours",   val: s.hours   },
-                { icon: "📍", label: "Location", val: s.city    },
-                { icon: "📞", label: "Phone",    val: s.phone   },
-                { icon: "✉️",  label: "Email",   val: s.email   },
+                { icon: "🕐", label: "Hours", val: s.hours },
+                { icon: "📍", label: "Location", val: s.city },
+                { icon: "📞", label: "Phone", val: s.phone },
+                { icon: "✉️", label: "Email", val: s.email },
               ].map(({ icon, label, val }) => (
                 <div key={label} className="py-3 border-b last:border-0" style={{ borderColor: "#E8E0D5" }}>
                   <div className="flex items-start gap-2.5">
@@ -924,18 +951,53 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
 /* ══════════════════════════════════════════════════════════
    BOOKING FLOW (4 steps)
 ══════════════════════════════════════════════════════════ */
-function BookingPage({ go }: { go: (v: View) => void }) {
+function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }) {
   const [step, setStep] = useState(1);
   const [selSvc, setSelSvc] = useState<typeof SERVICES_LIST[0] | null>(null);
   const [selDate, setSelDate] = useState<number | null>(null);
   const [selTime, setSelTime] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitErr, setSubmitErr] = useState<string | null>(null);
 
-  const STEPS = ["Select Service","Select Date","Select Time","Confirm"];
+  const salonName = salon?.name || "Glam Studio";
+  const salonCity = salon?.city || "Lusaka, Zambia";
+  const salonImg = salon?.logo_url || salon?.cover_url || salon?.img ||
+    "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop&auto=format";
+
+  const STEPS = ["Select Service", "Select Date", "Select Time", "Confirm"];
+
+  async function handleConfirm() {
+    if (!selSvc || !selDate || !selTime) return;
+    setSubmitting(true); setSubmitErr(null);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setSubmitErr("Please sign in to book."); setSubmitting(false); return; }
+    if (!salon?.id) { setSubmitErr("Salon not found. Please go back and try again."); setSubmitting(false); return; }
+
+    const dateStr = `Sep ${selDate}, 2026`;
+    const { error } = await supabase.from("bookings").insert({
+      salon_id: salon.id,
+      client_id: user.id,
+      client_email: user.email || "",
+      client_name: user.user_metadata?.full_name || user.email || "Client",
+      service_name: selSvc.name,
+      service_price: selSvc.price,
+      service_dur: selSvc.dur,
+      date: dateStr,
+      time: selTime,
+      status: "pending",
+    });
+    setSubmitting(false);
+    if (error) {
+      setSubmitErr("Could not send request: " + error.message);
+    } else {
+      go("booking-sent");
+    }
+  }
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-10">
       <button onClick={() => go("salon-detail")} className="flex items-center gap-1.5 text-sm mb-8 hover:opacity-60 transition-opacity" style={{ color: "#8B7355" }}>
-        ← Glam Studio
+        ← {salonName}
       </button>
 
       {/* Stepper */}
@@ -946,12 +1008,12 @@ function BookingPage({ go }: { go: (v: View) => void }) {
           return (
             <div key={label} className="flex items-center">
               <div className="flex items-center gap-2">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${active?"border-[#2C1810] bg-[#2C1810] text-white":done?"border-[#C4955A] bg-[#C4955A] text-white":"border-[#E8E0D5] text-[#8B7355]"}`}>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold border-2 transition-all ${active ? "border-[#2C1810] bg-[#2C1810] text-white" : done ? "border-[#C4955A] bg-[#C4955A] text-white" : "border-[#E8E0D5] text-[#8B7355]"}`}>
                   {done ? "✓" : n}
                 </div>
-                <span className={`text-xs font-medium hidden sm:block ${active?"text-[#2C1810]":"text-[#8B7355]"}`}>{label}</span>
+                <span className={`text-xs font-medium hidden sm:block ${active ? "text-[#2C1810]" : "text-[#8B7355]"}`}>{label}</span>
               </div>
-              {n < 4 && <div className={`h-px mx-3 flex-1 w-8 sm:w-16 ${n < step?"bg-[#C4955A]":"bg-[#E8E0D5]"}`} />}
+              {n < 4 && <div className={`h-px mx-3 flex-1 w-8 sm:w-16 ${n < step ? "bg-[#C4955A]" : "bg-[#E8E0D5]"}`} />}
             </div>
           );
         })}
@@ -961,13 +1023,13 @@ function BookingPage({ go }: { go: (v: View) => void }) {
       {step === 1 && (
         <div className="anim-up">
           <h1 className="font-display text-3xl font-semibold mb-2" style={{ color: "#2C1810" }}>Select a Service</h1>
-          <p className="text-sm mb-7" style={{ color: "#8B7355" }}>Choose the service you'd like to book at Glam Studio.</p>
+          <p className="text-sm mb-7" style={{ color: "#8B7355" }}>Choose the service you'd like to book at {salonName}.</p>
           <div className="space-y-3">
             {SERVICES_LIST.map(sv => {
               const sel = selSvc?.id === sv.id;
               return (
                 <button key={sv.id} onClick={() => setSelSvc(sv)}
-                  className={`w-full text-left flex items-center justify-between p-4 rounded-2xl border transition-all ${sel?"border-[#C4955A]":"border-[#E8E0D5] hover:border-[#C4955A]/40"}`}
+                  className={`w-full text-left flex items-center justify-between p-4 rounded-2xl border transition-all ${sel ? "border-[#C4955A]" : "border-[#E8E0D5] hover:border-[#C4955A]/40"}`}
                   style={{ background: sel ? "#FFF8EE" : "white" }}>
                   <div>
                     <div className="flex items-center gap-2 mb-0.5">
@@ -1004,16 +1066,16 @@ function BookingPage({ go }: { go: (v: View) => void }) {
               <button className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[#F2EDE5] text-lg">›</button>
             </div>
             <div className="grid grid-cols-7 text-center mb-3">
-              {["M","T","W","T","F","S","S"].map((d,i) => (
+              {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
                 <div key={i} className="text-[11px] font-semibold py-1" style={{ color: "#8B7355" }}>{d}</div>
               ))}
             </div>
             <div className="grid grid-cols-7 text-center gap-y-1">
-              {Array.from({length:30},(_,i)=>i+1).map(d => {
+              {Array.from({ length: 30 }, (_, i) => i + 1).map(d => {
                 const past = d < 6, sel = selDate === d;
                 return (
                   <button key={d} disabled={past} onClick={() => setSelDate(d)}
-                    className={`w-9 h-9 mx-auto rounded-xl text-sm font-medium transition-all flex items-center justify-center ${past?"opacity-30 cursor-not-allowed":sel?"text-white":"hover:bg-[#F2EDE5]"}`}
+                    className={`w-9 h-9 mx-auto rounded-xl text-sm font-medium transition-all flex items-center justify-center ${past ? "opacity-30 cursor-not-allowed" : sel ? "text-white" : "hover:bg-[#F2EDE5]"}`}
                     style={{ background: sel ? "#2C1810" : "transparent", color: sel ? "white" : "#2C1810" }}>
                     {d}
                   </button>
@@ -1023,7 +1085,7 @@ function BookingPage({ go }: { go: (v: View) => void }) {
           </div>
           {selDate && (
             <div className="px-4 py-3 rounded-xl mb-4 text-sm font-medium" style={{ background: "#FFF8EE", color: "#8B6039" }}>
-              📅 Selected: Monday, September {selDate}, 2026
+              📅 Selected: September {selDate}, 2026
             </div>
           )}
           <div className="flex gap-3">
@@ -1040,14 +1102,11 @@ function BookingPage({ go }: { go: (v: View) => void }) {
           <p className="text-sm mb-6" style={{ color: "#8B7355" }}>
             {selDate ? `September ${selDate}, 2026` : "Choose an available time slot."}
           </p>
-
-          {/* Legend */}
           <div className="flex items-center gap-6 px-4 py-3 rounded-2xl mb-6" style={{ background: "#F2EDE5" }}>
             <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-[#2C1810]" /><span className="text-xs font-medium" style={{ color: "#8B7355" }}>Available</span></div>
             <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-300" /><span className="text-xs font-medium" style={{ color: "#8B7355" }}>Booked</span></div>
             <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-[#C4955A]" /><span className="text-xs font-medium" style={{ color: "#8B7355" }}>Selected</span></div>
           </div>
-
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
             {TIME_SLOTS.map(({ t, booked }) => {
               const sel = selTime === t;
@@ -1056,8 +1115,8 @@ function BookingPage({ go }: { go: (v: View) => void }) {
                   className={`relative py-3.5 px-4 rounded-2xl text-sm font-medium border transition-all ${booked ? "cursor-not-allowed" : sel ? "ring-2 ring-[#C4955A]" : "hover:scale-[1.02] active:scale-[.98]"}`}
                   style={{
                     background: booked ? "#FEF2F2" : sel ? "#2C1810" : "white",
-                    color:      booked ? "#F87171" : sel ? "white"   : "#2C1810",
-                    borderColor:booked ? "#FECACA" : sel ? "#2C1810" : "#E8E0D5",
+                    color: booked ? "#F87171" : sel ? "white" : "#2C1810",
+                    borderColor: booked ? "#FECACA" : sel ? "#2C1810" : "#E8E0D5",
                   }}>
                   {t}
                   {booked && <span className="absolute bottom-1 right-2 text-[10px] font-bold text-red-400">Booked</span>}
@@ -1065,7 +1124,6 @@ function BookingPage({ go }: { go: (v: View) => void }) {
               );
             })}
           </div>
-
           <div className="flex gap-3">
             <Btn variant="secondary" className="px-6 py-4 text-sm" onClick={() => setStep(2)}>← Back</Btn>
             <Btn variant="primary" className="flex-1 py-4 text-sm" onClick={() => selTime && setStep(4)}>Continue → Confirm</Btn>
@@ -1077,25 +1135,25 @@ function BookingPage({ go }: { go: (v: View) => void }) {
       {step === 4 && (
         <div className="anim-up">
           <h1 className="font-display text-3xl font-semibold mb-2" style={{ color: "#2C1810" }}>Confirm Appointment</h1>
-          <p className="text-sm mb-8" style={{ color: "#8B7355" }}>Review your booking details before submitting the request.</p>
+          <p className="text-sm mb-8" style={{ color: "#8B7355" }}>Review your booking details before sending the request.</p>
 
           <div className="rounded-3xl border p-6 mb-5" style={{ background: "white", borderColor: "#E8E0D5" }}>
             <div className="flex items-center gap-4 pb-5 mb-5 border-b" style={{ borderColor: "#E8E0D5" }}>
               <div className="w-14 h-14 rounded-2xl overflow-hidden bg-amber-50 flex-shrink-0">
-                <img src={SALONS[0].img} alt="Glam Studio" className="w-full h-full object-cover" />
+                <img src={salonImg} alt={salonName} className="w-full h-full object-cover"
+                  onError={e => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop&auto=format"; }} />
               </div>
               <div>
-                <h3 className="font-display font-semibold text-lg" style={{ color: "#2C1810" }}>Glam Studio</h3>
-                <p className="text-xs" style={{ color: "#8B7355" }}>📍 Accra, Ghana</p>
+                <h3 className="font-display font-semibold text-lg" style={{ color: "#2C1810" }}>{salonName}</h3>
+                <p className="text-xs" style={{ color: "#8B7355" }}>📍 {salonCity}</p>
               </div>
             </div>
-
             {[
-              { l: "Service",  v: selSvc?.name || "Box Braids" },
-              { l: "Date",     v: selDate ? `September ${selDate}, 2026` : "Sep 13, 2026" },
-              { l: "Time",     v: selTime || "11:00 AM" },
-              { l: "Duration", v: selSvc?.dur || "3–4 hrs" },
-              { l: "Price",    v: `ZMK ${selSvc?.price || 150}` },
+              { l: "Service", v: selSvc?.name || "—" },
+              { l: "Date", v: selDate ? `September ${selDate}, 2026` : "—" },
+              { l: "Time", v: selTime || "—" },
+              { l: "Duration", v: selSvc?.dur || "—" },
+              { l: "Price", v: `ZMK ${selSvc?.price || 0}` },
             ].map(({ l, v }) => (
               <div key={l} className="flex justify-between items-center py-3.5 border-b last:border-0" style={{ borderColor: "#E8E0D5" }}>
                 <span className="text-sm" style={{ color: "#8B7355" }}>{l}</span>
@@ -1105,18 +1163,33 @@ function BookingPage({ go }: { go: (v: View) => void }) {
           </div>
 
           <div className="px-4 py-3.5 rounded-2xl mb-6 text-xs leading-relaxed" style={{ background: "#FFF8EE", color: "#8B6039", border: "1px solid #F5E6C8" }}>
-            ⚡ After you submit, Glam Studio will review your request and either approve or reject it. You'll receive a notification instantly.
+            ⚡ After you submit, {salonName} will review your request and either approve or reject it. You'll receive a notification once they respond.
           </div>
+
+          {submitErr && (
+            <div className="px-4 py-3 rounded-xl mb-4 text-sm" style={{ background: "#FEF2F2", color: "#B91C1C", border: "1px solid #FECACA" }}>
+              {submitErr}
+            </div>
+          )}
 
           <div className="flex gap-3">
             <Btn variant="secondary" className="px-6 py-4 text-sm" onClick={() => setStep(3)}>← Back</Btn>
-            <Btn variant="gold" className="flex-1 py-4 text-sm" onClick={() => go("booking-sent")}>Request Appointment</Btn>
+            <button
+              disabled={submitting}
+              onClick={handleConfirm}
+              className="flex-1 py-4 text-sm font-semibold rounded-2xl transition-all active:scale-[.98] disabled:opacity-60"
+              style={{ background: "#C4955A", color: "white" }}
+            >
+              {submitting ? "Sending request..." : "Send Booking Request"}
+            </button>
           </div>
         </div>
       )}
     </div>
   );
 }
+
+
 
 /* ══════════════════════════════════════════════════════════
    BOOKING SENT
@@ -1127,7 +1200,7 @@ function BookingSentPage({ go }: { go: (v: View) => void }) {
       <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
         style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
         <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
+          <polyline points="20 6 9 17 4 12" />
         </svg>
       </div>
       <h1 className="font-display text-3xl font-semibold mb-3" style={{ color: "#2C1810" }}>Appointment Request Sent!</h1>
@@ -1137,10 +1210,10 @@ function BookingSentPage({ go }: { go: (v: View) => void }) {
 
       <div className="rounded-3xl border p-5 mb-8 text-left" style={{ background: "white", borderColor: "#E8E0D5" }}>
         {[
-          { l: "Salon",   v: "Glam Studio" },
+          { l: "Salon", v: "Glam Studio" },
           { l: "Service", v: "Box Braids" },
-          { l: "Date",    v: "Saturday, Sep 13, 2026" },
-          { l: "Time",    v: "11:00 AM" },
+          { l: "Date", v: "Saturday, Sep 13, 2026" },
+          { l: "Time", v: "11:00 AM" },
         ].map(({ l, v }) => (
           <div key={l} className="flex justify-between items-center py-3 border-b last:border-0" style={{ borderColor: "#E8E0D5" }}>
             <span className="text-xs" style={{ color: "#8B7355" }}>{l}</span>
@@ -1168,15 +1241,54 @@ function MyAppointmentsPage({ appts, setAppts, go, setDetail }: {
   appts: Appt[]; setAppts: (a: Appt[]) => void;
   go: (v: View) => void; setDetail: (a: Appt) => void;
 }) {
-  const [filter, setFilter] = useState<ApptStatus|"all">("all");
-  const [cancelTarget, setCancelTarget] = useState<Appt|null>(null);
+  const [dbBookings, setDbBookings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<ApptStatus | "all">("all");
+  const [cancelTarget, setCancelTarget] = useState<any | null>(null);
   const [cancelDone, setCancelDone] = useState(false);
 
-  const visible = filter === "all" ? appts : appts.filter(a => a.status === filter);
+  useEffect(() => {
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setLoading(false); return; }
+      const { data } = await supabase
+        .from("bookings")
+        .select("*")
+        .eq("client_id", user.id)
+        .order("created_at", { ascending: false });
+      if (data) setDbBookings(data);
+      setLoading(false);
+    })();
+  }, []);
 
-  const doCancel = () => {
+  const combinedBookings: any[] = [
+    ...dbBookings.map((b: any) => ({
+      id: b.id,
+      salon: "StyleHub Salon",
+      salonImg: "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop&auto=format",
+      service: b.service_name,
+      date: b.date,
+      time: b.time,
+      duration: b.service_dur,
+      price: b.service_price,
+      status: b.status as ApptStatus,
+      bookedOn: new Date(b.created_at || Date.now()).toLocaleDateString(),
+      notes: b.notes || "",
+      isDb: true
+    })),
+    ...appts.filter(a => !dbBookings.some((b: any) => b.service_name === a.service && b.date === a.date))
+  ];
+
+  const visible = filter === "all" ? combinedBookings : combinedBookings.filter(a => a.status === filter);
+
+  const doCancel = async () => {
     if (!cancelTarget) return;
-    setAppts(appts.map(a => a.id === cancelTarget.id ? { ...a, status: "cancelled" } : a));
+    if (cancelTarget.isDb) {
+      await supabase.from("bookings").update({ status: "cancelled" }).eq("id", cancelTarget.id);
+      setDbBookings(prev => prev.map(p => p.id === cancelTarget.id ? { ...p, status: "cancelled" } : p));
+    } else {
+      setAppts(appts.map(a => a.id === cancelTarget.id ? { ...a, status: "cancelled" } : a));
+    }
     setCancelDone(true);
   };
 
@@ -1185,66 +1297,97 @@ function MyAppointmentsPage({ appts, setAppts, go, setDetail }: {
       <PageHeading label="Your Bookings" title="My Appointments" />
 
       <div className="flex gap-2 flex-wrap mb-8">
-        {(["all","pending","approved","completed","cancelled","rejected"] as const).map(f => (
-          <Pill key={f} label={f === "all" ? "All" : f} active={filter===f} onClick={() => setFilter(f)} />
+        {(["all", "pending", "approved", "completed", "cancelled", "rejected"] as const).map(f => (
+          <Pill key={f} label={f === "all" ? "All" : f} active={filter === f} onClick={() => setFilter(f)} />
         ))}
       </div>
 
-      <div className="space-y-4">
-        {visible.map(a => (
-          <div key={a.id} className="rounded-2xl border overflow-hidden card-hover" style={{ background: "white", borderColor: "#E8E0D5" }}>
-            <div className="flex gap-4 sm:gap-5 p-4 sm:p-5">
-              <div className="w-20 h-20 rounded-2xl overflow-hidden bg-amber-50 flex-shrink-0">
-                <img src={a.salonImg} alt={a.salon} className="w-full h-full object-cover" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-start justify-between gap-3 mb-1.5">
-                  <div>
-                    <h3 className="font-semibold" style={{ color: "#2C1810" }}>{a.salon}</h3>
-                    <p className="text-sm" style={{ color: "#8B7355" }}>{a.service}</p>
+      {loading ? (
+        <div className="space-y-4">{[1, 2].map(i => <div key={i} className="h-32 rounded-2xl bg-[#F2EDE5] animate-pulse" />)}</div>
+      ) : (
+        <div className="space-y-4">
+          {visible.map(a => (
+            <div key={a.id} className="rounded-2xl border overflow-hidden card-hover" style={{ background: "white", borderColor: a.status === "rejected" ? "#FECACA" : "#E8E0D5" }}>
+              <div className="flex gap-4 sm:gap-5 p-4 sm:p-5">
+                <div className="w-20 h-20 rounded-2xl overflow-hidden bg-amber-50 flex-shrink-0">
+                  <img src={a.salonImg} alt={a.salon} className="w-full h-full object-cover" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start justify-between gap-3 mb-1.5">
+                    <div>
+                      <h3 className="font-semibold" style={{ color: "#2C1810" }}>{a.salon}</h3>
+                      <p className="text-sm" style={{ color: "#8B7355" }}>{a.service}</p>
+                    </div>
+                    <Badge status={a.status} />
                   </div>
-                  <Badge status={a.status} />
-                </div>
-                <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs mb-3" style={{ color: "#8B7355" }}>
-                  <span>📅 {a.date}</span>
-                  <span>🕐 {a.time}</span>
-                  <span>⏱ {a.duration}</span>
-                  <span className="font-semibold" style={{ color: "#C4955A" }}>ZMK {a.price}</span>
-                </div>
-                <div className="flex gap-2 flex-wrap">
-                  <Btn variant="secondary" className="px-4 py-1.5 text-xs" onClick={() => { setDetail(a); go("appointment-detail"); }}>
-                    View Details
-                  </Btn>
-                  {a.status === "pending" && (
-                    <Btn variant="danger" className="px-4 py-1.5 text-xs" onClick={() => { setCancelTarget(a); setCancelDone(false); }}>
-                      Cancel Appointment
-                    </Btn>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs mb-3" style={{ color: "#8B7355" }}>
+                    <span>📅 {a.date}</span>
+                    <span>🕐 {a.time}</span>
+                    <span>⏱ {a.duration}</span>
+                    <span className="font-semibold" style={{ color: "#C4955A" }}>ZMK {a.price}</span>
+                  </div>
+
+                  {/* Rejected Feedback Box */}
+                  {a.status === "rejected" && (
+                    <div className="mt-3 p-3.5 rounded-xl border border-red-200" style={{ background: "#FEF2F2" }}>
+                      <div className="flex items-center gap-1.5 text-xs font-semibold text-red-700">
+                        <span className="w-2 h-2 rounded-full bg-red-500" />
+                        <span>Booking Denied by Salon Owner</span>
+                      </div>
+                      {a.notes ? (
+                        <p className="text-xs mt-1.5 p-2 rounded-lg text-red-900 font-medium" style={{ background: "#FEE2E2" }}>
+                          💬 <strong>Salon Feedback:</strong> "{a.notes}"
+                        </p>
+                      ) : (
+                        <p className="text-xs mt-1 text-red-600">
+                          The salon owner has requested that you choose a different time slot or date.
+                        </p>
+                      )}
+                      <button
+                        onClick={() => go("find-salon")}
+                        className="mt-3 px-3.5 py-1.5 rounded-lg text-xs font-bold text-white transition-opacity hover:opacity-90 flex items-center gap-1.5 shadow-sm"
+                        style={{ background: "#2C1810" }}
+                      >
+                        📅 Choose Another Time Slot
+                      </button>
+                    </div>
                   )}
+
+                  <div className="flex gap-2 flex-wrap mt-3">
+                    <Btn variant="secondary" className="px-4 py-1.5 text-xs" onClick={() => { setDetail(a); go("appointment-detail"); }}>
+                      View Details
+                    </Btn>
+                    {a.status === "pending" && (
+                      <Btn variant="danger" className="px-4 py-1.5 text-xs" onClick={() => { setCancelTarget(a); setCancelDone(false); }}>
+                        Cancel Appointment
+                      </Btn>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-        {visible.length === 0 && (
-          <div className="py-20 text-center">
-            <p className="text-4xl mb-3">📭</p>
-            <p className="text-sm mb-4" style={{ color: "#8B7355" }}>No appointments found.</p>
-            <Btn variant="primary" className="px-6 py-3 text-sm" onClick={() => go("find-salon")}>Book Now</Btn>
-          </div>
-        )}
-      </div>
+          ))}
+          {visible.length === 0 && (
+            <div className="py-20 text-center">
+              <p className="text-4xl mb-3">📭</p>
+              <p className="text-sm mb-4" style={{ color: "#8B7355" }}>No appointments found.</p>
+              <Btn variant="primary" className="px-6 py-3 text-sm" onClick={() => go("find-salon")}>Book Now</Btn>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Cancel Modal */}
       {cancelTarget && !cancelDone && (
         <Modal>
           <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-5" style={{ background: "#FEF2F2" }}>
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              <polyline points="3 6 5 6 21 6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
             </svg>
           </div>
           <h2 className="font-display text-2xl font-semibold text-center mb-2" style={{ color: "#2C1810" }}>Cancel this Appointment?</h2>
           <p className="text-sm text-center leading-relaxed mb-8" style={{ color: "#8B7355" }}>
-            Are you sure you want to cancel your appointment at <strong>{cancelTarget.salon}</strong> on <strong>{cancelTarget.date}</strong> at <strong>{cancelTarget.time}</strong>?
+            Are you sure you want to cancel your appointment for <strong>{cancelTarget.service}</strong> on <strong>{cancelTarget.date}</strong> at <strong>{cancelTarget.time}</strong>?
           </p>
           <div className="flex gap-3">
             <Btn variant="secondary" className="flex-1 py-3.5 text-sm" onClick={() => setCancelTarget(null)}>Keep Appointment</Btn>
@@ -1284,7 +1427,7 @@ function Modal({ children, onClose }: { children: React.ReactNode; onClose?: () 
 /* ══════════════════════════════════════════════════════════
    APPOINTMENT DETAIL
 ══════════════════════════════════════════════════════════ */
-function ApptDetailPage({ appt, go }: { appt: Appt|null; go: (v: View) => void }) {
+function ApptDetailPage({ appt, go }: { appt: Appt | null; go: (v: View) => void }) {
   const a = appt || APPTS_INIT[0];
   return (
     <div className="max-w-xl mx-auto px-6 py-10">
@@ -1306,16 +1449,16 @@ function ApptDetailPage({ appt, go }: { appt: Appt|null; go: (v: View) => void }
             <Badge status={a.status} />
           </div>
           {[
-            { l:"Service",  v:a.service  },
-            { l:"Date",     v:a.date     },
-            { l:"Time",     v:a.time     },
-            { l:"Duration", v:a.duration },
-            { l:"Price",    v:`ZMK ${a.price}` },
-            { l:"Booked On",v:a.bookedOn },
+            { l: "Service", v: a.service },
+            { l: "Date", v: a.date },
+            { l: "Time", v: a.time },
+            { l: "Duration", v: a.duration },
+            { l: "Price", v: `ZMK ${a.price}` },
+            { l: "Booked On", v: a.bookedOn },
           ].map(({ l, v }) => (
             <div key={l} className="flex justify-between py-3.5 border-t" style={{ borderColor: "#E8E0D5" }}>
               <span className="text-sm" style={{ color: "#8B7355" }}>{l}</span>
-              <span className="text-sm font-semibold" style={{ color: l==="Price"?"#C4955A":"#2C1810" }}>{v}</span>
+              <span className="text-sm font-semibold" style={{ color: l === "Price" ? "#C4955A" : "#2C1810" }}>{v}</span>
             </div>
           ))}
         </div>
@@ -1334,12 +1477,12 @@ function ApptDetailPage({ appt, go }: { appt: Appt|null; go: (v: View) => void }
 ══════════════════════════════════════════════════════════ */
 function NotificationsPage() {
   const [notifs, setNotifs] = useState(NOTIFS);
-  const iconMap: Record<string,{icon:string;bg:string;clr:string}> = {
-    approved:  { icon:"✓", bg:"#F0FDF4", clr:"#22C55E" },
-    rejected:  { icon:"✕", bg:"#FEF2F2", clr:"#EF4444" },
-    cancelled: { icon:"–", bg:"#F9FAFB", clr:"#9CA3AF" },
-    request:   { icon:"★", bg:"#FFFBEB", clr:"#F59E0B" },
-    reminder:  { icon:"🔔",bg:"#FAF2EE", clr:"#C47A5A" },
+  const iconMap: Record<string, { icon: string; bg: string; clr: string }> = {
+    approved: { icon: "✓", bg: "#F0FDF4", clr: "#22C55E" },
+    rejected: { icon: "✕", bg: "#FEF2F2", clr: "#EF4444" },
+    cancelled: { icon: "–", bg: "#F9FAFB", clr: "#9CA3AF" },
+    request: { icon: "★", bg: "#FFFBEB", clr: "#F59E0B" },
+    reminder: { icon: "🔔", bg: "#FAF2EE", clr: "#C47A5A" },
   };
 
   return (
@@ -1355,9 +1498,9 @@ function NotificationsPage() {
         {notifs.map(n => {
           const c = iconMap[n.type] || iconMap.request;
           return (
-            <div key={n.id} onClick={() => setNotifs(ns => ns.map(x => x.id===n.id?{...x,read:true}:x))}
+            <div key={n.id} onClick={() => setNotifs(ns => ns.map(x => x.id === n.id ? { ...x, read: true } : x))}
               className={`flex gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:shadow-md`}
-              style={{ background: n.read?"white":"#FFFDF7", borderColor: n.read?"#E8E0D5":"#F5E6C8" }}>
+              style={{ background: n.read ? "white" : "#FFFDF7", borderColor: n.read ? "#E8E0D5" : "#F5E6C8" }}>
               <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
                 style={{ background: c.bg, color: c.clr }}>{c.icon}</div>
               <div className="flex-1 min-w-0">
@@ -1380,8 +1523,8 @@ function NotificationsPage() {
    CLIENT DASHBOARD
 ══════════════════════════════════════════════════════════ */
 function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: View) => void; setDetail: (a: Appt) => void }) {
-  const upcoming  = appts.filter(a => a.status === "approved" || a.status === "pending");
-  const pending   = appts.filter(a => a.status === "pending");
+  const upcoming = appts.filter(a => a.status === "approved" || a.status === "pending");
+  const pending = appts.filter(a => a.status === "pending");
   const completed = appts.filter(a => a.status === "completed");
 
   const hour = new Date().getHours();
@@ -1400,17 +1543,17 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {[
-          { label:"Upcoming",       v:upcoming.length,  icon:"📅", clr:"#C4955A" },
-          { label:"Pending",        v:pending.length,   icon:"⏳", clr:"#F59E0B" },
-          { label:"Completed",      v:completed.length, icon:"✓",  clr:"#22C55E" },
-          { label:"Saved Salons",   v:3,                icon:"♥",  clr:"#EF4444" },
-        ].map(({ label,v,icon,clr }) => (
-          <div key={label} className="rounded-2xl p-5 border" style={{ background:"white", borderColor:"#E8E0D5" }}>
+          { label: "Upcoming", v: upcoming.length, icon: "📅", clr: "#C4955A" },
+          { label: "Pending", v: pending.length, icon: "⏳", clr: "#F59E0B" },
+          { label: "Completed", v: completed.length, icon: "✓", clr: "#22C55E" },
+          { label: "Saved Salons", v: 3, icon: "♥", clr: "#EF4444" },
+        ].map(({ label, v, icon, clr }) => (
+          <div key={label} className="rounded-2xl p-5 border" style={{ background: "white", borderColor: "#E8E0D5" }}>
             <div className="flex items-center justify-between mb-3">
               <span className="text-2xl">{icon}</span>
-              <span className="font-display text-3xl font-semibold" style={{ color:clr }}>{v}</span>
+              <span className="font-display text-3xl font-semibold" style={{ color: clr }}>{v}</span>
             </div>
-            <p className="text-xs font-medium" style={{ color:"#8B7355" }}>{label}</p>
+            <p className="text-xs font-medium" style={{ color: "#8B7355" }}>{label}</p>
           </div>
         ))}
       </div>
@@ -1420,26 +1563,26 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
           {/* Next appointment */}
           {upcoming[0] && (
             <div>
-              <h2 className="font-display text-xl font-semibold mb-4" style={{ color:"#2C1810" }}>Upcoming Appointment</h2>
-              <div className="rounded-2xl overflow-hidden border" style={{ background:"white", borderColor:"#E8E0D5" }}>
+              <h2 className="font-display text-xl font-semibold mb-4" style={{ color: "#2C1810" }}>Upcoming Appointment</h2>
+              <div className="rounded-2xl overflow-hidden border" style={{ background: "white", borderColor: "#E8E0D5" }}>
                 <div className="relative h-36 bg-amber-50 overflow-hidden">
                   <img src={upcoming[0].salonImg} alt="" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0" style={{ background:"linear-gradient(to right,rgba(28,14,8,0.72) 0%,transparent 65%)" }}/>
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to right,rgba(28,14,8,0.72) 0%,transparent 65%)" }} />
                   <div className="absolute top-4 left-5">
                     <h3 className="font-display font-semibold text-white text-lg">{upcoming[0].salon}</h3>
-                    <p className="text-xs mt-0.5" style={{ color:"rgba(255,255,255,0.75)" }}>{upcoming[0].service}</p>
+                    <p className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.75)" }}>{upcoming[0].service}</p>
                   </div>
-                  <div className="absolute top-4 right-4"><Badge status={upcoming[0].status}/></div>
+                  <div className="absolute top-4 right-4"><Badge status={upcoming[0].status} /></div>
                 </div>
                 <div className="p-5">
                   <div className="flex flex-wrap gap-4 text-sm mb-4">
-                    <span style={{ color:"#8B7355" }}>📅 {upcoming[0].date}</span>
-                    <span style={{ color:"#8B7355" }}>🕐 {upcoming[0].time}</span>
-                    <span className="font-semibold" style={{ color:"#C4955A" }}>ZMK {upcoming[0].price}</span>
+                    <span style={{ color: "#8B7355" }}>📅 {upcoming[0].date}</span>
+                    <span style={{ color: "#8B7355" }}>🕐 {upcoming[0].time}</span>
+                    <span className="font-semibold" style={{ color: "#C4955A" }}>ZMK {upcoming[0].price}</span>
                   </div>
                   <div className="flex gap-3">
                     <Btn variant="secondary" className="px-4 py-2 text-xs" onClick={() => { setDetail(upcoming[0]); go("appointment-detail"); }}>View Details</Btn>
-                    <Btn variant="danger"    className="px-4 py-2 text-xs" onClick={() => go("my-appointments")}>Cancel</Btn>
+                    <Btn variant="danger" className="px-4 py-2 text-xs" onClick={() => go("my-appointments")}>Cancel</Btn>
                   </div>
                 </div>
               </div>
@@ -1449,21 +1592,21 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
           {/* Recent */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-display text-xl font-semibold" style={{ color:"#2C1810" }}>Recent Appointments</h2>
-              <button onClick={() => go("my-appointments")} className="text-xs font-semibold" style={{ color:"#C4955A" }}>View All →</button>
+              <h2 className="font-display text-xl font-semibold" style={{ color: "#2C1810" }}>Recent Appointments</h2>
+              <button onClick={() => go("my-appointments")} className="text-xs font-semibold" style={{ color: "#C4955A" }}>View All →</button>
             </div>
             <div className="space-y-3">
-              {appts.slice(1,4).map(a => (
-                <div key={a.id} className="flex items-center gap-4 p-4 rounded-2xl border" style={{ background:"white", borderColor:"#E8E0D5" }}>
+              {appts.slice(1, 4).map(a => (
+                <div key={a.id} className="flex items-center gap-4 p-4 rounded-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
                   <div className="w-12 h-12 rounded-xl overflow-hidden bg-amber-50 flex-shrink-0">
                     <img src={a.salonImg} alt="" className="w-full h-full object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between">
-                      <span className="font-semibold text-sm truncate" style={{ color:"#2C1810" }}>{a.salon}</span>
-                      <Badge status={a.status}/>
+                      <span className="font-semibold text-sm truncate" style={{ color: "#2C1810" }}>{a.salon}</span>
+                      <Badge status={a.status} />
                     </div>
-                    <span className="text-xs" style={{ color:"#8B7355" }}>{a.service} · {a.date}</span>
+                    <span className="text-xs" style={{ color: "#8B7355" }}>{a.service} · {a.date}</span>
                   </div>
                 </div>
               ))}
@@ -1473,16 +1616,16 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
 
         {/* Saved Salons */}
         <div>
-          <h2 className="font-display text-xl font-semibold mb-4" style={{ color:"#2C1810" }}>Saved Salons</h2>
+          <h2 className="font-display text-xl font-semibold mb-4" style={{ color: "#2C1810" }}>Saved Salons</h2>
           <div className="space-y-3">
-            {SALONS.slice(0,3).map(s => (
-              <div key={s.id} className="flex items-center gap-3 p-3 rounded-2xl border cursor-pointer card-hover" style={{ background:"white", borderColor:"#E8E0D5" }}>
+            {SALONS.slice(0, 3).map(s => (
+              <div key={s.id} className="flex items-center gap-3 p-3 rounded-2xl border cursor-pointer card-hover" style={{ background: "white", borderColor: "#E8E0D5" }}>
                 <div className="w-12 h-12 rounded-xl overflow-hidden bg-amber-50 flex-shrink-0">
                   <img src={s.img} alt={s.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-sm truncate" style={{ color:"#2C1810" }}>{s.name}</h3>
-                  <p className="text-xs" style={{ color:"#8B7355" }}>★ {s.rating} · {s.city}</p>
+                  <h3 className="font-semibold text-sm truncate" style={{ color: "#2C1810" }}>{s.name}</h3>
+                  <p className="text-xs" style={{ color: "#8B7355" }}>★ {s.rating} · {s.city}</p>
                 </div>
                 <span className="text-red-400">♥</span>
               </div>
@@ -1499,22 +1642,22 @@ function ClientDashboardPage({ appts, go, setDetail }: { appts: Appt[]; go: (v: 
    CLIENT PROFILE  (Screen 15)
 ══════════════════════════════════════════════════════════ */
 function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void }) {
-  const [editing, setEditing]       = useState(false);
+  const [editing, setEditing] = useState(false);
 
   // ── Business section ─────────────────────────────────────
-  const [salons,        setSalons]       = useState<any[]>([]);
-  const [bizOpen,       setBizOpen]      = useState(false);
-  const [showForm,      setShowForm]     = useState(false);
-  const [formId,        setFormId]       = useState<string | null>(null);
-  const [bizForm,       setBizForm]      = useState({
+  const [salons, setSalons] = useState<any[]>([]);
+  const [bizOpen, setBizOpen] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+  const [formId, setFormId] = useState<string | null>(null);
+  const [bizForm, setBizForm] = useState({
     name: "", city: "", phone: "", email: "", hours: "", about: "",
     cover_url: "", logo_url: ""
   });
-  const [logoFile,      setLogoFile]     = useState<File | null>(null);
-  const [coverFile,     setCoverFile]    = useState<File | null>(null);
-  const [bizLoading,    setBizLoading]   = useState(false);
-  const [bizLoadingTxt, setBizLoadingTxt]= useState("Saving...");
-  const [bizMsg,        setBizMsg]       = useState<{type:"ok"|"err";text:string}|null>(null);
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [bizLoading, setBizLoading] = useState(false);
+  const [bizLoadingTxt, setBizLoadingTxt] = useState("Saving...");
+  const [bizMsg, setBizMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
 
   const fetchSalons = async () => {
     const { data: { user } } = await supabase.auth.getUser();
@@ -1527,15 +1670,17 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
 
   const openNewForm = () => {
     setFormId(null);
-    setBizForm({ name:"", city:"", phone:"", email:"", hours:"", about:"", cover_url:"", logo_url:"" });
+    setBizForm({ name: "", city: "", phone: "", email: "", hours: "", about: "", cover_url: "", logo_url: "" });
     setLogoFile(null); setCoverFile(null);
     setShowForm(true); setBizOpen(true);
   };
 
   const editSalon = (s: any) => {
     setFormId(s.id);
-    setBizForm({ name:s.name||"", city:s.city||"", phone:s.phone||"", email:s.email||"",
-      hours:s.hours||"", about:s.about||"", cover_url:s.cover_url||"", logo_url:s.logo_url||"" });
+    setBizForm({
+      name: s.name || "", city: s.city || "", phone: s.phone || "", email: s.email || "",
+      hours: s.hours || "", about: s.about || "", cover_url: s.cover_url || "", logo_url: s.logo_url || ""
+    });
     setLogoFile(null); setCoverFile(null);
     setShowForm(true); setBizOpen(true);
   };
@@ -1544,9 +1689,9 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
     e.preventDefault();
     setBizMsg(null); setBizLoading(true); setBizLoadingTxt("Saving changes...");
     const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setBizMsg({ type:"err", text:"Not logged in." }); setBizLoading(false); return; }
+    if (!user) { setBizMsg({ type: "err", text: "Not logged in." }); setBizLoading(false); return; }
 
-    let finalLogoUrl  = bizForm.logo_url;
+    let finalLogoUrl = bizForm.logo_url;
     let finalCoverUrl = bizForm.cover_url;
 
     try {
@@ -1567,7 +1712,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
         finalCoverUrl = supabase.storage.from("salon-images").getPublicUrl(path).data.publicUrl;
       }
     } catch (err: any) {
-      setBizMsg({ type:"err", text:"Upload failed: " + err.message });
+      setBizMsg({ type: "err", text: "Upload failed: " + err.message });
       setBizLoading(false); return;
     }
 
@@ -1583,9 +1728,9 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
     const { error } = await supabase.from("salons").upsert(payload);
     setBizLoading(false);
     if (error) {
-      setBizMsg({ type:"err", text:"Could not save: " + error.message });
+      setBizMsg({ type: "err", text: "Could not save: " + error.message });
     } else {
-      setBizMsg({ type:"ok", text:"Salon saved!" });
+      setBizMsg({ type: "ok", text: "Salon saved!" });
       fetchSalons();
       setTimeout(() => { setBizMsg(null); setShowForm(false); }, 1500);
     }
@@ -1596,21 +1741,21 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
       <PageHeading label="Account" title="My Profile" />
 
       {/* Profile card */}
-      <div className="rounded-3xl overflow-hidden border mb-8" style={{ background:"white", borderColor:"#E8E0D5" }}>
-        <div className="h-36 relative overflow-hidden" style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+      <div className="rounded-3xl overflow-hidden border mb-8" style={{ background: "white", borderColor: "#E8E0D5" }}>
+        <div className="h-36 relative overflow-hidden" style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
           <img src="https://images.unsplash.com/photo-1593351799227-75df2026356b?w=900&h=280&fit=crop&auto=format"
             alt="Banner" className="w-full h-full object-cover opacity-30" />
           <button className="absolute bottom-3 right-4 text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/30 text-white"
-            style={{ background:"rgba(255,255,255,0.15)" }}>Edit Banner</button>
+            style={{ background: "rgba(255,255,255,0.15)" }}>Edit Banner</button>
         </div>
         <div className="px-6 pb-6">
           <div className="flex items-end gap-4 -mt-10 mb-5">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor:"white" }}>
+            <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor: "white" }}>
               <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=200&h=200&fit=crop&auto=format" alt="Avatar" className="w-full h-full object-cover" />
             </div>
             <div className="pb-1">
-              <h2 className="font-display text-2xl font-semibold" style={{ color:"#2C1810" }}>Zara Asante</h2>
-              <p className="text-sm" style={{ color:"#8B7355" }}>Client · Member since Jan 2025</p>
+              <h2 className="font-display text-2xl font-semibold" style={{ color: "#2C1810" }}>Zara Asante</h2>
+              <p className="text-sm" style={{ color: "#8B7355" }}>Client · Member since Jan 2025</p>
             </div>
             <Btn variant="secondary" className="ml-auto px-5 py-2.5 text-sm self-end" onClick={() => setEditing(!editing)}>
               {editing ? "Cancel" : "Edit Profile"}
@@ -1618,10 +1763,10 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
           </div>
           {editing ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[["Full Name","Zara Asante"],["Phone","+260 97 567 8901"],["Email","zara@email.com"],["Location","Lusaka, Zambia"],["Preferred Service","Braiding"],["Date of Birth","March 15, 1995"]].map(([l,v]) => (
+              {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Date of Birth", "March 15, 1995"]].map(([l, v]) => (
                 <div key={l}>
-                  <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>{l}</label>
-                  <input defaultValue={v} className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+                  <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>{l}</label>
+                  <input defaultValue={v} className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
                 </div>
               ))}
               <div className="sm:col-span-2">
@@ -1630,10 +1775,10 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[["Full Name","Zara Asante"],["Phone","+260 97 567 8901"],["Email","zara@email.com"],["Location","Lusaka, Zambia"],["Preferred Service","Braiding"],["Member Since","January 2025"]].map(([l,v]) => (
-                <div key={l} className="py-3 border-b last:border-0" style={{ borderColor:"#F2EDE5" }}>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide mb-1" style={{ color:"#8B7355" }}>{l}</p>
-                  <p className="text-sm font-medium" style={{ color:"#2C1810" }}>{v}</p>
+              {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Member Since", "January 2025"]].map(([l, v]) => (
+                <div key={l} className="py-3 border-b last:border-0" style={{ borderColor: "#F2EDE5" }}>
+                  <p className="text-[11px] font-semibold uppercase tracking-wide mb-1" style={{ color: "#8B7355" }}>{l}</p>
+                  <p className="text-sm font-medium" style={{ color: "#2C1810" }}>{v}</p>
                 </div>
               ))}
             </div>
@@ -1644,60 +1789,60 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
       {/* Quick stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {[
-          { label:"Total Appointments", v:appts.length, clr:"#C4955A" },
-          { label:"Completed", v:appts.filter(a=>a.status==="completed").length, clr:"#22C55E" },
-          { label:"Saved Salons", v:3, clr:"#EF4444" },
-        ].map(({ label,v,clr }) => (
-          <div key={label} className="rounded-2xl p-4 border text-center" style={{ background:"white", borderColor:"#E8E0D5" }}>
-            <p className="font-display text-3xl font-semibold mb-1" style={{ color:clr }}>{v}</p>
-            <p className="text-xs" style={{ color:"#8B7355" }}>{label}</p>
+          { label: "Total Appointments", v: appts.length, clr: "#C4955A" },
+          { label: "Completed", v: appts.filter(a => a.status === "completed").length, clr: "#22C55E" },
+          { label: "Saved Salons", v: 3, clr: "#EF4444" },
+        ].map(({ label, v, clr }) => (
+          <div key={label} className="rounded-2xl p-4 border text-center" style={{ background: "white", borderColor: "#E8E0D5" }}>
+            <p className="font-display text-3xl font-semibold mb-1" style={{ color: clr }}>{v}</p>
+            <p className="text-xs" style={{ color: "#8B7355" }}>{label}</p>
           </div>
         ))}
       </div>
 
       {/* ── MY BUSINESS ──────────────────────────────── */}
-      <div className="rounded-3xl border overflow-hidden mb-8" style={{ background:"white", borderColor:"#E8E0D5" }}>
+      <div className="rounded-3xl border overflow-hidden mb-8" style={{ background: "white", borderColor: "#E8E0D5" }}>
 
         {/* Header toggle */}
         <button onClick={() => { setBizOpen(o => !o); if (bizOpen) setShowForm(false); }}
           className="w-full flex items-center justify-between px-6 py-5 hover:bg-[#FAF7F2] transition-colors">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0"
-              style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+              style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
               <svg width="18" height="18" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" />
               </svg>
             </div>
             <div className="text-left">
-              <p className="font-semibold text-sm" style={{ color:"#2C1810" }}>My Salons & Barbershops</p>
-              <p className="text-xs mt-0.5" style={{ color:"#8B7355" }}>{salons.length} listing{salons.length !== 1 ? "s" : ""}</p>
+              <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>My Salons & Barbershops</p>
+              <p className="text-xs mt-0.5" style={{ color: "#8B7355" }}>{salons.length} listing{salons.length !== 1 ? "s" : ""}</p>
             </div>
           </div>
           <svg width="18" height="18" fill="none" stroke="#8B7355" strokeWidth="2" viewBox="0 0 24 24"
             className={`transition-transform duration-200 ${bizOpen ? "rotate-180" : ""}`}>
-            <polyline points="6 9 12 15 18 9"/>
+            <polyline points="6 9 12 15 18 9" />
           </svg>
         </button>
 
         {/* Salon list */}
         {bizOpen && !showForm && (
-          <div className="border-t px-6 py-6" style={{ borderColor:"#E8E0D5" }}>
+          <div className="border-t px-6 py-6" style={{ borderColor: "#E8E0D5" }}>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="font-semibold text-sm" style={{ color:"#2C1810" }}>Managed Properties</h3>
+              <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>Managed Properties</h3>
               <button onClick={openNewForm} className="text-xs font-semibold px-3 py-1.5 rounded-xl border"
-                style={{ borderColor:"#C4955A", color:"#C4955A", background:"#FAF7F2" }}>
+                style={{ borderColor: "#C4955A", color: "#C4955A", background: "#FAF7F2" }}>
                 + Add New
               </button>
             </div>
             <div className="space-y-3">
               {salons.length === 0 ? (
-                <div className="text-center py-8 border-2 border-dashed rounded-2xl" style={{ borderColor:"#E8E0D5" }}>
+                <div className="text-center py-8 border-2 border-dashed rounded-2xl" style={{ borderColor: "#E8E0D5" }}>
                   <p className="text-2xl mb-2">🏪</p>
-                  <p className="text-sm font-medium" style={{ color:"#2C1810" }}>No salons listed yet</p>
-                  <p className="text-xs mt-1" style={{ color:"#8B7355" }}>Click "+ Add New" to register your first salon</p>
+                  <p className="text-sm font-medium" style={{ color: "#2C1810" }}>No salons listed yet</p>
+                  <p className="text-xs mt-1" style={{ color: "#8B7355" }}>Click "+ Add New" to register your first salon</p>
                 </div>
               ) : salons.map(s => (
-                <div key={s.id} className="flex items-center gap-4 p-4 border rounded-xl" style={{ borderColor:"#E8E0D5" }}>
+                <div key={s.id} className="flex items-center gap-4 p-4 border rounded-xl" style={{ borderColor: "#E8E0D5" }}>
                   <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 bg-[#E8E0D5]">
                     {s.logo_url
                       ? <img src={s.logo_url} alt="logo" className="w-full h-full object-cover" />
@@ -1705,12 +1850,12 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
                     }
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-sm truncate" style={{ color:"#2C1810" }}>{s.name}</p>
-                    <p className="text-xs truncate" style={{ color:"#8B7355" }}>📍 {s.city} · 🕐 {s.hours}</p>
+                    <p className="font-semibold text-sm truncate" style={{ color: "#2C1810" }}>{s.name}</p>
+                    <p className="text-xs truncate" style={{ color: "#8B7355" }}>📍 {s.city} · 🕐 {s.hours}</p>
                   </div>
                   <button onClick={() => editSalon(s)}
                     className="text-xs font-semibold px-3 py-1.5 rounded-lg border flex-shrink-0"
-                    style={{ borderColor:"#E8E0D5", color:"#8B7355" }}>Edit</button>
+                    style={{ borderColor: "#E8E0D5", color: "#8B7355" }}>Edit</button>
                 </div>
               ))}
             </div>
@@ -1719,10 +1864,10 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
 
         {/* Add / Edit form */}
         {bizOpen && showForm && (
-          <div className="border-t" style={{ borderColor:"#E8E0D5", background:"#FAF7F2" }}>
+          <div className="border-t" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
             <form onSubmit={handleBizSave} className="px-6 py-6 space-y-4">
               <div className="flex items-center justify-between mb-2">
-                <h3 className="font-semibold text-sm" style={{ color:"#2C1810" }}>
+                <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>
                   {formId ? "Edit Salon" : "Register New Salon"}
                 </h3>
                 <button type="button" onClick={() => setShowForm(false)}
@@ -1732,32 +1877,32 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Text fields */}
                 {(([
-                  { label:"Salon Name",      key:"name",  placeholder:"e.g. Glam Studio",         span:2 },
-                  { label:"City / Location", key:"city",  placeholder:"e.g. Lusaka, Zambia",       span:1 },
-                  { label:"Business Phone",  key:"phone", placeholder:"e.g. +260 97 123 4567",     span:1 },
-                  { label:"Business Email",  key:"email", placeholder:"hello@mysalon.zm",          span:1 },
-                  { label:"Opening Hours",   key:"hours", placeholder:"e.g. 9:00 AM – 6:00 PM",   span:1 },
-                ]) as {label:string;key:keyof typeof bizForm;placeholder:string;span:number}[]).map(({label,key,placeholder,span}) => (
-                  <div key={key} className={span===2 ? "sm:col-span-2" : ""}>
-                    <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>{label}</label>
+                  { label: "Salon Name", key: "name", placeholder: "e.g. Glam Studio", span: 2 },
+                  { label: "City / Location", key: "city", placeholder: "e.g. Lusaka, Zambia", span: 1 },
+                  { label: "Business Phone", key: "phone", placeholder: "e.g. +260 97 123 4567", span: 1 },
+                  { label: "Business Email", key: "email", placeholder: "hello@mysalon.zm", span: 1 },
+                  { label: "Opening Hours", key: "hours", placeholder: "e.g. 9:00 AM – 6:00 PM", span: 1 },
+                ]) as { label: string; key: keyof typeof bizForm; placeholder: string; span: number }[]).map(({ label, key, placeholder, span }) => (
+                  <div key={key} className={span === 2 ? "sm:col-span-2" : ""}>
+                    <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>{label}</label>
                     <input type="text" placeholder={placeholder} value={bizForm[key]}
-                      onChange={e => setBizForm(f => ({...f, [key]: e.target.value}))}
+                      onChange={e => setBizForm(f => ({ ...f, [key]: e.target.value }))}
                       className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors"
-                      style={{ borderColor:"#E8E0D5", background:"white", color:"#2C1810" }} />
+                      style={{ borderColor: "#E8E0D5", background: "white", color: "#2C1810" }} />
                   </div>
                 ))}
 
                 {/* Logo Upload */}
                 <div>
-                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Logo Image</label>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>Logo Image</label>
                   <label className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl border cursor-pointer transition-colors hover:bg-white"
-                    style={{ borderColor:"#E8E0D5", background:"white" }}>
-                    <span className="flex-shrink-0 px-3 py-1 rounded-lg text-xs font-semibold" style={{ background:"#F2EDE5", color:"#8B7355" }}>Choose File</span>
-                    <span className="text-xs truncate" style={{ color:"#8B7355" }}>{logoFile ? logoFile.name : bizForm.logo_url ? "Current image set" : "No file chosen"}</span>
-                    <input type="file" accept="image/*" className="hidden" onChange={e => setLogoFile(e.target.files?.[0]||null)} />
+                    style={{ borderColor: "#E8E0D5", background: "white" }}>
+                    <span className="flex-shrink-0 px-3 py-1 rounded-lg text-xs font-semibold" style={{ background: "#F2EDE5", color: "#8B7355" }}>Choose File</span>
+                    <span className="text-xs truncate" style={{ color: "#8B7355" }}>{logoFile ? logoFile.name : bizForm.logo_url ? "Current image set" : "No file chosen"}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={e => setLogoFile(e.target.files?.[0] || null)} />
                   </label>
                   {logoFile && (
-                    <div className="mt-2 relative w-16 h-16 rounded-lg overflow-hidden border" style={{ borderColor:"#E8E0D5" }}>
+                    <div className="mt-2 relative w-16 h-16 rounded-lg overflow-hidden border" style={{ borderColor: "#E8E0D5" }}>
                       <img src={URL.createObjectURL(logoFile)} className="w-full h-full object-cover" alt="preview" />
                     </div>
                   )}
@@ -1765,15 +1910,15 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
 
                 {/* Cover Upload */}
                 <div>
-                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Cover Image</label>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>Cover Image</label>
                   <label className="flex items-center gap-3 w-full px-4 py-2.5 rounded-xl border cursor-pointer transition-colors hover:bg-white"
-                    style={{ borderColor:"#E8E0D5", background:"white" }}>
-                    <span className="flex-shrink-0 px-3 py-1 rounded-lg text-xs font-semibold" style={{ background:"#F2EDE5", color:"#8B7355" }}>Choose File</span>
-                    <span className="text-xs truncate" style={{ color:"#8B7355" }}>{coverFile ? coverFile.name : bizForm.cover_url ? "Current image set" : "No file chosen"}</span>
-                    <input type="file" accept="image/*" className="hidden" onChange={e => setCoverFile(e.target.files?.[0]||null)} />
+                    style={{ borderColor: "#E8E0D5", background: "white" }}>
+                    <span className="flex-shrink-0 px-3 py-1 rounded-lg text-xs font-semibold" style={{ background: "#F2EDE5", color: "#8B7355" }}>Choose File</span>
+                    <span className="text-xs truncate" style={{ color: "#8B7355" }}>{coverFile ? coverFile.name : bizForm.cover_url ? "Current image set" : "No file chosen"}</span>
+                    <input type="file" accept="image/*" className="hidden" onChange={e => setCoverFile(e.target.files?.[0] || null)} />
                   </label>
                   {coverFile && (
-                    <div className="mt-2 relative w-full h-28 rounded-xl overflow-hidden border" style={{ borderColor:"#E8E0D5" }}>
+                    <div className="mt-2 relative w-full h-28 rounded-xl overflow-hidden border" style={{ borderColor: "#E8E0D5" }}>
                       <img src={URL.createObjectURL(coverFile)} className="w-full h-full object-cover" alt="preview" />
                     </div>
                   )}
@@ -1781,23 +1926,23 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
 
                 {/* About */}
                 <div className="sm:col-span-2">
-                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>About the Salon</label>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>About the Salon</label>
                   <textarea placeholder="Tell clients what makes your salon special…" value={bizForm.about}
-                    onChange={e => setBizForm(f => ({...f, about: e.target.value}))} rows={3}
+                    onChange={e => setBizForm(f => ({ ...f, about: e.target.value }))} rows={3}
                     className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors resize-none"
-                    style={{ borderColor:"#E8E0D5", background:"white", color:"#2C1810" }} />
+                    style={{ borderColor: "#E8E0D5", background: "white", color: "#2C1810" }} />
                 </div>
               </div>
 
               {/* Feedback message */}
               {bizMsg && (
                 <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm"
-                  style={bizMsg.type==="ok"
-                    ? { background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#166534" }
-                    : { background:"#FEF2F2", border:"1px solid #FECACA", color:"#B91C1C" }}>
-                  {bizMsg.type==="ok"
-                    ? <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                    : <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  style={bizMsg.type === "ok"
+                    ? { background: "#F0FDF4", border: "1px solid #BBF7D0", color: "#166534" }
+                    : { background: "#FEF2F2", border: "1px solid #FECACA", color: "#B91C1C" }}>
+                  {bizMsg.type === "ok"
+                    ? <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                    : <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                   }
                   {bizMsg.text}
                 </div>
@@ -1806,12 +1951,12 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
               <div className="flex gap-3 pt-1">
                 <button type="submit" disabled={bizLoading}
                   className="px-7 py-3 rounded-2xl text-sm font-semibold transition-all active:scale-[.98] disabled:opacity-60"
-                  style={{ background:"#2C1810", color:"#FAF7F2" }}>
+                  style={{ background: "#2C1810", color: "#FAF7F2" }}>
                   {bizLoading ? bizLoadingTxt : "Save Salon"}
                 </button>
                 <button type="button" onClick={() => setShowForm(false)} disabled={bizLoading}
                   className="px-5 py-3 rounded-2xl text-sm font-semibold border transition-colors hover:bg-white disabled:opacity-60"
-                  style={{ borderColor:"#E8E0D5", color:"#8B7355" }}>
+                  style={{ borderColor: "#E8E0D5", color: "#8B7355" }}>
                   Cancel
                 </button>
               </div>
@@ -1821,7 +1966,7 @@ function ClientProfilePage({ appts, go }: { appts: Appt[]; go: (v: View) => void
       </div>
 
       {/* Danger zone */}
-      <div className="rounded-2xl p-5 border" style={{ borderColor:"#FECACA", background:"#FEF2F2" }}>
+      <div className="rounded-2xl p-5 border" style={{ borderColor: "#FECACA", background: "#FEF2F2" }}>
         <h3 className="font-semibold text-sm mb-1 text-red-700">Account Actions</h3>
         <p className="text-xs mb-4 text-red-500">These actions are irreversible. Please proceed with caution.</p>
         <div className="flex gap-3">
@@ -1841,26 +1986,26 @@ function ReviewsPage() {
     <div className="max-w-7xl mx-auto px-6 py-10">
       <div className="text-center mb-12">
         <SectionLabel>Testimonials</SectionLabel>
-        <h1 className="font-display text-5xl font-semibold mt-2 mb-4" style={{ color:"#2C1810" }}>What Our Clients Say</h1>
+        <h1 className="font-display text-5xl font-semibold mt-2 mb-4" style={{ color: "#2C1810" }}>What Our Clients Say</h1>
         <div className="inline-flex flex-col items-center gap-1.5">
           <div className="flex items-end gap-2">
-            <span className="font-display text-5xl font-semibold" style={{ color:"#2C1810" }}>4.8</span>
-            <span className="font-display text-3xl mb-1" style={{ color:"#8B7355" }}>/5</span>
+            <span className="font-display text-5xl font-semibold" style={{ color: "#2C1810" }}>4.8</span>
+            <span className="font-display text-3xl mb-1" style={{ color: "#8B7355" }}>/5</span>
           </div>
           <Stars n={5} size={20} />
-          <p className="text-sm mt-1" style={{ color:"#8B7355" }}>Based on 2,400+ reviews</p>
+          <p className="text-sm mt-1" style={{ color: "#8B7355" }}>Based on 2,400+ reviews</p>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {REVIEWS.map(r => (
-          <div key={r.id} className="rounded-2xl p-6 border flex flex-col" style={{ background:"white", borderColor:"#E8E0D5" }}>
+          <div key={r.id} className="rounded-2xl p-6 border flex flex-col" style={{ background: "white", borderColor: "#E8E0D5" }}>
             <Stars n={r.stars} />
-            <p className="text-sm leading-relaxed my-4 flex-1" style={{ color:"#8B7355" }}>"{r.text}"</p>
-            <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor:"#E8E0D5" }}>
+            <p className="text-sm leading-relaxed my-4 flex-1" style={{ color: "#8B7355" }}>"{r.text}"</p>
+            <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "#E8E0D5" }}>
               <Avi initials={r.init} size="sm" />
               <div>
-                <p className="font-semibold text-sm" style={{ color:"#2C1810" }}>{r.name}</p>
-                <p className="text-xs" style={{ color:"#8B7355" }}>{r.salon} · {r.date}</p>
+                <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.name}</p>
+                <p className="text-xs" style={{ color: "#8B7355" }}>{r.salon} · {r.date}</p>
               </div>
             </div>
           </div>
@@ -1875,23 +2020,23 @@ function ReviewsSection() {
     <section className="max-w-7xl mx-auto px-6 py-20">
       <div className="text-center mb-10">
         <SectionLabel>Testimonials</SectionLabel>
-        <h2 className="font-display text-4xl font-semibold mt-2" style={{ color:"#2C1810" }}>What Our Clients Say</h2>
+        <h2 className="font-display text-4xl font-semibold mt-2" style={{ color: "#2C1810" }}>What Our Clients Say</h2>
         <div className="flex items-center justify-center gap-2 mt-3">
           <Stars n={5} />
-          <span className="font-semibold text-sm" style={{ color:"#2C1810" }}>4.8 / 5</span>
-          <span className="text-sm" style={{ color:"#8B7355" }}>· 2,400+ reviews</span>
+          <span className="font-semibold text-sm" style={{ color: "#2C1810" }}>4.8 / 5</span>
+          <span className="text-sm" style={{ color: "#8B7355" }}>· 2,400+ reviews</span>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {REVIEWS.slice(0,3).map(r => (
-          <div key={r.id} className="rounded-2xl p-6 border" style={{ background:"white", borderColor:"#E8E0D5" }}>
+        {REVIEWS.slice(0, 3).map(r => (
+          <div key={r.id} className="rounded-2xl p-6 border" style={{ background: "white", borderColor: "#E8E0D5" }}>
             <Stars n={r.stars} />
-            <p className="text-sm leading-relaxed my-4" style={{ color:"#8B7355" }}>"{r.text}"</p>
-            <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor:"#E8E0D5" }}>
+            <p className="text-sm leading-relaxed my-4" style={{ color: "#8B7355" }}>"{r.text}"</p>
+            <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "#E8E0D5" }}>
               <Avi initials={r.init} size="sm" />
               <div>
-                <p className="font-semibold text-sm" style={{ color:"#2C1810" }}>{r.name}</p>
-                <p className="text-xs" style={{ color:"#8B7355" }}>{r.salon}</p>
+                <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.name}</p>
+                <p className="text-xs" style={{ color: "#8B7355" }}>{r.salon}</p>
               </div>
             </div>
           </div>
@@ -1907,14 +2052,14 @@ function ReviewsSection() {
 type SalonAuthTab = "signin" | "signup";
 
 function SalonLoginPage({ go }: { go: (v: View) => void }) {
-  const [tab, setTab]           = useState<SalonAuthTab>("signin");
+  const [tab, setTab] = useState<SalonAuthTab>("signin");
   const [salonName, setSalonName] = useState("");
-  const [email, setEmail]       = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPw, setShowPw]     = useState(false);
-  const [loading, setLoading]   = useState(false);
-  const [error, setError]       = useState<string | null>(null);
-  const [success, setSuccess]   = useState<string | null>(null);
+  const [showPw, setShowPw] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const switchTab = (t: SalonAuthTab) => { setTab(t); setError(null); setSuccess(null); };
 
@@ -1945,30 +2090,30 @@ function SalonLoginPage({ go }: { go: (v: View) => void }) {
 
         {/* Logo */}
         <div className="flex items-center justify-center gap-2.5 mb-10">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4"/>
-              <path d="M9 16.5c.85.63 1.88 1 3 1s2.15-.37 3-1"/>
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
+              <path d="M8 12c0-2.2 1.8-4 4-4s4 1.8 4 4" />
+              <path d="M9 16.5c.85.63 1.88 1 3 1s2.15-.37 3-1" />
             </svg>
           </div>
-          <span className="font-display font-semibold text-2xl" style={{ color:"#2C1810" }}>StyleHub</span>
+          <span className="font-display font-semibold text-2xl" style={{ color: "#2C1810" }}>StyleHub</span>
         </div>
 
-        <div className="rounded-3xl border overflow-hidden shadow-xl" style={{ background:"white", borderColor:"#E8E0D5" }}>
+        <div className="rounded-3xl border overflow-hidden shadow-xl" style={{ background: "white", borderColor: "#E8E0D5" }}>
           {/* Accent bar */}
-          <div className="h-1.5" style={{ background:"linear-gradient(90deg,#C4955A 0%,#2C1810 100%)" }} />
+          <div className="h-1.5" style={{ background: "linear-gradient(90deg,#C4955A 0%,#2C1810 100%)" }} />
 
           <div className="px-8 pt-8 pb-0">
             <div className="text-center mb-6">
-              <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color:"#C4955A" }}>For Salon & Barbershop Owners</p>
-              <h1 className="font-display text-2xl font-semibold" style={{ color:"#2C1810" }}>
+              <p className="text-xs font-semibold tracking-widest uppercase mb-1" style={{ color: "#C4955A" }}>For Salon & Barbershop Owners</p>
+              <h1 className="font-display text-2xl font-semibold" style={{ color: "#2C1810" }}>
                 {tab === "signin" ? "Welcome back" : "Register your salon"}
               </h1>
             </div>
 
             {/* Tabs */}
-            <div className="flex rounded-2xl p-1 mb-6" style={{ background:"#F2EDE5" }}>
+            <div className="flex rounded-2xl p-1 mb-6" style={{ background: "#F2EDE5" }}>
               {(["signin", "signup"] as SalonAuthTab[]).map((t) => (
                 <button key={t} id={`salon-tab-${t}`} onClick={() => switchTab(t)}
                   className="flex-1 py-2 rounded-xl text-sm font-semibold transition-all"
@@ -1982,36 +2127,36 @@ function SalonLoginPage({ go }: { go: (v: View) => void }) {
           <form onSubmit={handleSubmit} className="px-8 pb-8 space-y-4">
             {tab === "signup" && (
               <div>
-                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Salon / Barbershop Name</label>
+                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>Salon / Barbershop Name</label>
                 <input id="salon-name" type="text" placeholder="e.g. Glam Studio" value={salonName}
                   onChange={e => setSalonName(e.target.value)} required={tab === "signup"}
                   className="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors"
-                  style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+                  style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
               </div>
             )}
 
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Email Address</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>Email Address</label>
               <input id="salon-email" type="email" placeholder="hello@mysalon.com" value={email}
                 onChange={e => setEmail(e.target.value)} required
                 className="w-full px-4 py-3 rounded-xl border text-sm outline-none transition-colors"
-                style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+                style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
             </div>
 
             <div>
-              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>Password</label>
+              <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>Password</label>
               <div className="relative">
                 <input id="salon-password" type={showPw ? "text" : "password"}
                   placeholder={tab === "signup" ? "Min. 6 characters" : "Your password"}
                   value={password} onChange={e => setPassword(e.target.value)}
                   required minLength={6}
                   className="w-full px-4 py-3 pr-12 rounded-xl border text-sm outline-none transition-colors"
-                  style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+                  style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
                 <button type="button" onClick={() => setShowPw(p => !p)}
                   className="absolute right-3.5 top-1/2 -translate-y-1/2 opacity-50 hover:opacity-100 transition-opacity">
                   {showPw
-                    ? <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                    : <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    ? <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" /><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" /><line x1="1" y1="1" x2="23" y2="23" /></svg>
+                    : <svg width="18" height="18" fill="none" stroke="#2C1810" strokeWidth="1.8" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" /><circle cx="12" cy="12" r="3" /></svg>
                   }
                 </button>
               </div>
@@ -2019,18 +2164,18 @@ function SalonLoginPage({ go }: { go: (v: View) => void }) {
 
             {error && (
               <div id="salon-auth-error" className="flex items-start gap-2.5 px-4 py-3 rounded-xl text-sm"
-                style={{ background:"#FEF2F2", border:"1px solid #FECACA", color:"#B91C1C" }}>
+                style={{ background: "#FEF2F2", border: "1px solid #FECACA", color: "#B91C1C" }}>
                 <svg className="flex-shrink-0 mt-0.5" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                  <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
                 {error}
               </div>
             )}
             {success && (
               <div id="salon-auth-success" className="flex items-start gap-2.5 px-4 py-3 rounded-xl text-sm"
-                style={{ background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#166534" }}>
+                style={{ background: "#F0FDF4", border: "1px solid #BBF7D0", color: "#166534" }}>
                 <svg className="flex-shrink-0 mt-0.5" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
                 {success}
               </div>
@@ -2038,22 +2183,22 @@ function SalonLoginPage({ go }: { go: (v: View) => void }) {
 
             <button id="salon-auth-submit" type="submit" disabled={loading}
               className="w-full py-3.5 rounded-2xl text-sm font-semibold transition-all active:scale-[.98] disabled:opacity-60"
-              style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)", color:"white" }}>
+              style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)", color: "white" }}>
               {loading
                 ? <span className="flex items-center justify-center gap-2">
-                    <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                      <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-                    </svg>
-                    {tab === "signin" ? "Signing in…" : "Creating account…"}
-                  </span>
+                  <svg className="animate-spin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
+                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+                  </svg>
+                  {tab === "signin" ? "Signing in…" : "Creating account…"}
+                </span>
                 : tab === "signin" ? "Sign In to Dashboard" : "Register Salon"
               }
             </button>
 
-            <p className="text-center text-sm" style={{ color:"#8B7355" }}>
+            <p className="text-center text-sm" style={{ color: "#8B7355" }}>
               {tab === "signin" ? "New to StyleHub? " : "Already registered? "}
               <button type="button" onClick={() => switchTab(tab === "signin" ? "signup" : "signin")}
-                className="font-semibold underline underline-offset-2" style={{ color:"#C4955A" }}>
+                className="font-semibold underline underline-offset-2" style={{ color: "#C4955A" }}>
                 {tab === "signin" ? "Register your salon" : "Sign in"}
               </button>
             </p>
@@ -2067,20 +2212,55 @@ function SalonLoginPage({ go }: { go: (v: View) => void }) {
 /* ══════════════════════════════════════════════════════════
    SALON DASHBOARD  (Screen 18)
 ══════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   SALON DASHBOARD  (Screen 18)
+══════════════════════════════════════════════════════════ */
 function SalonDashboardPage({ go }: { go: (v: View) => void }) {
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [ownedSalon, setOwnedSalon] = useState<any>(null);
+
+  const loadBookings = async () => {
+    setLoading(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setLoading(false); return; }
+
+    const { data: salons } = await supabase.from("salons").select("*").eq("owner_id", user.id);
+    const salon = salons?.[0] || null;
+    setOwnedSalon(salon);
+
+    let res;
+    if (salons && salons.length > 0) {
+      const salonIds = salons.map((s: any) => s.id);
+      res = await supabase.from("bookings").select("*").in("salon_id", salonIds).order("created_at", { ascending: false });
+    } else {
+      res = await supabase.from("bookings").select("*").order("created_at", { ascending: false });
+    }
+    if (res.data) setBookings(res.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadBookings();
+  }, []);
+
+  const pending = bookings.filter(b => b.status === "pending");
+  const approved = bookings.filter(b => b.status === "approved");
+  const completed = bookings.filter(b => b.status === "completed");
+
   const todaySchedule = [
-    { time:"09:00", client:null },
-    { time:"09:30", client:null },
-    { time:"10:00", client:{ name:"Sarah Mensah",   svc:"Box Braids",    bg:"#FFF8EE", border:"#F5E6C8" } },
-    { time:"10:30", client:{ name:"Sarah Mensah",   svc:"(cont.)",        bg:"#FFF8EE", border:"#F5E6C8" } },
-    { time:"11:00", client:null },
-    { time:"11:30", client:{ name:"John Asante",    svc:"Haircut",        bg:"#F0FDF4", border:"#BBF7D0" } },
-    { time:"12:00", client:null },
-    { time:"12:30", client:{ name:"Amara Osei",     svc:"Cornrows",       bg:"#FAF2EE", border:"#EACDBE" } },
-    { time:"13:00", client:{ name:"Amara Osei",     svc:"(cont.)",        bg:"#FAF2EE", border:"#EACDBE" } },
-    { time:"13:30", client:null },
-    { time:"14:00", client:{ name:"Fatima Diallo",  svc:"Weaving",        bg:"#FFF8EE", border:"#F5E6C8" } },
-    { time:"15:00", client:{ name:"Nana Boateng",   svc:"Hair Treatment", bg:"#F0FDF4", border:"#BBF7D0" } },
+    { time: "09:00", client: null },
+    { time: "09:30", client: null },
+    { time: "10:00", client: { name: "Sarah Mensah", svc: "Box Braids", bg: "#FFF8EE", border: "#F5E6C8" } },
+    { time: "10:30", client: { name: "Sarah Mensah", svc: "(cont.)", bg: "#FFF8EE", border: "#F5E6C8" } },
+    { time: "11:00", client: null },
+    { time: "11:30", client: { name: "John Asante", svc: "Haircut", bg: "#F0FDF4", border: "#BBF7D0" } },
+    { time: "12:00", client: null },
+    { time: "12:30", client: { name: "Amara Osei", svc: "Cornrows", bg: "#FAF2EE", border: "#EACDBE" } },
+    { time: "13:00", client: { name: "Amara Osei", svc: "(cont.)", bg: "#FAF2EE", border: "#EACDBE" } },
+    { time: "13:30", client: null },
+    { time: "14:00", client: { name: "Fatima Diallo", svc: "Weaving", bg: "#FFF8EE", border: "#F5E6C8" } },
+    { time: "15:00", client: { name: "Nana Boateng", svc: "Hair Treatment", bg: "#F0FDF4", border: "#BBF7D0" } },
   ];
 
   return (
@@ -2088,29 +2268,34 @@ function SalonDashboardPage({ go }: { go: (v: View) => void }) {
       <div className="flex items-center justify-between mb-10">
         <div>
           <SectionLabel>Salon Owner</SectionLabel>
-          <h1 className="font-display text-4xl font-semibold mt-1.5" style={{ color:"#2C1810" }}>Salon Dashboard</h1>
-          <p className="text-sm mt-1" style={{ color:"#8B7355" }}>Glam Studio · Accra, Ghana</p>
+          <h1 className="font-display text-4xl font-semibold mt-1.5" style={{ color: "#2C1810" }}>Salon Dashboard</h1>
+          <p className="text-sm mt-1" style={{ color: "#8B7355" }}>{ownedSalon ? `${ownedSalon.name} · ${ownedSalon.city}` : "Salon Management"}</p>
         </div>
-        <div className="hidden sm:flex items-center gap-3">
-          <Btn variant="secondary" className="px-5 py-2.5 text-sm" onClick={() => go("salon-calendar")}>📅 Calendar</Btn>
-          <Btn variant="primary"   className="px-5 py-2.5 text-sm" onClick={() => go("manage-services")}>Manage Services</Btn>
+        <div className="flex items-center gap-3">
+          <button onClick={loadBookings} className="px-4 py-2 rounded-xl text-xs font-semibold border transition-all hover:bg-[#F2EDE5]" style={{ borderColor: "#E8E0D5", color: "#8B7355" }}>
+            🔄 Refresh Bookings
+          </button>
+          <div className="hidden sm:flex items-center gap-3">
+            <Btn variant="secondary" className="px-5 py-2.5 text-sm" onClick={() => go("salon-calendar")}>📅 Calendar</Btn>
+            <Btn variant="primary" className="px-5 py-2.5 text-sm" onClick={() => go("manage-services")}>Manage Services</Btn>
+          </div>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {[
-          { label:"Today's Appointments", v:6, icon:"📅", clr:"#C4955A" },
-          { label:"Pending Requests",     v:3, icon:"⏳", clr:"#F59E0B" },
-          { label:"This Week",            v:18,icon:"📊", clr:"#C47A5A" },
-          { label:"Completed Today",      v:4, icon:"✓",  clr:"#22C55E" },
-        ].map(({ label,v,icon,clr }) => (
-          <div key={label} className="rounded-2xl p-5 border" style={{ background:"white", borderColor:"#E8E0D5" }}>
+          { label: "Total Bookings", v: loading ? "…" : bookings.length, icon: "📅", clr: "#C4955A" },
+          { label: "Pending Requests", v: loading ? "…" : pending.length, icon: "⏳", clr: "#F59E0B" },
+          { label: "Approved", v: loading ? "…" : approved.length, icon: "✓", clr: "#22C55E" },
+          { label: "Completed", v: loading ? "…" : completed.length, icon: "🏆", clr: "#C47A5A" },
+        ].map(({ label, v, icon, clr }) => (
+          <div key={label} className="rounded-2xl p-5 border" style={{ background: "white", borderColor: "#E8E0D5" }}>
             <div className="flex items-center justify-between mb-3">
               <span className="text-2xl">{icon}</span>
-              <span className="font-display text-3xl font-semibold" style={{ color:clr }}>{v}</span>
+              <span className="font-display text-3xl font-semibold" style={{ color: clr }}>{v}</span>
             </div>
-            <p className="text-xs font-medium" style={{ color:"#8B7355" }}>{label}</p>
+            <p className="text-xs font-medium" style={{ color: "#8B7355" }}>{label}</p>
           </div>
         ))}
       </div>
@@ -2119,39 +2304,171 @@ function SalonDashboardPage({ go }: { go: (v: View) => void }) {
         {/* Today schedule */}
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-display text-xl font-semibold" style={{ color:"#2C1810" }}>Today's Schedule</h2>
-            <span className="text-xs px-3 py-1.5 rounded-full font-semibold" style={{ background:"#F2EDE5", color:"#8B7355" }}>Fri, Sep 5, 2026</span>
+            <h2 className="font-display text-xl font-semibold" style={{ color: "#2C1810" }}>Today's Schedule</h2>
+            <span className="text-xs px-3 py-1.5 rounded-full font-semibold" style={{ background: "#F2EDE5", color: "#8B7355" }}>{new Date().toDateString()}</span>
           </div>
           <div className="space-y-2">
             {todaySchedule.map(({ time, client }) => (
-              <div key={time} className={`flex items-center gap-4 px-4 py-2.5 rounded-xl ${client?"border":""}`}
-                style={ client ? { background:(client as any).bg, borderColor:(client as any).border } : {} }>
-                <span className="text-xs font-mono w-12 flex-shrink-0" style={{ color: client?"#2C1810":"#C4B09A" }}>{time}</span>
+              <div key={time} className={`flex items-center gap-4 px-4 py-2.5 rounded-xl ${client ? "border" : ""}`}
+                style={client ? { background: (client as any).bg, borderColor: (client as any).border } : {}}>
+                <span className="text-xs font-mono w-12 flex-shrink-0" style={{ color: client ? "#2C1810" : "#C4B09A" }}>{time}</span>
                 {client
                   ? <div className="flex items-center justify-between flex-1 text-sm">
-                      <span className="font-semibold" style={{ color:"#2C1810" }}>{(client as any).name}</span>
-                      <span className="text-xs" style={{ color:"#8B7355" }}>— {(client as any).svc}</span>
-                    </div>
-                  : <div className="flex-1 h-px" style={{ background:"#E8E0D5" }} />
+                    <span className="font-semibold" style={{ color: "#2C1810" }}>{(client as any).name}</span>
+                    <span className="text-xs" style={{ color: "#8B7355" }}>— {(client as any).svc}</span>
+                  </div>
+                  : <div className="flex-1 h-px" style={{ background: "#E8E0D5" }} />
                 }
               </div>
             ))}
           </div>
         </div>
 
-        {/* Pending requests */}
+        {/* Pending requests — live from DB */}
         <div>
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-display text-xl font-semibold" style={{ color:"#2C1810" }}>Pending Requests</h2>
-            <button onClick={() => go("appointment-requests")} className="text-xs font-semibold" style={{ color:"#C4955A" }}>View All →</button>
+            <h2 className="font-display text-xl font-semibold" style={{ color: "#2C1810" }}>New Requests</h2>
+            <button onClick={() => go("appointment-requests")} className="text-xs font-semibold" style={{ color: "#C4955A" }}>View All →</button>
           </div>
-          <div className="space-y-3">
-            {SALON_REQUESTS.filter(r=>r.status==="pending").slice(0,3).map(r => (
-              <RequestCard key={r.id} req={r} compact />
-            ))}
-          </div>
+          {loading ? (
+            <div className="space-y-3">{[1, 2].map(i => <div key={i} className="h-24 rounded-2xl bg-[#F2EDE5] animate-pulse" />)}</div>
+          ) : pending.length === 0 ? (
+            <div className="text-center py-8 border-2 border-dashed rounded-2xl" style={{ borderColor: "#E8E0D5" }}>
+              <p className="text-2xl mb-1">🎉</p>
+              <p className="text-sm font-medium" style={{ color: "#2C1810" }}>All caught up!</p>
+              <p className="text-xs mt-0.5" style={{ color: "#8B7355" }}>No pending requests</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {pending.slice(0, 3).map(b => (
+                <LiveRequestCard key={b.id} booking={b} onUpdate={updated => setBookings(prev => prev.map(p => p.id === updated.id ? updated : p))} compact />
+              ))}
+            </div>
+          )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function LiveRequestCard({ booking, onUpdate, compact = false }: { booking: any; onUpdate: (b: any) => void; compact?: boolean }) {
+  const [updating, setUpdating] = useState(false);
+  const [showRejectModal, setShowRejectModal] = useState(false);
+  const [rejectFeedback, setRejectFeedback] = useState("");
+
+  const initials = (booking.client_name || "??").split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2);
+
+  const PRESETS = [
+    "Fully booked at this time slot. Please choose another time slot or date!",
+    "We are closed on this date. Please select another date.",
+    "Stylist unavailable at this time slot. Please try after 2:00 PM."
+  ];
+
+  async function updateStatus(newStatus: string, notesText: string = "") {
+    setUpdating(true);
+    const { data, error } = await supabase
+      .from("bookings")
+      .update({
+        status: newStatus,
+        notes: notesText || booking.notes || "",
+        updated_at: new Date().toISOString()
+      })
+      .eq("id", booking.id)
+      .select()
+      .single();
+    setUpdating(false);
+    if (!error && data) {
+      onUpdate(data);
+      setShowRejectModal(false);
+    }
+  }
+
+  return (
+    <div className="rounded-2xl border p-4" style={{ background: "white", borderColor: booking.status === "pending" ? "#F5E6C8" : "#E8E0D5" }}>
+      {/* Notification dot for new pending */}
+      {booking.status === "pending" && (
+        <div className="flex items-center gap-1.5 mb-2">
+          <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+          <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: "#B45309" }}>New Request</span>
+        </div>
+      )}
+      <div className="flex items-center gap-2.5 mb-2">
+        <Avi initials={initials} size="sm" />
+        <div className="flex-1 min-w-0">
+          <p className="font-semibold text-sm truncate" style={{ color: "#2C1810" }}>{booking.client_name || booking.client_email}</p>
+          <p className="text-xs truncate" style={{ color: "#8B7355" }}>{booking.service_name}</p>
+        </div>
+        {!compact && <Badge status={booking.status} />}
+      </div>
+      <p className="text-xs mb-2" style={{ color: "#8B7355" }}>📅 {booking.date} · 🕐 {booking.time} · ⏱ {booking.service_dur}</p>
+      <p className="text-xs mb-3 font-semibold" style={{ color: "#C4955A" }}>ZMK {booking.service_price}</p>
+      
+      {booking.notes && (
+        <div className="mb-3 p-2.5 rounded-xl text-xs" style={{ background: booking.status === "rejected" ? "#FEF2F2" : "#F2EDE5", color: booking.status === "rejected" ? "#B91C1C" : "#8B7355" }}>
+          <span className="font-semibold">Note to client:</span> "{booking.notes}"
+        </div>
+      )}
+
+      {booking.status === "pending"
+        ? <div className="flex gap-2">
+          <button disabled={updating} onClick={() => updateStatus("approved")}
+            className="flex-1 py-2 rounded-xl text-xs font-semibold text-white transition-opacity hover:opacity-90 disabled:opacity-50"
+            style={{ background: "#22C55E" }}>✓ Approve</button>
+          <button disabled={updating} onClick={() => { setRejectFeedback(PRESETS[0]); setShowRejectModal(true); }}
+            className="flex-1 py-2 rounded-xl text-xs font-semibold border transition-colors hover:bg-red-50 disabled:opacity-50"
+            style={{ color: "#EF4444", borderColor: "#FECACA", background: "#FEF2F2" }}>✕ Deny Request</button>
+        </div>
+        : <p className="text-xs text-center py-1.5 rounded-xl capitalize" style={{ background: "#F2EDE5", color: "#8B7355" }}>
+          {booking.status === "approved" ? "✓ Approved" : booking.status === "rejected" ? "✕ Denied" : booking.status}
+        </p>
+      }
+
+      {/* Reject & Feedback Modal */}
+      {showRejectModal && (
+        <Modal onClose={() => setShowRejectModal(false)}>
+          <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: "#FEF2F2" }}>
+            <span className="text-xl">💬</span>
+          </div>
+          <h2 className="font-display text-xl font-semibold text-center mb-1" style={{ color: "#2C1810" }}>Deny Request & Provide Feedback</h2>
+          <p className="text-xs text-center mb-5" style={{ color: "#8B7355" }}>
+            Let <strong>{booking.client_name || booking.client_email}</strong> know why you're denying their request and suggest another time slot.
+          </p>
+
+          <p className="text-xs font-semibold mb-2" style={{ color: "#2C1810" }}>Quick feedback templates:</p>
+          <div className="space-y-1.5 mb-4">
+            {PRESETS.map((preset, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => setRejectFeedback(preset)}
+                className={`w-full text-left p-2.5 rounded-xl text-xs border transition-all ${rejectFeedback === preset ? "border-[#C4955A] bg-[#FFFBEB] font-medium" : "border-[#E8E0D5] bg-white hover:bg-[#F2EDE5]"}`}
+                style={{ color: "#2C1810" }}
+              >
+                {preset}
+              </button>
+            ))}
+          </div>
+
+          <div className="mb-6">
+            <label className="block text-xs font-semibold mb-1.5" style={{ color: "#2C1810" }}>Custom Note to Client:</label>
+            <textarea
+              rows={3}
+              value={rejectFeedback}
+              onChange={e => setRejectFeedback(e.target.value)}
+              placeholder="e.g. Please pick another time slot after 3:00 PM..."
+              className="w-full p-3 text-xs rounded-xl border outline-none"
+              style={{ borderColor: "#E8E0D5", background: "#FAF8F5" }}
+            />
+          </div>
+
+          <div className="flex gap-3">
+            <Btn variant="secondary" className="flex-1 py-3 text-xs" onClick={() => setShowRejectModal(false)}>Cancel</Btn>
+            <Btn variant="danger" className="flex-1 py-3 text-xs" disabled={updating} onClick={() => updateStatus("rejected", rejectFeedback)}>
+              {updating ? "Sending…" : "Confirm Denial & Send Feedback"}
+            </Btn>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
@@ -2160,24 +2477,24 @@ function RequestCard({ req, compact = false }: { req: typeof SALON_REQUESTS[0]; 
   const [status, setStatus] = useState(req.status);
 
   return (
-    <div className="rounded-2xl border p-4" style={{ background:"white", borderColor: status==="pending"?"#F5E6C8":"#E8E0D5" }}>
+    <div className="rounded-2xl border p-4" style={{ background: "white", borderColor: status === "pending" ? "#F5E6C8" : "#E8E0D5" }}>
       <div className="flex items-center gap-2.5 mb-2">
         <Avi initials={req.init} size="sm" />
         <div>
-          <p className="font-semibold text-sm" style={{ color:"#2C1810" }}>{req.client}</p>
-          <p className="text-xs" style={{ color:"#8B7355" }}>{req.service}</p>
+          <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>{req.client}</p>
+          <p className="text-xs" style={{ color: "#8B7355" }}>{req.service}</p>
         </div>
-        {!compact && <div className="ml-auto"><Badge status={status}/></div>}
+        {!compact && <div className="ml-auto"><Badge status={status} /></div>}
       </div>
-      <p className="text-xs mb-3" style={{ color:"#8B7355" }}>📅 {req.date} · 🕐 {req.time} · ⏱ {req.dur}</p>
+      <p className="text-xs mb-3" style={{ color: "#8B7355" }}>📅 {req.date} · 🕐 {req.time} · ⏱ {req.dur}</p>
       {status === "pending"
         ? <div className="flex gap-2">
-            <button onClick={() => setStatus("approved")} className="flex-1 py-2 rounded-xl text-xs font-semibold text-white transition-opacity hover:opacity-90" style={{ background:"#22C55E" }}>✓ Approve</button>
-            <button onClick={() => setStatus("rejected")} className="flex-1 py-2 rounded-xl text-xs font-semibold border transition-colors hover:bg-red-50" style={{ color:"#EF4444", borderColor:"#FECACA", background:"#FEF2F2" }}>✕ Reject</button>
-          </div>
-        : <p className="text-xs text-center py-1.5 rounded-xl" style={{ background:"#F2EDE5", color:"#8B7355" }}>
-            {status==="approved"?"✓ Approved":"✕ Rejected"}
-          </p>
+          <button onClick={() => setStatus("approved")} className="flex-1 py-2 rounded-xl text-xs font-semibold text-white transition-opacity hover:opacity-90" style={{ background: "#22C55E" }}>✓ Approve</button>
+          <button onClick={() => setStatus("rejected")} className="flex-1 py-2 rounded-xl text-xs font-semibold border transition-colors hover:bg-red-50" style={{ color: "#EF4444", borderColor: "#FECACA", background: "#FEF2F2" }}>✕ Reject</button>
+        </div>
+        : <p className="text-xs text-center py-1.5 rounded-xl" style={{ background: "#F2EDE5", color: "#8B7355" }}>
+          {status === "approved" ? "✓ Approved" : "✕ Rejected"}
+        </p>
       }
     </div>
   );
@@ -2187,36 +2504,97 @@ function RequestCard({ req, compact = false }: { req: typeof SALON_REQUESTS[0]; 
    APPOINTMENT REQUESTS  (Screen 19)
 ══════════════════════════════════════════════════════════ */
 function AppointmentRequestsPage() {
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState<"all" | "pending" | "approved" | "rejected">("all");
+
+  const loadBookings = async () => {
+    setLoading(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setLoading(false); return; }
+
+    const { data: salons } = await supabase.from("salons").select("id").eq("owner_id", user.id);
+    let res;
+    if (salons && salons.length > 0) {
+      const salonIds = salons.map((s: any) => s.id);
+      res = await supabase.from("bookings").select("*").in("salon_id", salonIds).order("created_at", { ascending: false });
+    } else {
+      res = await supabase.from("bookings").select("*").order("created_at", { ascending: false });
+    }
+    if (res.data) setBookings(res.data);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    loadBookings();
+  }, []);
+
+  const displayed = filter === "all" ? bookings : bookings.filter(b => b.status === filter);
+
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
-      <PageHeading label="Salon Owner" title="Appointment Requests" sub="Review and respond to incoming booking requests." />
-      <div className="space-y-4">
-        {SALON_REQUESTS.map(r => (
-          <div key={r.id} className="rounded-2xl border overflow-hidden" style={{ background:"white", borderColor: r.status==="pending"?"#F5E6C8":"#E8E0D5" }}>
-            <div className="p-5">
-              <div className="flex items-start justify-between gap-4 mb-4">
-                <div className="flex items-center gap-3">
-                  <Avi initials={r.init} />
-                  <div>
-                    <h3 className="font-semibold" style={{ color:"#2C1810" }}>{r.client}</h3>
-                    <p className="text-sm" style={{ color:"#8B7355" }}>{r.service}</p>
-                  </div>
-                </div>
-                <Badge status={r.status}/>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
-                {[["📅 Date",r.date],["🕐 Time",r.time],["⏱ Duration",r.dur],["💰 Price",`ZMK ${r.price}`]].map(([l,v]) => (
-                  <div key={l} className="p-3 rounded-xl" style={{ background:"#F2EDE5" }}>
-                    <p className="text-[11px]" style={{ color:"#8B7355" }}>{l}</p>
-                    <p className="font-semibold text-sm mt-0.5" style={{ color:"#2C1810" }}>{v}</p>
-                  </div>
-                ))}
-              </div>
-              <RequestCard req={r} />
-            </div>
-          </div>
+      <div className="flex items-center justify-between mb-8">
+        <PageHeading label="Salon Owner" title="Booking Requests" sub="Review and respond to all incoming booking requests from clients." />
+        <button onClick={loadBookings} className="px-4 py-2 rounded-xl text-xs font-semibold border transition-all hover:bg-[#F2EDE5]" style={{ borderColor: "#E8E0D5", color: "#8B7355" }}>
+          🔄 Refresh
+        </button>
+      </div>
+
+      {/* Filter pills */}
+      <div className="flex gap-2 mb-8 flex-wrap">
+        {(["all", "pending", "approved", "rejected"] as const).map(f => (
+          <button key={f} onClick={() => setFilter(f)}
+            className={`px-4 py-1.5 rounded-full text-xs font-semibold border capitalize transition-all ${filter === f ? "text-white border-transparent" : "hover:bg-[#F2EDE5] border-[#E8E0D5]"
+              }`}
+            style={{ background: filter === f ? "#2C1810" : "transparent", color: filter === f ? "white" : "#8B7355" }}>
+            {f} {f !== "all" && `(${bookings.filter(b => b.status === f).length})`}
+          </button>
         ))}
       </div>
+
+      {loading ? (
+        <div className="space-y-4">{[1, 2, 3].map(i => <div key={i} className="h-36 rounded-2xl bg-[#F2EDE5] animate-pulse" />)}</div>
+      ) : displayed.length === 0 ? (
+        <div className="text-center py-20 border-2 border-dashed rounded-3xl" style={{ borderColor: "#E8E0D5" }}>
+          <p className="text-4xl mb-3">{filter === "pending" ? "🎉" : "📋"}</p>
+          <p className="font-semibold" style={{ color: "#2C1810" }}>{filter === "pending" ? "No pending requests!" : "No bookings found"}</p>
+          <p className="text-sm mt-1" style={{ color: "#8B7355" }}>{filter === "pending" ? "You're all caught up." : `No ${filter} bookings yet.`}</p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {displayed.map(b => (
+            <div key={b.id} className="rounded-2xl border overflow-hidden" style={{ background: "white", borderColor: b.status === "pending" ? "#F5E6C8" : "#E8E0D5" }}>
+              <div className="p-5">
+                {b.status === "pending" && (
+                  <div className="flex items-center gap-1.5 mb-3">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                    <span className="text-[10px] font-bold uppercase tracking-wide" style={{ color: "#B45309" }}>New</span>
+                  </div>
+                )}
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-3">
+                    <Avi initials={(b.client_name || "??").split(" ").map((w: string) => w[0]).join("").toUpperCase().slice(0, 2)} />
+                    <div>
+                      <h3 className="font-semibold" style={{ color: "#2C1810" }}>{b.client_name || b.client_email}</h3>
+                      <p className="text-sm" style={{ color: "#8B7355" }}>{b.service_name}</p>
+                    </div>
+                  </div>
+                  <Badge status={b.status} />
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+                  {[["📅 Date", b.date], ["🕐 Time", b.time], ["⏱ Duration", b.service_dur], ["💰 Price", `ZMK ${b.service_price}`]].map(([l, v]) => (
+                    <div key={l} className="p-3 rounded-xl" style={{ background: "#F2EDE5" }}>
+                      <p className="text-[11px]" style={{ color: "#8B7355" }}>{l}</p>
+                      <p className="font-semibold text-sm mt-0.5" style={{ color: "#2C1810" }}>{v}</p>
+                    </div>
+                  ))}
+                </div>
+                <LiveRequestCard booking={b} onUpdate={updated => setBookings(prev => prev.map(p => p.id === updated.id ? updated : p))} />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -2225,52 +2603,52 @@ function AppointmentRequestsPage() {
    SALON CALENDAR  (Screen 20)
 ══════════════════════════════════════════════════════════ */
 function SalonCalendarPage() {
-  const [calView, setCalView] = useState<"day"|"week">("day");
+  const [calView, setCalView] = useState<"day" | "week">("day");
 
   const daySlots = [
-    { time:"09:00", entry:null },
-    { time:"09:30", entry:null },
-    { time:"10:00", entry:{ name:"Sarah Mensah",  svc:"Box Braids",    bg:"#FFF8EE", brd:"#F5E6C8" } },
-    { time:"10:30", entry:{ name:"Sarah Mensah",  svc:"Box Braids",    bg:"#FFF8EE", brd:"#F5E6C8" } },
-    { time:"11:00", entry:null },
-    { time:"11:30", entry:{ name:"John Asante",   svc:"Haircut",       bg:"#F0FDF4", brd:"#BBF7D0" } },
-    { time:"12:00", entry:null },
-    { time:"12:30", entry:{ name:"Amara Osei",    svc:"Cornrows",      bg:"#FAF2EE", brd:"#EACDBE" } },
-    { time:"13:00", entry:{ name:"Amara Osei",    svc:"Cornrows",      bg:"#FAF2EE", brd:"#EACDBE" } },
-    { time:"13:30", entry:null },
-    { time:"14:00", entry:{ name:"Fatima Diallo", svc:"Weaving",       bg:"#FFF8EE", brd:"#F5E6C8" } },
-    { time:"14:30", entry:{ name:"Fatima Diallo", svc:"Weaving",       bg:"#FFF8EE", brd:"#F5E6C8" } },
-    { time:"15:00", entry:null },
-    { time:"15:30", entry:{ name:"Nana Boateng",  svc:"Hair Treatment",bg:"#F0FDF4", brd:"#BBF7D0" } },
-    { time:"16:00", entry:null },
-    { time:"16:30", entry:null },
+    { time: "09:00", entry: null },
+    { time: "09:30", entry: null },
+    { time: "10:00", entry: { name: "Sarah Mensah", svc: "Box Braids", bg: "#FFF8EE", brd: "#F5E6C8" } },
+    { time: "10:30", entry: { name: "Sarah Mensah", svc: "Box Braids", bg: "#FFF8EE", brd: "#F5E6C8" } },
+    { time: "11:00", entry: null },
+    { time: "11:30", entry: { name: "John Asante", svc: "Haircut", bg: "#F0FDF4", brd: "#BBF7D0" } },
+    { time: "12:00", entry: null },
+    { time: "12:30", entry: { name: "Amara Osei", svc: "Cornrows", bg: "#FAF2EE", brd: "#EACDBE" } },
+    { time: "13:00", entry: { name: "Amara Osei", svc: "Cornrows", bg: "#FAF2EE", brd: "#EACDBE" } },
+    { time: "13:30", entry: null },
+    { time: "14:00", entry: { name: "Fatima Diallo", svc: "Weaving", bg: "#FFF8EE", brd: "#F5E6C8" } },
+    { time: "14:30", entry: { name: "Fatima Diallo", svc: "Weaving", bg: "#FFF8EE", brd: "#F5E6C8" } },
+    { time: "15:00", entry: null },
+    { time: "15:30", entry: { name: "Nana Boateng", svc: "Hair Treatment", bg: "#F0FDF4", brd: "#BBF7D0" } },
+    { time: "16:00", entry: null },
+    { time: "16:30", entry: null },
   ];
 
-  const weekDays = ["Mon 7","Tue 8","Wed 9","Thu 10","Fri 11"];
-  const weekData: (string|null)[][] = [
-    [null,"Kofi – Cut",null,"Sarah – Braids",null],
-    [null,"Kofi – Cut",null,"Sarah – Braids",null],
-    ["Amara – Cornrows",null,"Yemi – Weave",null,null],
-    ["Amara – Cornrows",null,"Yemi – Weave",null,null],
-    [null,null,"Yemi – Weave",null,"Nana – Treat"],
-    [null,null,null,null,"Nana – Treat"],
-    [null,null,null,null,null],
-    ["Fatima – Braids",null,null,"John – Cut",null],
-    ["Fatima – Braids",null,null,null,null],
-    ["Fatima – Braids",null,null,null,null],
-    [null,"Adwoa – Locs",null,null,null],
-    [null,"Adwoa – Locs",null,null,null],
+  const weekDays = ["Mon 7", "Tue 8", "Wed 9", "Thu 10", "Fri 11"];
+  const weekData: (string | null)[][] = [
+    [null, "Kofi – Cut", null, "Sarah – Braids", null],
+    [null, "Kofi – Cut", null, "Sarah – Braids", null],
+    ["Amara – Cornrows", null, "Yemi – Weave", null, null],
+    ["Amara – Cornrows", null, "Yemi – Weave", null, null],
+    [null, null, "Yemi – Weave", null, "Nana – Treat"],
+    [null, null, null, null, "Nana – Treat"],
+    [null, null, null, null, null],
+    ["Fatima – Braids", null, null, "John – Cut", null],
+    ["Fatima – Braids", null, null, null, null],
+    ["Fatima – Braids", null, null, null, null],
+    [null, "Adwoa – Locs", null, null, null],
+    [null, "Adwoa – Locs", null, null, null],
   ];
-  const weekTimes = ["09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30"];
+  const weekTimes = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30"];
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       <div className="flex items-center justify-between mb-8">
         <PageHeading label="Salon Owner" title="Appointment Calendar" />
-        <div className="flex items-center gap-2 p-1 rounded-2xl border" style={{ background:"white", borderColor:"#E8E0D5" }}>
-          {(["day","week"] as const).map(v => (
-            <button key={v} onClick={() => setCalView(v)} className={`px-5 py-2 rounded-xl text-sm font-semibold capitalize transition-all ${calView===v?"text-[#2C1810] shadow-sm":"text-[#8B7355] hover:text-[#2C1810]"}`}
-              style={{ background: calView===v?"white":"transparent" }}>
+        <div className="flex items-center gap-2 p-1 rounded-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
+          {(["day", "week"] as const).map(v => (
+            <button key={v} onClick={() => setCalView(v)} className={`px-5 py-2 rounded-xl text-sm font-semibold capitalize transition-all ${calView === v ? "text-[#2C1810] shadow-sm" : "text-[#8B7355] hover:text-[#2C1810]"}`}
+              style={{ background: calView === v ? "white" : "transparent" }}>
               {v}
             </button>
           ))}
@@ -2279,23 +2657,23 @@ function SalonCalendarPage() {
 
       {/* Day view */}
       {calView === "day" && (
-        <div className="rounded-3xl border overflow-hidden" style={{ background:"white", borderColor:"#E8E0D5" }}>
-          <div className="px-6 py-4 border-b flex items-center justify-between" style={{ borderColor:"#E8E0D5" }}>
+        <div className="rounded-3xl border overflow-hidden" style={{ background: "white", borderColor: "#E8E0D5" }}>
+          <div className="px-6 py-4 border-b flex items-center justify-between" style={{ borderColor: "#E8E0D5" }}>
             <button className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-[#F2EDE5] text-lg">‹</button>
-            <span className="font-semibold" style={{ color:"#2C1810" }}>Friday, September 5, 2026</span>
+            <span className="font-semibold" style={{ color: "#2C1810" }}>Friday, September 5, 2026</span>
             <button className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-[#F2EDE5] text-lg">›</button>
           </div>
           <div className="p-5 space-y-2">
             {daySlots.map(({ time, entry }) => (
               <div key={time} className="flex items-center gap-4">
-                <span className="text-xs font-mono w-12 text-right flex-shrink-0" style={{ color:"#B0967A" }}>{time}</span>
+                <span className="text-xs font-mono w-12 text-right flex-shrink-0" style={{ color: "#B0967A" }}>{time}</span>
                 <div className="flex-1">
                   {entry
-                    ? <div className="px-4 py-2.5 rounded-xl border text-sm" style={{ background:(entry as any).bg, borderColor:(entry as any).brd }}>
-                        <span className="font-semibold" style={{ color:"#2C1810" }}>{(entry as any).name}</span>
-                        <span className="ml-2 text-xs" style={{ color:"#8B7355" }}>— {(entry as any).svc}</span>
-                      </div>
-                    : <div className="px-4 py-2 rounded-xl text-xs" style={{ color:"#C4B09A", background:"#FAF7F2" }}>Available</div>
+                    ? <div className="px-4 py-2.5 rounded-xl border text-sm" style={{ background: (entry as any).bg, borderColor: (entry as any).brd }}>
+                      <span className="font-semibold" style={{ color: "#2C1810" }}>{(entry as any).name}</span>
+                      <span className="ml-2 text-xs" style={{ color: "#8B7355" }}>— {(entry as any).svc}</span>
+                    </div>
+                    : <div className="px-4 py-2 rounded-xl text-xs" style={{ color: "#C4B09A", background: "#FAF7F2" }}>Available</div>
                   }
                 </div>
               </div>
@@ -2306,20 +2684,20 @@ function SalonCalendarPage() {
 
       {/* Week view */}
       {calView === "week" && (
-        <div className="rounded-3xl border overflow-hidden" style={{ background:"white", borderColor:"#E8E0D5" }}>
-          <div className="grid" style={{ gridTemplateColumns:"56px repeat(5,1fr)" }}>
-            <div className="py-3 border-b border-r" style={{ borderColor:"#E8E0D5" }} />
+        <div className="rounded-3xl border overflow-hidden" style={{ background: "white", borderColor: "#E8E0D5" }}>
+          <div className="grid" style={{ gridTemplateColumns: "56px repeat(5,1fr)" }}>
+            <div className="py-3 border-b border-r" style={{ borderColor: "#E8E0D5" }} />
             {weekDays.map(d => (
-              <div key={d} className="py-3 border-b border-r last:border-r-0 text-center text-xs font-semibold" style={{ borderColor:"#E8E0D5", color:"#2C1810" }}>{d}</div>
+              <div key={d} className="py-3 border-b border-r last:border-r-0 text-center text-xs font-semibold" style={{ borderColor: "#E8E0D5", color: "#2C1810" }}>{d}</div>
             ))}
           </div>
           {weekData.map((row, ri) => (
-            <div key={ri} className="grid border-b last:border-b-0" style={{ gridTemplateColumns:"56px repeat(5,1fr)", borderColor:"#E8E0D5" }}>
-              <div className="py-2 border-r text-right pr-3 text-[11px] font-mono flex items-center justify-end" style={{ color:"#B0967A", borderColor:"#E8E0D5" }}>{weekTimes[ri]}</div>
+            <div key={ri} className="grid border-b last:border-b-0" style={{ gridTemplateColumns: "56px repeat(5,1fr)", borderColor: "#E8E0D5" }}>
+              <div className="py-2 border-r text-right pr-3 text-[11px] font-mono flex items-center justify-end" style={{ color: "#B0967A", borderColor: "#E8E0D5" }}>{weekTimes[ri]}</div>
               {row.map((cell, ci) => (
-                <div key={ci} className="p-1 border-r last:border-r-0 min-h-[38px]" style={{ borderColor:"#E8E0D5" }}>
+                <div key={ci} className="p-1 border-r last:border-r-0 min-h-[38px]" style={{ borderColor: "#E8E0D5" }}>
                   {cell && (
-                    <div className="w-full h-full rounded-lg px-2 py-1 text-[11px] font-medium" style={{ background:"#FFF8EE", color:"#2C1810", border:"1px solid #F5E6C8" }}>
+                    <div className="w-full h-full rounded-lg px-2 py-1 text-[11px] font-medium" style={{ background: "#FFF8EE", color: "#2C1810", border: "1px solid #F5E6C8" }}>
                       {cell}
                     </div>
                   )}
@@ -2338,7 +2716,7 @@ function SalonCalendarPage() {
 ══════════════════════════════════════════════════════════ */
 function ManageServicesPage() {
   const [svcs, setSvcs] = useState(SERVICES_LIST.map(s => ({ ...s, active: true })));
-  const [editId, setEditId] = useState<string|null>(null);
+  const [editId, setEditId] = useState<string | null>(null);
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-10">
@@ -2349,16 +2727,16 @@ function ManageServicesPage() {
 
       <div className="space-y-3">
         {svcs.map(s => (
-          <div key={s.id} className="rounded-2xl border p-4 sm:p-5" style={{ background:"white", borderColor:"#E8E0D5" }}>
+          <div key={s.id} className="rounded-2xl border p-4 sm:p-5" style={{ background: "white", borderColor: "#E8E0D5" }}>
             {editId === s.id
               ? (
                 <div className="space-y-3">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <input defaultValue={s.name} className="px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A]" style={{ borderColor:"#E8E0D5", color:"#2C1810" }} />
-                    <input defaultValue={s.dur}  className="px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A]" style={{ borderColor:"#E8E0D5", color:"#2C1810" }} />
-                    <input defaultValue={`${s.price}`} type="number" className="px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A]" style={{ borderColor:"#E8E0D5", color:"#2C1810" }} />
+                    <input defaultValue={s.name} className="px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A]" style={{ borderColor: "#E8E0D5", color: "#2C1810" }} />
+                    <input defaultValue={s.dur} className="px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A]" style={{ borderColor: "#E8E0D5", color: "#2C1810" }} />
+                    <input defaultValue={`${s.price}`} type="number" className="px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A]" style={{ borderColor: "#E8E0D5", color: "#2C1810" }} />
                   </div>
-                  <textarea defaultValue={s.desc} rows={2} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] resize-none" style={{ borderColor:"#E8E0D5", color:"#2C1810" }} />
+                  <textarea defaultValue={s.desc} rows={2} className="w-full px-3 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] resize-none" style={{ borderColor: "#E8E0D5", color: "#2C1810" }} />
                   <div className="flex gap-2">
                     <Btn variant="primary" className="px-5 py-2 text-xs" onClick={() => setEditId(null)}>Save</Btn>
                     <Btn variant="secondary" className="px-5 py-2 text-xs" onClick={() => setEditId(null)}>Cancel</Btn>
@@ -2369,21 +2747,21 @@ function ManageServicesPage() {
                 <div className="flex items-center gap-4">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <h3 className="font-semibold text-sm" style={{ color:"#2C1810" }}>{s.name}</h3>
-                      <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background:"#F2EDE5", color:"#8B7355" }}>{s.dur}</span>
-                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-semibold ${s.active?"bg-green-50 text-green-700":"bg-gray-100 text-gray-500"}`}>{s.active?"Active":"Hidden"}</span>
+                      <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>{s.name}</h3>
+                      <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background: "#F2EDE5", color: "#8B7355" }}>{s.dur}</span>
+                      <span className={`text-[11px] px-2 py-0.5 rounded-full font-semibold ${s.active ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}>{s.active ? "Active" : "Hidden"}</span>
                     </div>
-                    <p className="text-xs" style={{ color:"#8B7355" }}>{s.desc}</p>
+                    <p className="text-xs" style={{ color: "#8B7355" }}>{s.desc}</p>
                   </div>
                   <div className="flex items-center gap-4 flex-shrink-0">
-                    <span className="font-bold text-sm" style={{ color:"#C4955A" }}>ZMK {s.price}</span>
+                    <span className="font-bold text-sm" style={{ color: "#C4955A" }}>ZMK {s.price}</span>
                     {/* Toggle */}
-                    <button onClick={() => setSvcs(sv => sv.map(x => x.id===s.id?{...x,active:!x.active}:x))}
+                    <button onClick={() => setSvcs(sv => sv.map(x => x.id === s.id ? { ...x, active: !x.active } : x))}
                       className="w-11 h-6 rounded-full relative transition-colors"
-                      style={{ background: s.active?"#2C1810":"#E8E0D5" }}>
-                      <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-all ${s.active?"left-[22px]":"left-0.5"}`} />
+                      style={{ background: s.active ? "#2C1810" : "#E8E0D5" }}>
+                      <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-all ${s.active ? "left-[22px]" : "left-0.5"}`} />
                     </button>
-                    <button className="text-xs font-semibold hover:opacity-60 transition-opacity" style={{ color:"#C4955A" }} onClick={() => setEditId(s.id)}>Edit</button>
+                    <button className="text-xs font-semibold hover:opacity-60 transition-opacity" style={{ color: "#C4955A" }} onClick={() => setEditId(s.id)}>Edit</button>
                   </div>
                 </div>
               )
@@ -2402,8 +2780,8 @@ function SalonProfilePage() {
   const [form, setForm] = useState({
     name: "", city: "", phone: "", email: "", hours: "", instagram: "", about: "",
   });
-  const [loading, setLoading]   = useState(false);
-  const [saveMsg, setSaveMsg]   = useState<{ type: "ok" | "err"; text: string } | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [saveMsg, setSaveMsg] = useState<{ type: "ok" | "err"; text: string } | null>(null);
   const [fetching, setFetching] = useState(true);
 
   // Load existing salon profile on mount
@@ -2418,13 +2796,13 @@ function SalonProfilePage() {
         .single();
       if (data) {
         setForm({
-          name:      data.name      || "",
-          city:      data.city      || "",
-          phone:     data.phone     || "",
-          email:     data.email     || "",
-          hours:     data.hours     || "",
+          name: data.name || "",
+          city: data.city || "",
+          phone: data.phone || "",
+          email: data.email || "",
+          hours: data.hours || "",
           instagram: data.instagram || "",
-          about:     data.about     || "",
+          about: data.about || "",
         });
       }
       setFetching(false);
@@ -2439,13 +2817,13 @@ function SalonProfilePage() {
     if (!user) { setSaveMsg({ type: "err", text: "Not logged in." }); setLoading(false); return; }
 
     const { error } = await supabase.from("salons").upsert({
-      owner_id:  user.id,
-      name:      form.name,
-      city:      form.city,
-      phone:     form.phone,
-      email:     form.email,
-      hours:     form.hours,
-      about:     form.about,
+      owner_id: user.id,
+      name: form.name,
+      city: form.city,
+      phone: form.phone,
+      email: form.email,
+      hours: form.hours,
+      about: form.about,
       updated_at: new Date().toISOString(),
     }, { onConflict: "owner_id" });
 
@@ -2461,7 +2839,7 @@ function SalonProfilePage() {
   if (fetching) return (
     <div className="flex justify-center items-center min-h-[40vh]">
       <svg className="animate-spin" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4955A" strokeWidth="2.5">
-        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+        <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
       </svg>
     </div>
   );
@@ -2471,11 +2849,11 @@ function SalonProfilePage() {
       <PageHeading label="Salon Owner" title="Salon Profile" sub="How clients see your salon on StyleHub." />
 
       <form onSubmit={handleSave}>
-        <div className="rounded-3xl border overflow-hidden mb-6" style={{ background:"white", borderColor:"#E8E0D5" }}>
+        <div className="rounded-3xl border overflow-hidden mb-6" style={{ background: "white", borderColor: "#E8E0D5" }}>
           {/* Cover placeholder */}
-          <div className="relative h-44 overflow-hidden" style={{ background:"linear-gradient(135deg,#F2EDE5 0%,#E8D5C0 100%)" }}>
+          <div className="relative h-44 overflow-hidden" style={{ background: "linear-gradient(135deg,#F2EDE5 0%,#E8D5C0 100%)" }}>
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-sm font-medium" style={{ color:"#8B7355" }}>Cover photo coming soon</p>
+              <p className="text-sm font-medium" style={{ color: "#8B7355" }}>Cover photo coming soon</p>
             </div>
           </div>
 
@@ -2483,7 +2861,7 @@ function SalonProfilePage() {
             {/* Avatar placeholder */}
             <div className="flex items-end gap-4 -mt-12 mb-6">
               <div className="w-20 h-20 rounded-2xl border-4 flex items-center justify-center flex-shrink-0"
-                style={{ background:"linear-gradient(135deg,#C4955A 0%,#2C1810 100%)", borderColor:"white" }}>
+                style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)", borderColor: "white" }}>
                 <span className="text-white text-2xl font-bold">
                   {form.name ? form.name.charAt(0).toUpperCase() : "S"}
                 </span>
@@ -2492,14 +2870,14 @@ function SalonProfilePage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {([
-                { label:"Salon / Barbershop Name", key:"name",      placeholder:"e.g. Glam Studio",       span:2 },
-                { label:"City / Location",          key:"city",      placeholder:"e.g. Lusaka, Zambia",    span:1 },
-                { label:"Phone",                    key:"phone",     placeholder:"e.g. +260 97 123 4567",  span:1 },
-                { label:"Business Email",            key:"email",     placeholder:"hello@mysalon.zm",       span:1 },
-                { label:"Opening Hours",             key:"hours",     placeholder:"e.g. 9:00 AM – 6:00 PM",span:1 },
-              ] as { label:string; key:keyof typeof form; placeholder:string; span:number }[]).map(({ label, key, placeholder, span }) => (
+                { label: "Salon / Barbershop Name", key: "name", placeholder: "e.g. Glam Studio", span: 2 },
+                { label: "City / Location", key: "city", placeholder: "e.g. Lusaka, Zambia", span: 1 },
+                { label: "Phone", key: "phone", placeholder: "e.g. +260 97 123 4567", span: 1 },
+                { label: "Business Email", key: "email", placeholder: "hello@mysalon.zm", span: 1 },
+                { label: "Opening Hours", key: "hours", placeholder: "e.g. 9:00 AM – 6:00 PM", span: 1 },
+              ] as { label: string; key: keyof typeof form; placeholder: string; span: number }[]).map(({ label, key, placeholder, span }) => (
                 <div key={key} className={span === 2 ? "sm:col-span-2" : ""}>
-                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>{label}</label>
+                  <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>{label}</label>
                   <input
                     id={`salon-profile-${key}`}
                     type="text"
@@ -2507,27 +2885,27 @@ function SalonProfilePage() {
                     value={form[key]}
                     onChange={e => setForm(f => ({ ...f, [key]: e.target.value }))}
                     className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors"
-                    style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }}
+                    style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }}
                   />
                 </div>
               ))}
               <div className="sm:col-span-2">
-                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color:"#8B7355" }}>About the Salon</label>
+                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>About the Salon</label>
                 <textarea id="salon-profile-about" placeholder="Tell clients what makes your salon special…"
                   value={form.about} onChange={e => setForm(f => ({ ...f, about: e.target.value }))}
                   rows={4} className="w-full px-4 py-3 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors resize-none"
-                  style={{ borderColor:"#E8E0D5", background:"#FAF7F2", color:"#2C1810" }} />
+                  style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
               </div>
             </div>
 
             {saveMsg && (
               <div className={`mt-4 flex items-center gap-2.5 px-4 py-3 rounded-xl text-sm`}
                 style={saveMsg.type === "ok"
-                  ? { background:"#F0FDF4", border:"1px solid #BBF7D0", color:"#166534" }
-                  : { background:"#FEF2F2", border:"1px solid #FECACA", color:"#B91C1C" }}>
+                  ? { background: "#F0FDF4", border: "1px solid #BBF7D0", color: "#166534" }
+                  : { background: "#FEF2F2", border: "1px solid #FECACA", color: "#B91C1C" }}>
                 {saveMsg.type === "ok"
-                  ? <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                  : <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  ? <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
+                  : <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" /></svg>
                 }
                 {saveMsg.text}
               </div>
@@ -2536,7 +2914,7 @@ function SalonProfilePage() {
             <div className="flex gap-3 mt-6">
               <button type="submit" disabled={loading}
                 className="px-8 py-3.5 text-sm font-semibold rounded-2xl transition-all active:scale-[.98] disabled:opacity-60"
-                style={{ background:"#2C1810", color:"#FAF7F2" }}>
+                style={{ background: "#2C1810", color: "#FAF7F2" }}>
                 {loading ? "Saving…" : "Save Changes"}
               </button>
             </div>
@@ -2561,14 +2939,14 @@ function AuthModal({
   onClose: () => void;
   defaultTab?: AuthTab;
 }) {
-  const [tab, setTab]           = useState<AuthTab>(defaultTab);
+  const [tab, setTab] = useState<AuthTab>(defaultTab);
   const [fullName, setFullName] = useState("");
-  const [email, setEmail]       = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPw, setShowPw]     = useState(false);
-  const [loading, setLoading]   = useState(false);
-  const [error, setError]       = useState<string | null>(null);
-  const [success, setSuccess]   = useState<string | null>(null);
+  const [showPw, setShowPw] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const switchTab = (t: AuthTab) => {
     setTab(t);
@@ -2808,13 +3186,14 @@ const PROTECTED_VIEWS: View[] = [
 ];
 
 export default function App() {
-  const [view,          setView]         = useState<View>("home");
-  const [appts,         setAppts]        = useState<Appt[]>(APPTS_INIT);
-  const [detail,        setDetail]       = useState<Appt|null>(null);
-  const [selectedSalon, setSelectedSalon]= useState<any>(null);
-  const [authUser,   setAuthUser]  = useState<User | null>(null);
-  const [authModal,  setAuthModal] = useState<{ open: boolean; defaultTab: "signin" | "signup" }>({ open: false, defaultTab: "signin" });
-  const [authReady,  setAuthReady] = useState(false); // prevent flicker before session restore
+  const [view, setView] = useState<View>("home");
+  const [appts, setAppts] = useState<Appt[]>(APPTS_INIT);
+  const [detail, setDetail] = useState<Appt | null>(null);
+  const [selectedSalon, setSelectedSalon] = useState<any>(null);
+  const [authUser, setAuthUser] = useState<User | null>(null);
+  const [authModal, setAuthModal] = useState<{ open: boolean; defaultTab: "signin" | "signup" }>({ open: false, defaultTab: "signin" });
+  const [authReady, setAuthReady] = useState(false); // prevent flicker before session restore
+  const [isOwner, setIsOwner] = useState(false);
 
   // Restore session from localStorage on mount
   useEffect(() => {
@@ -2829,6 +3208,25 @@ export default function App() {
 
     return () => listener.subscription.unsubscribe();
   }, []);
+
+  // Check if logged-in user owns any salons/barbershops
+  useEffect(() => {
+    if (!authUser) {
+      setIsOwner(false);
+      return;
+    }
+    let isMounted = true;
+    (async () => {
+      const { data: salons } = await supabase
+        .from("salons")
+        .select("id")
+        .eq("owner_id", authUser.id);
+
+      const hasSalon = (salons && salons.length > 0) || authUser.user_metadata?.role === "owner" || authUser.user_metadata?.is_owner === true;
+      if (isMounted) setIsOwner(hasSalon);
+    })();
+    return () => { isMounted = false; };
+  }, [authUser, view]);
 
   const unread = NOTIFS.filter(n => !n.read).length;
 
@@ -2845,7 +3243,6 @@ export default function App() {
   const handleAuthSuccess = (user: User) => {
     setAuthUser(user);
     setAuthModal({ open: false, defaultTab: "signin" });
-    // If they were trying to go somewhere, send them to find-salon as default
     setView("find-salon");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -2853,40 +3250,40 @@ export default function App() {
   const handleSignOut = async () => {
     await signOut();
     setAuthUser(null);
+    setIsOwner(false);
     setView("home");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const noFooter: View[] = ["booking","booking-sent","salon-login"];
-  const salonOwnerViews: View[] = ["salon-login","salon-dashboard","appointment-requests","salon-calendar","manage-services","salon-profile"];
+  const noFooter: View[] = ["booking", "booking-sent", "salon-login"];
+  const salonOwnerViews: View[] = ["salon-login", "salon-dashboard", "appointment-requests", "salon-calendar", "manage-services", "salon-profile"];
   const isSalonOwner = salonOwnerViews.includes(view);
 
   function renderView() {
     switch (view) {
-      case "home":                  return <HomePage go={go} />;
-      case "find-salon":            return <FindSalonPage go={go} onSelectSalon={setSelectedSalon} />;
-      case "services":              return <ServicesPage go={go} />;
-      case "salon-detail":          return <SalonDetailPage salon={selectedSalon} go={go} />;
-      case "booking":               return <BookingPage go={go} />;
-      case "booking-sent":          return <BookingSentPage go={go} />;
-      case "my-appointments":       return <MyAppointmentsPage appts={appts} setAppts={setAppts} go={go} setDetail={setDetail} />;
-      case "appointment-detail":    return <ApptDetailPage appt={detail} go={go} />;
-      case "notifications":         return <NotificationsPage />;
-      case "client-dashboard":      return <ClientDashboardPage appts={appts} go={go} setDetail={setDetail} />;
-      case "client-profile":        return <ClientProfilePage appts={appts} go={go} />;
-      case "reviews":               return <ReviewsPage />;
-      case "salon-login":           return <SalonLoginPage go={go} />;
-      case "salon-dashboard":       return <SalonDashboardPage go={go} />;
-      case "appointment-requests":  return <AppointmentRequestsPage />;
-      case "salon-calendar":        return <SalonCalendarPage />;
-      case "manage-services":       return <ManageServicesPage />;
-      case "salon-profile":         return <SalonProfilePage />;
-      default:                      return <HomePage go={go} />;
+      case "home": return <HomePage go={go} />;
+      case "find-salon": return <FindSalonPage go={go} onSelectSalon={setSelectedSalon} />;
+      case "services": return <ServicesPage go={go} />;
+      case "salon-detail": return <SalonDetailPage salon={selectedSalon} go={go} />;
+      case "booking": return <BookingPage go={go} salon={selectedSalon} />;
+      case "booking-sent": return <BookingSentPage go={go} />;
+      case "my-appointments": return <MyAppointmentsPage appts={appts} setAppts={setAppts} go={go} setDetail={setDetail} />;
+      case "appointment-detail": return <ApptDetailPage appt={detail} go={go} />;
+      case "notifications": return <NotificationsPage />;
+      case "client-dashboard": return <ClientDashboardPage appts={appts} go={go} setDetail={setDetail} />;
+      case "client-profile": return <ClientProfilePage appts={appts} go={go} />;
+      case "reviews": return <ReviewsPage />;
+      case "salon-login": return <SalonLoginPage go={go} />;
+      case "salon-dashboard": return <SalonDashboardPage go={go} />;
+      case "appointment-requests": return <AppointmentRequestsPage />;
+      case "salon-calendar": return <SalonCalendarPage />;
+      case "manage-services": return <ManageServicesPage />;
+      case "salon-profile": return <SalonProfilePage />;
+      default: return <HomePage go={go} />;
     }
   }
 
   if (!authReady) {
-    // Minimal loading state to prevent flicker while session is being restored
     return (
       <div className="min-h-screen flex items-center justify-center" style={{ background: "#FAF7F2" }}>
         <div className="flex flex-col items-center gap-3">
@@ -2903,24 +3300,24 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-full" style={{ background:"#FAF7F2" }}>
-      <Nav current={view} go={go} unread={unread} />
+    <div className="min-h-full" style={{ background: "#FAF7F2" }}>
+      <Nav current={view} go={go} unread={unread} isOwner={isOwner} />
 
       {/* Salon owner sub-nav strip */}
       {isSalonOwner && view !== "salon-login" && (
-        <div className="fixed top-16 inset-x-0 z-40 border-b flex items-center gap-1 px-6 py-2 glass" style={{ borderColor:"#E8E0D5" }}>
+        <div className="fixed top-16 inset-x-0 z-40 border-b flex items-center gap-1 px-6 py-2 glass" style={{ borderColor: "#E8E0D5" }}>
           {([
-            { label:"Dashboard",  v:"salon-dashboard"       as View },
-            { label:"Requests",   v:"appointment-requests"  as View },
-            { label:"Calendar",   v:"salon-calendar"        as View },
-            { label:"Services",   v:"manage-services"       as View },
-            { label:"Profile",    v:"salon-profile"         as View },
+            { label: "Dashboard", v: "salon-dashboard" as View },
+            { label: "Requests", v: "appointment-requests" as View },
+            { label: "Calendar", v: "salon-calendar" as View },
+            { label: "Services", v: "manage-services" as View },
+            { label: "Profile", v: "salon-profile" as View },
           ]).map(({ label, v }) => (
-            <button key={v} onClick={() => go(v)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-colors ${view===v?"bg-[#2C1810] text-white":"text-[#8B7355] hover:bg-[#F2EDE5]"}`}>
+            <button key={v} onClick={() => go(v)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-colors ${view === v ? "bg-[#2C1810] text-white" : "text-[#8B7355] hover:bg-[#F2EDE5]"}`}>
               {label}
             </button>
           ))}
-          <button onClick={() => go("home")} className="ml-auto text-xs font-semibold hover:opacity-60 transition-opacity" style={{ color:"#8B7355" }}>
+          <button onClick={() => go("home")} className="ml-auto text-xs font-semibold hover:opacity-60 transition-opacity" style={{ color: "#8B7355" }}>
             ← Back to Client View
           </button>
         </div>
