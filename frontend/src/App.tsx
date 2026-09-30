@@ -277,8 +277,8 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
         </div>
 
         {/* Right actions */}
-        <div className="flex items-center gap-1.5">
-          <button onClick={() => go("notifications")} className="relative w-9 h-9 flex items-center justify-center rounded-xl hover:bg-[#F2EDE5] transition-colors">
+        <div className="flex items-center gap-2">
+          <button onClick={() => go("notifications")} className="relative w-9 h-9 flex items-center justify-center rounded-xl hover:bg-[#F2EDE5] transition-colors" title="Notifications">
             <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#5C3A21" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
               <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
               <path d="M13.73 21a2 2 0 0 1-3.46 0" />
@@ -294,25 +294,28 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
             <div className="w-full h-full flex items-center justify-center text-xs font-bold text-white">ZA</div>
           </button>
 
-          {isOwner ? (
-            <Btn variant="gold" className="px-3.5 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-[13px]" onClick={() => go("salon-dashboard")}>
-              💈 Salon Portal
+          {/* Desktop Only Buttons */}
+          <div className="hidden lg:flex items-center gap-2">
+            {isOwner ? (
+              <Btn variant="gold" className="px-4 py-2 text-[13px]" onClick={() => go("salon-dashboard")}>
+                💈 Salon Portal
+              </Btn>
+            ) : (
+              <button onClick={() => go("client-profile-add-salon")} className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-[#C4955A] bg-[#FFFBEB] hover:bg-[#F2EDE5] border border-[#F5E6C8] transition-all">
+                💈 Register Salon
+              </button>
+            )}
+
+            <Btn variant="primary" className="px-5 py-2 text-[13px]" onClick={() => go("find-salon")}>
+              Book Appointment
             </Btn>
-          ) : (
-            <button onClick={() => go("client-profile-add-salon")} className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-[#C4955A] bg-[#FFFBEB] hover:bg-[#F2EDE5] border border-[#F5E6C8] transition-all">
-              💈 Register Salon
-            </button>
-          )}
+          </div>
 
-          <Btn variant="primary" className="hidden md:flex px-5 py-2 text-[13px]" onClick={() => go("find-salon")}>
-            Book Appointment
-          </Btn>
-
-          {/* Hamburger */}
-          <button onClick={() => setOpen(!open)} className="lg:hidden w-9 h-9 flex items-center justify-center rounded-xl hover:bg-[#F2EDE5] transition-colors">
+          {/* Hamburger Menu Icon */}
+          <button onClick={() => setOpen(!open)} className="lg:hidden w-10 h-10 flex items-center justify-center rounded-xl bg-[#F2EDE5] hover:bg-[#E8E0D5] text-[#2C1810] transition-colors" title="Toggle Menu">
             {open
-              ? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
-              : <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
+              ? <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              : <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round"><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
             }
           </button>
         </div>
@@ -320,26 +323,33 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
 
       {/* Mobile dropdown */}
       {open && (
-        <div className="lg:hidden border-t px-4 py-3 space-y-2 anim-down" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
+        <div className="lg:hidden border-t px-4 py-4 space-y-2.5 anim-down shadow-xl" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
           {navLinks.map(l => (
             <button key={l.view} onClick={() => { go(l.view); setOpen(false); }}
               className={`w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-colors ${current === l.view ? "bg-[#F2EDE5] text-[#2C1810]" : "text-[#8B7355] hover:bg-[#F2EDE5]"}`}>
               {l.label}
             </button>
           ))}
-          {isOwner ? (
-            <Btn variant="gold" className="w-full py-3 mt-2 text-sm" onClick={() => { go("salon-dashboard"); setOpen(false); }}>
-              💈 Salon Owner Dashboard
+
+          <div className="border-t pt-3 mt-2 space-y-2" style={{ borderColor: "#E8E0D5" }}>
+            {isOwner ? (
+              <Btn variant="gold" className="w-full py-3.5 text-sm font-semibold justify-center" onClick={() => { go("salon-dashboard"); setOpen(false); }}>
+                💈 Salon Owner Dashboard
+              </Btn>
+            ) : (
+              <button
+                onClick={() => { go("client-profile-add-salon"); setOpen(false); }}
+                className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-bold text-[#C4955A] bg-[#FFFBEB] border border-[#F5E6C8] hover:bg-[#F2EDE5] flex items-center justify-between shadow-sm active:scale-[0.98] transition-all"
+              >
+                <span className="flex items-center gap-2">💈 <span>Register New Salon / Barbershop</span></span>
+                <span>→</span>
+              </button>
+            )}
+
+            <Btn variant="primary" className="w-full py-3.5 text-sm font-semibold justify-center" onClick={() => { go("find-salon"); setOpen(false); }}>
+              Book Appointment
             </Btn>
-          ) : (
-            <button onClick={() => { go("client-profile-add-salon"); setOpen(false); }} className="w-full text-left px-4 py-3.5 rounded-xl text-sm font-semibold text-[#C4955A] bg-[#FFFBEB] border border-[#F5E6C8] hover:bg-[#F2EDE5] mt-1 flex items-center justify-between shadow-sm">
-              <span className="flex items-center gap-2">💈 <span>Register New Salon / Barbershop</span></span>
-              <span className="text-xs">→</span>
-            </button>
-          )}
-          <Btn variant="primary" className="w-full py-3 mt-1 text-sm" onClick={() => { go("find-salon"); setOpen(false); }}>
-            Book Appointment
-          </Btn>
+          </div>
         </div>
       )}
     </nav>
@@ -3335,7 +3345,7 @@ function AuthModal({
 const PROTECTED_VIEWS: View[] = [
   "find-salon", "services", "salon-detail", "booking", "booking-sent",
   "my-appointments", "appointment-detail", "notifications",
-  "client-dashboard", "client-profile", "reviews",
+  "client-dashboard", "client-profile", "client-profile-add-salon", "reviews",
 ];
 
 export default function App() {
@@ -3425,6 +3435,7 @@ export default function App() {
       case "notifications": return <NotificationsPage />;
       case "client-dashboard": return <ClientDashboardPage appts={appts} go={go} setDetail={setDetail} />;
       case "client-profile": return <ClientProfilePage appts={appts} go={go} />;
+      case "client-profile-add-salon": return <ClientProfilePage appts={appts} go={go} autoOpenForm={true} />;
       case "reviews": return <ReviewsPage />;
       case "salon-login": return <SalonLoginPage go={go} />;
       case "salon-dashboard": return <SalonDashboardPage go={go} />;
@@ -3498,7 +3509,7 @@ export default function App() {
         </div>
       )}
 
-      <div style={{ paddingTop: isSalonOwner && view !== "salon-login" ? "6.5rem" : "4rem" }}>
+      <div className="pb-20 lg:pb-0" style={{ paddingTop: isSalonOwner && view !== "salon-login" ? "6.5rem" : "4rem" }}>
         {renderView()}
       </div>
 
