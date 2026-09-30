@@ -1705,8 +1705,8 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
 
   // ── Business section ─────────────────────────────────────
   const [salons, setSalons] = useState<any[]>([]);
-  const [bizOpen, setBizOpen] = useState(false);
-  const [showForm, setShowForm] = useState(false);
+  const [bizOpen, setBizOpen] = useState(autoOpenForm);
+  const [showForm, setShowForm] = useState(autoOpenForm);
   const [formId, setFormId] = useState<string | null>(null);
   const [bizForm, setBizForm] = useState({
     name: "", city: "", phone: "", email: "", hours: "", about: "",
@@ -3345,7 +3345,7 @@ function AuthModal({
 const PROTECTED_VIEWS: View[] = [
   "find-salon", "services", "salon-detail", "booking", "booking-sent",
   "my-appointments", "appointment-detail", "notifications",
-  "client-dashboard", "client-profile", "client-profile-add-salon", "reviews",
+  "client-dashboard", "client-profile", "reviews",
 ];
 
 export default function App() {
