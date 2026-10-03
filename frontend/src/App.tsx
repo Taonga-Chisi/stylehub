@@ -13,7 +13,7 @@ type View =
   | "notifications" | "client-dashboard" | "client-profile" | "client-profile-add-salon"
   | "reviews"
   | "salon-login" | "salon-dashboard" | "appointment-requests"
-  | "salon-calendar" | "manage-services" | "salon-profile";
+  | "salon-calendar" | "manage-services" | "salon-profile" | "salon-reviews";
 
 type ApptStatus = "pending" | "approved" | "rejected" | "cancelled" | "completed";
 
@@ -135,11 +135,7 @@ const NOTIFS = [
   { id: "n3", type: "rejected", title: "Appointment Not Available", body: "Unfortunately, Natural Roots could not accept your appointment at 02:00 PM on Sep 10.", time: "Yesterday", read: true },
 ];
 
-const REVIEWS = [
-  { id: "r1", name: "Aisha Mensah", init: "AM", salon: "Glam Studio", stars: 5, date: "Sep 2, 2026", text: "Booking my braids through StyleHub was so easy. I could see the available times before booking and didn't have to call the salon at all. My stylist was absolutely wonderful!" },
-  { id: "r2", name: "Kofi Asante", init: "KA", salon: "Natural Roots", stars: 5, date: "Aug 28, 2026", text: "I found Natural Roots through StyleHub and booked my locs retightening in under two minutes. The salon was exactly as described — clean, professional and welcoming." },
-  { id: "r3", name: "Fatima Diallo", init: "FD", salon: "Afro Luxe", stars: 4, date: "Aug 20, 2026", text: "Great platform! I love seeing which time slots are already booked so I know exactly when to show up. The approval confirmation was very reassuring." },
-];
+const REVIEWS: any[] = [];
 
 const SALON_REQUESTS: any[] = [];
 
@@ -841,6 +837,74 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
   const isDB = !!s.owner_id;
   const [tab, setTab] = useState<"services" | "reviews">("services");
 
+  // Real-time reviews state
+  const [realReviews, setRealReviews] = useState<any[]>([]);
+  const [showRevModal, setShowRevModal] = useState(false);
+  const [revRating, setRevRating] = useState(5);
+  const [revComment, setRevComment] = useState("");
+  const [revSubmitting, setRevSubmitting] = useState(false);
+
+  const fetchDbReviews = async () => {
+    const { data } = await supabase
+      .from("reviews")
+      .select("*")
+      .order("created_at", { ascending: false });
+    if (data) {
+      const match = data.filter(r => r.salon_name === s.name || r.salon_id === s.id);
+      setRealReviews(match);
+    }
+  };
+
+  useEffect(() => {
+    fetchDbReviews();
+
+    const channel = supabase
+      .channel("public_salon_detail_reviews")
+      .on("postgres_changes", { event: "*", schema: "public", table: "reviews" }, () => {
+        fetchDbReviews();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [s.id, s.name]);
+
+  const handleAddReview = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!revComment.trim()) return;
+    setRevSubmitting(true);
+    const { data: { user } } = await supabase.auth.getUser();
+    const clientName = user?.user_metadata?.full_name || user?.email?.split("@")[0] || "Client";
+    
+    await supabase.from("reviews").insert([{
+      salon_id: s.id || "1",
+      salon_name: s.name,
+      client_id: user?.id || null,
+      client_name: clientName,
+      rating: revRating,
+      comment: revComment.trim(),
+    }]);
+
+    setRevSubmitting(false);
+    setRevComment("");
+    setShowRevModal(false);
+    fetchDbReviews();
+  };
+
+  const allReviewsList = realReviews.map(r => ({
+    id: r.id,
+    name: r.client_name,
+    init: (r.client_name || "C").slice(0, 2).toUpperCase(),
+    stars: Number(r.rating) || 5,
+    date: new Date(r.created_at).toLocaleDateString(),
+    text: r.comment,
+  }));
+
+  const avgRating = realReviews.length > 0
+    ? (realReviews.reduce((acc, r) => acc + Number(r.rating), 0) / realReviews.length).toFixed(1)
+    : (s.rating || "5.0");
+
   return (
     <div>
       {/* Cover */}
@@ -865,9 +929,9 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
               <h1 className="font-display text-3xl sm:text-4xl font-semibold" style={{ color: "#2C1810" }}>{s.name}</h1>
               <p className="text-sm mt-1" style={{ color: "#8B7355" }}>📍 {s.city}{s.dist ? ` · ${s.dist}` : ""}</p>
               <div className="flex items-center gap-2.5 mt-2">
-                <Stars n={5} />
-                <span className="font-semibold text-sm">{s.rating || "4.8"}</span>
-                <span className="text-sm" style={{ color: "#8B7355" }}>{s.reviews ? `(${s.reviews} reviews)` : ""}</span>
+                <Stars n={Math.round(Number(avgRating))} />
+                <span className="font-semibold text-sm">{avgRating}</span>
+                <span className="text-sm" style={{ color: "#8B7355" }}>({allReviewsList.length} reviews)</span>
               </div>
             </div>
             <Btn variant="primary" className="flex-shrink-0 px-8 py-3.5 text-sm" onClick={() => go("booking")}>Book Appointment</Btn>
@@ -880,25 +944,35 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
             <p className="text-sm leading-relaxed mb-8" style={{ color: "#8B7355" }}>{s.about || "No description provided yet."}</p>
 
             {/* Tabs */}
-            <div className="flex gap-1 p-1 rounded-2xl mb-8 w-fit" style={{ background: "#F2EDE5" }}>
-              {(["services", "reviews"] as const).map(t => (
-                <button key={t} onClick={() => setTab(t)} className={`px-6 py-2.5 rounded-xl text-sm font-semibold capitalize transition-all ${tab === t ? "text-[#2C1810] shadow-sm" : "text-[#8B7355] hover:text-[#2C1810]"}`}
-                  style={{ background: tab === t ? "white" : "transparent" }}>
-                  {t}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex gap-1 p-1 rounded-2xl w-fit" style={{ background: "#F2EDE5" }}>
+                {(["services", "reviews"] as const).map(t => (
+                  <button key={t} onClick={() => setTab(t)} className={`px-6 py-2.5 rounded-xl text-sm font-semibold capitalize transition-all ${tab === t ? "text-[#2C1810] shadow-sm" : "text-[#8B7355] hover:text-[#2C1810]"}`}
+                    style={{ background: tab === t ? "white" : "transparent" }}>
+                    {t}
+                  </button>
+                ))}
+              </div>
+              {tab === "reviews" && (
+                <button
+                  onClick={() => setShowRevModal(true)}
+                  className="px-4 py-2.5 rounded-xl text-xs font-bold bg-[#C4955A] text-white hover:bg-[#A87B44] transition-colors shadow-sm"
+                >
+                  + Write a Review
                 </button>
-              ))}
+              )}
             </div>
 
             {tab === "services" && (
               <div className="space-y-3">
-                {SERVICES_LIST.map(sv => (
-                  <div key={sv.id} className="flex items-center justify-between p-4 rounded-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
+                {(s.services && Array.isArray(s.services) && s.services.length > 0 ? s.services : SERVICES_LIST).map((sv: any, idx: number) => (
+                  <div key={idx} className="flex items-center justify-between p-4 rounded-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
                     <div className="flex-1 mr-4">
                       <div className="flex items-center gap-2 mb-0.5">
                         <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>{sv.name}</h3>
-                        <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background: "#F2EDE5", color: "#8B7355" }}>{sv.dur}</span>
+                        <span className="text-[11px] px-2 py-0.5 rounded-full" style={{ background: "#F2EDE5", color: "#8B7355" }}>{sv.dur || "1 hr"}</span>
                       </div>
-                      <p className="text-xs" style={{ color: "#8B7355" }}>{sv.desc}</p>
+                      <p className="text-xs" style={{ color: "#8B7355" }}>{sv.desc || "Professional styling service"}</p>
                     </div>
                     <div className="flex items-center gap-4 flex-shrink-0">
                       <span className="font-bold text-sm" style={{ color: "#C4955A" }}>ZMK {sv.price}</span>
@@ -911,21 +985,88 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
 
             {tab === "reviews" && (
               <div className="space-y-4">
-                {REVIEWS.slice(0, 4).map(r => (
-                  <div key={r.id} className="p-5 rounded-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
-                    <div className="flex items-start gap-3">
-                      <Avi initials={r.init} size="sm" />
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between">
-                          <span className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.name}</span>
-                          <span className="text-xs" style={{ color: "#8B7355" }}>{r.date}</span>
+                {allReviewsList.length === 0 ? (
+                  <div className="p-8 text-center rounded-2xl border bg-white" style={{ borderColor: "#E8E0D5" }}>
+                    <p className="text-sm font-semibold" style={{ color: "#2C1810" }}>No reviews yet</p>
+                    <p className="text-xs mt-1" style={{ color: "#8B7355" }}>Be the first client to leave a review for this salon!</p>
+                  </div>
+                ) : (
+                  allReviewsList.map(r => (
+                    <div key={r.id} className="p-5 rounded-2xl border bg-white" style={{ borderColor: "#E8E0D5" }}>
+                      <div className="flex items-start gap-3">
+                        <Avi initials={r.init} size="sm" />
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between">
+                            <span className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.name}</span>
+                            <span className="text-xs" style={{ color: "#8B7355" }}>{r.date}</span>
+                          </div>
+                          <Stars n={r.stars} size={12} />
+                          <p className="text-xs leading-relaxed mt-2" style={{ color: "#8B7355" }}>"{r.text}"</p>
                         </div>
-                        <Stars n={r.stars} size={12} />
-                        <p className="text-xs leading-relaxed mt-2" style={{ color: "#8B7355" }}>{r.text}</p>
                       </div>
                     </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {/* Modal to leave a review */}
+            {showRevModal && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+                <div className="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border border-[#E8E0D5]">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-display text-xl font-bold text-[#2C1810]">Review {s.name}</h3>
+                    <button onClick={() => setShowRevModal(false)} className="text-gray-400 hover:text-gray-600 font-bold">✕</button>
                   </div>
-                ))}
+
+                  <form onSubmit={handleAddReview} className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#8B7355] mb-2">Select Rating</label>
+                      <div className="flex gap-2">
+                        {[1, 2, 3, 4, 5].map(star => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => setRevRating(star)}
+                            className={`text-2xl transition-transform ${star <= revRating ? "scale-110 text-amber-400" : "text-gray-300"}`}
+                          >
+                            ★
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold uppercase tracking-wider text-[#8B7355] mb-2">Your Review</label>
+                      <textarea
+                        required
+                        rows={3}
+                        value={revComment}
+                        onChange={e => setRevComment(e.target.value)}
+                        placeholder="Tell others about your experience at this salon..."
+                        className="w-full p-3 rounded-xl border text-sm outline-none focus:border-[#C4955A]"
+                        style={{ borderColor: "#E8E0D5" }}
+                      />
+                    </div>
+
+                    <div className="flex gap-3 pt-2">
+                      <button
+                        type="submit"
+                        disabled={revSubmitting}
+                        className="flex-1 py-3 rounded-xl text-sm font-bold bg-[#2C1810] text-white hover:opacity-90 disabled:opacity-50"
+                      >
+                        {revSubmitting ? "Submitting..." : "Submit Review"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setShowRevModal(false)}
+                        className="px-4 py-3 rounded-xl text-sm font-semibold border border-[#E8E0D5] text-[#8B7355]"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             )}
           </div>
@@ -1822,67 +1963,76 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-      <PageHeading label="Account" title="My Profile" />
+      <PageHeading
+        label={autoOpenForm ? "Partner With Us" : "Account"}
+        title={autoOpenForm ? "Register Salon & Barbershop" : "My Profile"}
+        sub={autoOpenForm ? "List your salon or barbershop on StyleHub to accept client bookings and manage your services." : undefined}
+      />
 
-      {/* Profile card */}
-      <div className="rounded-3xl overflow-hidden border mb-8" style={{ background: "white", borderColor: "#E8E0D5" }}>
-        <div className="h-36 relative overflow-hidden" style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
-          <img src="https://images.unsplash.com/photo-1593351799227-75df2026356b?w=900&h=280&fit=crop&auto=format"
-            alt="Banner" className="w-full h-full object-cover opacity-30" />
-          <button className="absolute bottom-3 right-4 text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/30 text-white"
-            style={{ background: "rgba(255,255,255,0.15)" }}>Edit Banner</button>
-        </div>
-        <div className="px-6 pb-6">
-          <div className="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 mb-5">
-            <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor: "white" }}>
-              <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=200&h=200&fit=crop&auto=format" alt="Avatar" className="w-full h-full object-cover" />
+      {/* Show personal profile & stats ONLY when in profile view, NOT when in Register Salon mode */}
+      {!autoOpenForm && (
+        <>
+          {/* Profile card */}
+          <div className="rounded-3xl overflow-hidden border mb-8" style={{ background: "white", borderColor: "#E8E0D5" }}>
+            <div className="h-36 relative overflow-hidden" style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+              <img src="https://images.unsplash.com/photo-1593351799227-75df2026356b?w=900&h=280&fit=crop&auto=format"
+                alt="Banner" className="w-full h-full object-cover opacity-30" />
+              <button className="absolute bottom-3 right-4 text-xs font-semibold px-3 py-1.5 rounded-xl border border-white/30 text-white"
+                style={{ background: "rgba(255,255,255,0.15)" }}>Edit Banner</button>
             </div>
-            <div className="pb-1">
-              <h2 className="font-display text-2xl font-semibold" style={{ color: "#2C1810" }}>Zara Asante</h2>
-              <p className="text-sm" style={{ color: "#8B7355" }}>Member since Jan 2025</p>
-            </div>
-            <Btn variant="secondary" className="sm:ml-auto px-5 py-2.5 text-sm self-start sm:self-end" onClick={() => setEditing(!editing)}>
-              {editing ? "Cancel" : "Edit Profile"}
-            </Btn>
-          </div>
-          {editing ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Date of Birth", "March 15, 1995"]].map(([l, v]) => (
-                <div key={l}>
-                  <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>{l}</label>
-                  <input defaultValue={v} className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
+            <div className="px-6 pb-6">
+              <div className="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 mb-5">
+                <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor: "white" }}>
+                  <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=200&h=200&fit=crop&auto=format" alt="Avatar" className="w-full h-full object-cover" />
                 </div>
-              ))}
-              <div className="sm:col-span-2">
-                <Btn variant="primary" className="px-8 py-3 text-sm mt-2" onClick={() => setEditing(false)}>Save Changes</Btn>
+                <div className="pb-1">
+                  <h2 className="font-display text-2xl font-semibold" style={{ color: "#2C1810" }}>Zara Asante</h2>
+                  <p className="text-sm" style={{ color: "#8B7355" }}>Member since Jan 2025</p>
+                </div>
+                <Btn variant="secondary" className="sm:ml-auto px-5 py-2.5 text-sm self-start sm:self-end" onClick={() => setEditing(!editing)}>
+                  {editing ? "Cancel" : "Edit Profile"}
+                </Btn>
               </div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Member Since", "January 2025"]].map(([l, v]) => (
-                <div key={l} className="py-3 border-b last:border-0" style={{ borderColor: "#F2EDE5" }}>
-                  <p className="text-[11px] font-semibold uppercase tracking-wide mb-1" style={{ color: "#8B7355" }}>{l}</p>
-                  <p className="text-sm font-medium" style={{ color: "#2C1810" }}>{v}</p>
+              {editing ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Date of Birth", "March 15, 1995"]].map(([l, v]) => (
+                    <div key={l}>
+                      <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>{l}</label>
+                      <input defaultValue={v} className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
+                    </div>
+                  ))}
+                  <div className="sm:col-span-2">
+                    <Btn variant="primary" className="px-8 py-3 text-sm mt-2" onClick={() => setEditing(false)}>Save Changes</Btn>
+                  </div>
                 </div>
-              ))}
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Member Since", "January 2025"]].map(([l, v]) => (
+                    <div key={l} className="py-3 border-b last:border-0" style={{ borderColor: "#F2EDE5" }}>
+                      <p className="text-[11px] font-semibold uppercase tracking-wide mb-1" style={{ color: "#8B7355" }}>{l}</p>
+                      <p className="text-sm font-medium" style={{ color: "#2C1810" }}>{v}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
-
-      {/* Quick stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        {[
-          { label: "Total Appointments", v: appts.length, clr: "#C4955A" },
-          { label: "Completed", v: appts.filter(a => a.status === "completed").length, clr: "#22C55E" },
-          { label: "Registered Salons", v: salons.length, clr: "#2C1810" },
-        ].map(({ label, v, clr }) => (
-          <div key={label} className="rounded-2xl p-4 border text-center" style={{ background: "white", borderColor: "#E8E0D5" }}>
-            <p className="font-display text-3xl font-semibold mb-1" style={{ color: clr }}>{v}</p>
-            <p className="text-xs" style={{ color: "#8B7355" }}>{label}</p>
           </div>
-        ))}
-      </div>
+
+          {/* Quick stats */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+            {[
+              { label: "Total Appointments", v: appts.length, clr: "#C4955A" },
+              { label: "Completed", v: appts.filter(a => a.status === "completed").length, clr: "#22C55E" },
+              { label: "Registered Salons", v: salons.length, clr: "#2C1810" },
+            ].map(({ label, v, clr }) => (
+              <div key={label} className="rounded-2xl p-4 border text-center" style={{ background: "white", borderColor: "#E8E0D5" }}>
+                <p className="font-display text-3xl font-semibold mb-1" style={{ color: clr }}>{v}</p>
+                <p className="text-xs" style={{ color: "#8B7355" }}>{label}</p>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
 
       {/* ── MY BUSINESS ──────────────────────────────── */}
       <div className="rounded-3xl border overflow-hidden mb-8 shadow-sm" style={{ background: "white", borderColor: "#E8E0D5" }}>
@@ -2145,6 +2295,21 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
    REVIEWS PAGE
 ══════════════════════════════════════════════════════════ */
 function ReviewsPage() {
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("reviews").select("*").order("created_at", { ascending: false });
+      if (data) setReviews(data);
+      setLoading(false);
+    })();
+  }, []);
+
+  const avgScore = reviews.length > 0
+    ? (reviews.reduce((acc, r) => acc + Number(r.rating || 5), 0) / reviews.length).toFixed(1)
+    : "5.0";
+
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
       <div className="text-center mb-12">
@@ -2152,54 +2317,79 @@ function ReviewsPage() {
         <h1 className="font-display text-5xl font-semibold mt-2 mb-4" style={{ color: "#2C1810" }}>What Our Clients Say</h1>
         <div className="inline-flex flex-col items-center gap-1.5">
           <div className="flex items-end gap-2">
-            <span className="font-display text-5xl font-semibold" style={{ color: "#2C1810" }}>4.8</span>
+            <span className="font-display text-5xl font-semibold" style={{ color: "#2C1810" }}>{avgScore}</span>
             <span className="font-display text-3xl mb-1" style={{ color: "#8B7355" }}>/5</span>
           </div>
-          <Stars n={5} size={20} />
-          <p className="text-sm mt-1" style={{ color: "#8B7355" }}>Based on 2,400+ reviews</p>
+          <Stars n={Math.round(Number(avgScore))} size={20} />
+          <p className="text-sm mt-1" style={{ color: "#8B7355" }}>Based on {reviews.length} client review{reviews.length === 1 ? "" : "s"}</p>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {REVIEWS.map(r => (
-          <div key={r.id} className="rounded-2xl p-6 border flex flex-col" style={{ background: "white", borderColor: "#E8E0D5" }}>
-            <Stars n={r.stars} />
-            <p className="text-sm leading-relaxed my-4 flex-1" style={{ color: "#8B7355" }}>"{r.text}"</p>
-            <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "#E8E0D5" }}>
-              <Avi initials={r.init} size="sm" />
-              <div>
-                <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.name}</p>
-                <p className="text-xs" style={{ color: "#8B7355" }}>{r.salon} · {r.date}</p>
+
+      {loading ? (
+        <div className="flex justify-center py-12">
+          <div className="w-8 h-8 border-2 border-[#C4955A] border-t-transparent rounded-full animate-spin" />
+        </div>
+      ) : reviews.length === 0 ? (
+        <div className="p-12 text-center rounded-3xl border bg-white max-w-md mx-auto" style={{ borderColor: "#E8E0D5" }}>
+          <p className="font-semibold text-base" style={{ color: "#2C1810" }}>No client reviews yet</p>
+          <p className="text-xs mt-1" style={{ color: "#8B7355" }}>When clients submit reviews on salon pages, they will appear here!</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          {reviews.map(r => (
+            <div key={r.id} className="rounded-2xl p-6 border flex flex-col bg-white" style={{ borderColor: "#E8E0D5" }}>
+              <Stars n={Number(r.rating) || 5} />
+              <p className="text-sm leading-relaxed my-4 flex-1" style={{ color: "#8B7355" }}>"{r.comment}"</p>
+              <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "#E8E0D5" }}>
+                <Avi initials={(r.client_name || "C").slice(0, 2).toUpperCase()} size="sm" />
+                <div>
+                  <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.client_name || "Client"}</p>
+                  <p className="text-xs" style={{ color: "#8B7355" }}>{r.salon_name || "Salon"}{r.created_at ? ` · ${new Date(r.created_at).toLocaleDateString()}` : ""}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
 function ReviewsSection() {
+  const [reviews, setReviews] = useState<any[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("reviews").select("*").order("created_at", { ascending: false }).limit(3);
+      if (data) setReviews(data);
+    })();
+  }, []);
+
+  if (reviews.length === 0) return null;
+
+  const avgScore = (reviews.reduce((acc, r) => acc + Number(r.rating || 5), 0) / reviews.length).toFixed(1);
+
   return (
     <section className="max-w-7xl mx-auto px-6 py-20">
       <div className="text-center mb-10">
         <SectionLabel>Testimonials</SectionLabel>
         <h2 className="font-display text-4xl font-semibold mt-2" style={{ color: "#2C1810" }}>What Our Clients Say</h2>
         <div className="flex items-center justify-center gap-2 mt-3">
-          <Stars n={5} />
-          <span className="font-semibold text-sm" style={{ color: "#2C1810" }}>4.8 / 5</span>
-          <span className="text-sm" style={{ color: "#8B7355" }}>· 2,400+ reviews</span>
+          <Stars n={Math.round(Number(avgScore))} />
+          <span className="font-semibold text-sm" style={{ color: "#2C1810" }}>{avgScore} / 5</span>
+          <span className="text-sm" style={{ color: "#8B7355" }}>· {reviews.length} reviews</span>
         </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        {REVIEWS.slice(0, 3).map(r => (
-          <div key={r.id} className="rounded-2xl p-6 border" style={{ background: "white", borderColor: "#E8E0D5" }}>
-            <Stars n={r.stars} />
-            <p className="text-sm leading-relaxed my-4" style={{ color: "#8B7355" }}>"{r.text}"</p>
+        {reviews.map(r => (
+          <div key={r.id} className="rounded-2xl p-6 border bg-white" style={{ borderColor: "#E8E0D5" }}>
+            <Stars n={Number(r.rating) || 5} />
+            <p className="text-sm leading-relaxed my-4" style={{ color: "#8B7355" }}>"{r.comment}"</p>
             <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "#E8E0D5" }}>
-              <Avi initials={r.init} size="sm" />
+              <Avi initials={(r.client_name || "C").slice(0, 2).toUpperCase()} size="sm" />
               <div>
-                <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.name}</p>
-                <p className="text-xs" style={{ color: "#8B7355" }}>{r.salon}</p>
+                <p className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.client_name || "Client"}</p>
+                <p className="text-xs" style={{ color: "#8B7355" }}>{r.salon_name || "Salon"}</p>
               </div>
             </div>
           </div>
@@ -3089,6 +3279,185 @@ function SalonProfilePage() {
 }
 
 /* ══════════════════════════════════════════════════════════
+   SALON REVIEWS PAGE (Owner Portal)
+   ══════════════════════════════════════════════════════════ */
+function SalonReviewsPage() {
+  const [salon, setSalon] = useState<any>(null);
+  const [reviewsList, setReviewsList] = useState<any[]>([]);
+  const [fetching, setFetching] = useState(true);
+  const [filterStar, setFilterStar] = useState<number>(0); // 0 = all
+
+  const loadData = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      setFetching(false);
+      return;
+    }
+    // Fetch owner's salon
+    const { data: salonData } = await supabase
+      .from("salons")
+      .select("*")
+      .eq("owner_id", user.id)
+      .single();
+
+    if (salonData) {
+      setSalon(salonData);
+    }
+
+    // Fetch reviews matching salon_id or owner's salon name
+    const { data: revs } = await supabase
+      .from("reviews")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (revs) {
+      const salonName = salonData?.name;
+      const salonId = salonData?.id;
+      const filtered = revs.filter(r => 
+        (salonId && r.salon_id === salonId) || 
+        (salonName && r.salon_name?.toLowerCase() === salonName?.toLowerCase())
+      );
+      setReviewsList(filtered);
+    }
+    setFetching(false);
+  };
+
+  useEffect(() => {
+    loadData();
+
+    // Subscribe to realtime updates
+    const channel = supabase
+      .channel("salon_reviews_owner_portal")
+      .on("postgres_changes", { event: "*", schema: "public", table: "reviews" }, () => {
+        loadData();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, []);
+
+  if (fetching) {
+    return (
+      <div className="flex justify-center items-center min-h-[40vh]">
+        <svg className="animate-spin" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4955A" strokeWidth="2.5">
+          <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
+        </svg>
+      </div>
+    );
+  }
+
+  // Calculate statistics
+  const totalCount = reviewsList.length;
+  const avgRating = totalCount > 0
+    ? (reviewsList.reduce((acc, r) => acc + Number(r.rating || 5), 0) / totalCount).toFixed(1)
+    : "5.0";
+
+  const countsByStar = [5, 4, 3, 2, 1].map(star => ({
+    star,
+    count: reviewsList.filter(r => Number(r.rating) === star).length,
+    pct: totalCount > 0 ? Math.round((reviewsList.filter(r => Number(r.rating) === star).length / totalCount) * 100) : 0,
+  }));
+
+  const filteredDisplayList = filterStar === 0
+    ? reviewsList
+    : reviewsList.filter(r => Number(r.rating) === filterStar);
+
+  return (
+    <div className="max-w-4xl mx-auto px-6 py-10">
+      <PageHeading
+        label="Salon Portal"
+        title="Customer Reviews & Ratings"
+        sub={salon ? `Real-time feedback for ${salon.name}` : "View ratings and client reviews for your salon in real-time."}
+      />
+
+      {/* Stats Summary Card */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="p-6 rounded-3xl border flex flex-col items-center justify-center text-center bg-white" style={{ borderColor: "#E8E0D5" }}>
+          <span className="text-5xl font-black font-display mb-2" style={{ color: "#2C1810" }}>{avgRating}</span>
+          <Stars n={Math.round(Number(avgRating))} size={18} />
+          <p className="text-xs font-semibold mt-2" style={{ color: "#8B7355" }}>Based on {totalCount} total reviews</p>
+        </div>
+
+        <div className="md:col-span-2 p-6 rounded-3xl border bg-white flex flex-col justify-center" style={{ borderColor: "#E8E0D5" }}>
+          <h4 className="text-xs font-bold uppercase tracking-wider mb-3" style={{ color: "#8B7355" }}>Rating Distribution</h4>
+          <div className="space-y-2">
+            {countsByStar.map(({ star, count, pct }) => (
+              <div key={star} className="flex items-center gap-3 text-xs">
+                <span className="w-10 font-bold" style={{ color: "#2C1810" }}>{star} ★</span>
+                <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "#F2EDE5" }}>
+                  <div className="h-full rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: "#C4955A" }} />
+                </div>
+                <span className="w-12 text-right font-medium" style={{ color: "#8B7355" }}>{count} ({pct}%)</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Filter Strip */}
+      <div className="flex items-center justify-between gap-4 mb-6">
+        <h3 className="font-display font-semibold text-lg" style={{ color: "#2C1810" }}>
+          All Reviews ({filteredDisplayList.length})
+        </h3>
+        <div className="flex items-center gap-1 p-1 rounded-2xl border bg-white" style={{ borderColor: "#E8E0D5" }}>
+          {[0, 5, 4, 3, 2, 1].map(st => (
+            <button
+              key={st}
+              onClick={() => setFilterStar(st)}
+              className={`px-3 py-1 rounded-xl text-xs font-semibold transition-all ${
+                filterStar === st ? "bg-[#2C1810] text-white shadow-sm" : "text-[#8B7355] hover:text-[#2C1810]"
+              }`}
+            >
+              {st === 0 ? "All" : `${st}★`}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Reviews List */}
+      {filteredDisplayList.length === 0 ? (
+        <div className="p-12 text-center rounded-3xl border bg-white" style={{ borderColor: "#E8E0D5" }}>
+          <div className="w-12 h-12 rounded-full mx-auto mb-3 flex items-center justify-center" style={{ background: "#F2EDE5" }}>
+            <span className="text-xl">⭐</span>
+          </div>
+          <p className="font-semibold text-base" style={{ color: "#2C1810" }}>No reviews yet</p>
+          <p className="text-xs mt-1" style={{ color: "#8B7355" }}>
+            {filterStar === 0 ? "When clients submit reviews on your salon page, they will appear here live!" : `No ${filterStar}-star reviews found.`}
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {filteredDisplayList.map((r: any) => {
+            const init = (r.client_name || "Client").slice(0, 2).toUpperCase();
+            const dateStr = r.created_at ? new Date(r.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : "Recently";
+            return (
+              <div key={r.id} className="p-5 rounded-2xl border bg-white shadow-sm transition-all hover:shadow-md" style={{ borderColor: "#E8E0D5" }}>
+                <div className="flex items-start justify-between gap-4 mb-2">
+                  <div className="flex items-center gap-3">
+                    <Avi initials={init} size="md" />
+                    <div>
+                      <h4 className="font-semibold text-sm" style={{ color: "#2C1810" }}>{r.client_name || "Anonymous Client"}</h4>
+                      <p className="text-[11px]" style={{ color: "#8B7355" }}>Verified Customer · {r.salon_name || "Your Salon"}</p>
+                    </div>
+                  </div>
+                  <div className="text-right flex flex-col items-end">
+                    <Stars n={Number(r.rating) || 5} size={14} />
+                    <span className="text-[11px] mt-1" style={{ color: "#8B7355" }}>{dateStr}</span>
+                  </div>
+                </div>
+                <p className="text-xs leading-relaxed mt-3 pl-11" style={{ color: "#2C1810" }}>"{r.comment}"</p>
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════
    AUTH MODAL
 ══════════════════════════════════════════════════════════ */
 type AuthTab = "signin" | "signup";
@@ -3419,7 +3788,7 @@ export default function App() {
   };
 
   const noFooter: View[] = ["booking", "booking-sent", "salon-login"];
-  const salonOwnerViews: View[] = ["salon-login", "salon-dashboard", "appointment-requests", "salon-calendar", "manage-services", "salon-profile"];
+  const salonOwnerViews: View[] = ["salon-login", "salon-dashboard", "appointment-requests", "salon-calendar", "manage-services", "salon-profile", "salon-reviews"];
   const isSalonOwner = salonOwnerViews.includes(view);
 
   function renderView() {
@@ -3443,6 +3812,7 @@ export default function App() {
       case "salon-calendar": return <SalonCalendarPage />;
       case "manage-services": return <ManageServicesPage />;
       case "salon-profile": return <SalonProfilePage />;
+      case "salon-reviews": return <SalonReviewsPage />;
       default: return <HomePage go={go} />;
     }
   }
@@ -3469,19 +3839,20 @@ export default function App() {
 
       {/* Salon owner sub-nav strip */}
       {isSalonOwner && view !== "salon-login" && (
-        <div className="fixed top-16 inset-x-0 z-40 border-b flex items-center gap-1 px-6 py-2 glass" style={{ borderColor: "#E8E0D5" }}>
+        <div className="fixed top-16 inset-x-0 z-40 border-b flex items-center gap-1 px-6 py-2 glass overflow-x-auto" style={{ borderColor: "#E8E0D5" }}>
           {([
             { label: "Dashboard", v: "salon-dashboard" as View },
             { label: "Requests", v: "appointment-requests" as View },
             { label: "Calendar", v: "salon-calendar" as View },
             { label: "Services", v: "manage-services" as View },
             { label: "Profile", v: "salon-profile" as View },
+            { label: "Reviews", v: "salon-reviews" as View },
           ]).map(({ label, v }) => (
-            <button key={v} onClick={() => go(v)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-colors ${view === v ? "bg-[#2C1810] text-white" : "text-[#8B7355] hover:bg-[#F2EDE5]"}`}>
+            <button key={v} onClick={() => go(v)} className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors ${view === v ? "bg-[#2C1810] text-white" : "text-[#8B7355] hover:bg-[#F2EDE5]"}`}>
               {label}
             </button>
           ))}
-          <button onClick={() => go("home")} className="ml-auto text-xs font-semibold hover:opacity-60 transition-opacity" style={{ color: "#8B7355" }}>
+          <button onClick={() => go("home")} className="ml-auto text-xs font-semibold whitespace-nowrap hover:opacity-60 transition-opacity" style={{ color: "#8B7355" }}>
             ← Back to Client View
           </button>
         </div>
