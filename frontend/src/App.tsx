@@ -1714,7 +1714,7 @@ function ApptDetailPage({ appt, go }: { appt: Appt | null; go: (v: View) => void
 /* ══════════════════════════════════════════════════════════
    NOTIFICATIONS
 ══════════════════════════════════════════════════════════ */
-function NotificationsPage() {
+function NotificationsPage({ onRefreshUnread }: { onRefreshUnread?: () => void }) {
   const [notifs, setNotifs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -1722,6 +1722,8 @@ function NotificationsPage() {
     setLoading(true);
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) { setLoading(false); return; }
+
+    const readIds: string[] = JSON.parse(localStorage.getItem("stylehub_read_notifs") || "[]");
 
     // Fetch user's salons if owner
     const { data: ownedSalons } = await supabase.from("salons").select("id, name").eq("owner_id", user.id);
@@ -1740,35 +1742,38 @@ function NotificationsPage() {
 
     // Notifications for salon owners (incoming requests & status changes)
     ownerBookings.forEach((b: any) => {
+      const id = `owner-${b.id}`;
       liveNotifs.push({
-        id: `owner-${b.id}`,
+        id,
         type: b.status === "pending" ? "request" : b.status === "approved" ? "approved" : "rejected",
-        title: b.status === "pending" ? "New Booking Schedule" : `Booking ${b.status.toUpperCase()}`,
-        body: `${b.client_name || b.client_email} scheduled ${b.service_name} for ${b.date} at ${b.time} (ZMK ${b.service_price}).`,
-        time: new Date(b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        read: false,
+        title: b.status === "pending" ? "New Booking Request ⏳" : `Booking ${b.status.toUpperCase()}`,
+        body: `${b.client_name || b.client_email} scheduled ${b.service_name} for ${b.date} at ${b.time}.`,
+        time: new Date(b.updated_at || b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        read: readIds.includes(id),
       });
     });
 
     // Notifications for clients (approval & rejection updates)
     clientBookings.forEach((b: any) => {
       if (b.status === "approved") {
+        const id = `client-app-${b.id}`;
         liveNotifs.push({
-          id: `client-app-${b.id}`,
+          id,
           type: "approved",
           title: "Appointment Approved 🎉",
           body: `Your booking for ${b.service_name} on ${b.date} at ${b.time} has been approved by the salon!`,
           time: new Date(b.updated_at || b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          read: false,
+          read: readIds.includes(id),
         });
       } else if (b.status === "rejected") {
+        const id = `client-rej-${b.id}`;
         liveNotifs.push({
-          id: `client-rej-${b.id}`,
+          id,
           type: "rejected",
           title: "Appointment Request Denied ✕",
           body: `Your booking for ${b.service_name} on ${b.date} was denied. ${b.notes ? `Salon note: "${b.notes}"` : "Please choose another time slot."}`,
           time: new Date(b.updated_at || b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          read: false,
+          read: readIds.includes(id),
         });
       }
     });
@@ -1779,7 +1784,37 @@ function NotificationsPage() {
 
   useEffect(() => {
     fetchLiveNotifs();
+
+    const channel = supabase
+      .channel("public:notifs-page-realtime")
+      .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () => {
+        fetchLiveNotifs();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
+
+  const markSingleRead = (id: string) => {
+    const readIds: string[] = JSON.parse(localStorage.getItem("stylehub_read_notifs") || "[]");
+    if (!readIds.includes(id)) {
+      const updated = [...readIds, id];
+      localStorage.setItem("stylehub_read_notifs", JSON.stringify(updated));
+    }
+    setNotifs(ns => ns.map(x => x.id === id ? { ...x, read: true } : x));
+    if (onRefreshUnread) onRefreshUnread();
+  };
+
+  const markAllRead = () => {
+    const allIds = notifs.map(n => n.id);
+    const readIds: string[] = JSON.parse(localStorage.getItem("stylehub_read_notifs") || "[]");
+    const updated = Array.from(new Set([...readIds, ...allIds]));
+    localStorage.setItem("stylehub_read_notifs", JSON.stringify(updated));
+    setNotifs(n => n.map(x => ({ ...x, read: true })));
+    if (onRefreshUnread) onRefreshUnread();
+  };
 
   const iconMap: Record<string, { icon: string; bg: string; clr: string }> = {
     approved: { icon: "✓", bg: "#F0FDF4", clr: "#22C55E" },
@@ -1793,7 +1828,7 @@ function NotificationsPage() {
     <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10">
       <div className="flex items-center justify-between mb-8">
         <PageHeading label="Updates" title="Notifications" />
-        <button onClick={() => setNotifs(n => n.map(x => ({ ...x, read: true })))} className="text-xs font-semibold self-center -mt-4 hover:opacity-60 transition-opacity" style={{ color: "#C4955A" }}>
+        <button onClick={markAllRead} className="text-xs font-semibold self-center -mt-4 hover:opacity-60 transition-opacity" style={{ color: "#C4955A" }}>
           Mark all read
         </button>
       </div>
@@ -1811,7 +1846,7 @@ function NotificationsPage() {
           {notifs.map(n => {
             const c = iconMap[n.type] || iconMap.request;
             return (
-              <div key={n.id} onClick={() => setNotifs(ns => ns.map(x => x.id === n.id ? { ...x, read: true } : x))}
+              <div key={n.id} onClick={() => markSingleRead(n.id)}
                 className={`flex gap-4 p-4 rounded-2xl border cursor-pointer transition-all hover:shadow-md`}
                 style={{ background: n.read ? "white" : "#FFFDF7", borderColor: n.read ? "#E8E0D5" : "#F5E6C8" }}>
                 <div className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm"
@@ -3906,17 +3941,45 @@ export default function App() {
 
   const [unreadCount, setUnreadCount] = useState(0);
 
+  const fetchUnreadCount = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) { setUnreadCount(0); return; }
+
+    const readIds: string[] = JSON.parse(localStorage.getItem("stylehub_read_notifs") || "[]");
+
+    // 1. Owner pending requests (unread count for owners)
+    const { data: ownedSalons } = await supabase.from("salons").select("id").eq("owner_id", user.id);
+    const ownerSalonIds = ownedSalons?.map(s => s.id) || [];
+    const { data: ownerPending } = ownerSalonIds.length > 0
+      ? await supabase.from("bookings").select("id").in("salon_id", ownerSalonIds).eq("status", "pending")
+      : { data: [] };
+
+    const unreadOwnerCount = (ownerPending || []).filter(b => !readIds.includes(`owner-${b.id}`)).length;
+
+    // 2. Client status updates (unread count for clients when approved/rejected)
+    const { data: clientBookings } = await supabase.from("bookings").select("id, status").eq("client_id", user.id);
+    const clientNotifs = (clientBookings || []).filter(b => (b.status === "approved" || b.status === "rejected"));
+    const unreadClientCount = clientNotifs.filter(b => {
+      const id = b.status === "approved" ? `client-app-${b.id}` : `client-rej-${b.id}`;
+      return !readIds.includes(id);
+    }).length;
+
+    setUnreadCount(unreadOwnerCount + unreadClientCount);
+  };
+
   useEffect(() => {
-    (async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { setUnreadCount(0); return; }
-      const { data: ownedSalons } = await supabase.from("salons").select("id").eq("owner_id", user.id);
-      const ownerSalonIds = ownedSalons?.map(s => s.id) || [];
-      const { data: ownerPending } = ownerSalonIds.length > 0
-        ? await supabase.from("bookings").select("id").in("salon_id", ownerSalonIds).eq("status", "pending")
-        : { data: [] };
-      setUnreadCount(ownerPending?.length || 0);
-    })();
+    fetchUnreadCount();
+
+    const channel = supabase
+      .channel("realtime-app-unread-badge")
+      .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () => {
+        fetchUnreadCount();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [authUser, view]);
 
   const unread = unreadCount;
@@ -3960,7 +4023,7 @@ export default function App() {
       case "booking-sent": return <BookingSentPage go={go} />;
       case "my-appointments": return <MyAppointmentsPage appts={appts} setAppts={setAppts} go={go} setDetail={setDetail} />;
       case "appointment-detail": return <ApptDetailPage appt={detail} go={go} />;
-      case "notifications": return <NotificationsPage />;
+      case "notifications": return <NotificationsPage onRefreshUnread={fetchUnreadCount} />;
       case "client-dashboard": return <ClientDashboardPage appts={appts} go={go} setDetail={setDetail} />;
       case "client-profile": return <ClientProfilePage appts={appts} go={go} />;
       case "client-profile-add-salon": return <ClientProfilePage appts={appts} go={go} autoOpenForm={true} />;
