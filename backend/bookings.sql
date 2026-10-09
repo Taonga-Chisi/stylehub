@@ -17,9 +17,14 @@ CREATE TABLE IF NOT EXISTS public.bookings (
   status       TEXT        NOT NULL DEFAULT 'pending'
                 CHECK (status IN ('pending','approved','rejected','cancelled','completed')),
   notes        TEXT,
+  photo_url    TEXT,
   created_at   TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at   TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+-- Ensure columns exist if the table was created prior to photo_url / notes addition
+ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS notes TEXT;
+ALTER TABLE public.bookings ADD COLUMN IF NOT EXISTS photo_url TEXT;
 
 -- Enable Row Level Security
 ALTER TABLE public.bookings ENABLE ROW LEVEL SECURITY;

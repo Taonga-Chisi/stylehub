@@ -33,52 +33,7 @@ interface Appt {
 /* ══════════════════════════════════════════════════════════
    MOCK DATA
 ══════════════════════════════════════════════════════════ */
-const SALONS = [
-  {
-    id: "1", name: "Glam Studio", city: "Lusaka, Zambia", dist: "0.4 km",
-    rating: 4.9, reviews: 312, hours: "9:00 AM – 7:00 PM",
-    price: "from ZMK 80",
-    tags: ["Braiding", "Weaving", "Natural Hair"],
-    img: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=600&h=400&fit=crop&auto=format",
-    cover: "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=1400&h=520&fit=crop&auto=format",
-    about: "Glam Studio is Lusaka's premier destination for hair artistry. Our master stylists specialise in traditional and contemporary braiding, weaving, and natural hair care — blending heritage craft with modern elegance since 2014.",
-    phone: "+260 97 123 4567",
-    email: "hello@glamstudio.zm",
-  },
-  {
-    id: "2", name: "Natural Roots", city: "Kitwe, Zambia", dist: "1.2 km",
-    rating: 4.7, reviews: 198, hours: "8:00 AM – 6:00 PM",
-    price: "from ZMK 60",
-    tags: ["Cornrows", "Dreadlocks", "Hair Treatment"],
-    img: "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=600&h=400&fit=crop&auto=format",
-    cover: "https://images.unsplash.com/photo-1633681926035-ec1ac984418a?w=1400&h=520&fit=crop&auto=format",
-    about: "Natural Roots celebrates the beauty of African hair in its most authentic form. We are specialists in locs, cornrows, and protective styles rooted in tradition.",
-    phone: "+260 96 234 5678",
-    email: "info@naturalroots.zm",
-  },
-  {
-    id: "3", name: "Afro Luxe", city: "Ndola, Zambia", dist: "2.0 km",
-    rating: 4.8, reviews: 254, hours: "10:00 AM – 8:00 PM",
-    price: "from ZMK 100",
-    tags: ["Styling", "Braiding", "Hair Cutting"],
-    img: "https://images.unsplash.com/photo-1706629504952-ab5e50f5c179?w=600&h=400&fit=crop&auto=format",
-    cover: "https://images.unsplash.com/photo-1600948836101-f9ffda59d250?w=1400&h=520&fit=crop&auto=format",
-    about: "Afro Luxe blends modern technique with traditional African styling to create looks that are bold, beautiful, and uniquely yours.",
-    phone: "+260 95 345 6789",
-    email: "luxe@afroluxe.zm",
-  },
-  {
-    id: "4", name: "Crown & Glory", city: "Livingstone, Zambia", dist: "3.1 km",
-    rating: 4.6, reviews: 167, hours: "9:00 AM – 6:00 PM",
-    price: "from ZMK 75",
-    tags: ["Natural Hair", "Hair Treatment", "Weaving"],
-    img: "https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?w=600&h=400&fit=crop&auto=format",
-    cover: "https://images.unsplash.com/photo-1626383137804-ff908d2753a2?w=1400&h=520&fit=crop&auto=format",
-    about: "Crown & Glory is dedicated to nourishing and celebrating natural African hair with personalised care plans and premium products.",
-    phone: "+260 97 456 7890",
-    email: "crown@crownandglory.zm",
-  },
-];
+const SALONS: any[] = [];
 
 const SERVICES_LIST = [
   {
@@ -129,11 +84,7 @@ const TIME_SLOTS = [
 
 const APPTS_INIT: Appt[] = [];
 
-const NOTIFS = [
-  { id: "n1", type: "approved", title: "Appointment Approved", body: "Your appointment at Glam Studio has been approved for Saturday at 11:00 AM.", time: "2 hours ago", read: false },
-  { id: "n2", type: "request", title: "New Booking Request", body: "Amara Diallo has requested an appointment for Box Braids on Sep 16 at 09:00 AM.", time: "4 hours ago", read: false },
-  { id: "n3", type: "rejected", title: "Appointment Not Available", body: "Unfortunately, Natural Roots could not accept your appointment at 02:00 PM on Sep 10.", time: "Yesterday", read: true },
-];
+const NOTIFS: any[] = [];
 
 const REVIEWS: any[] = [];
 
@@ -230,7 +181,6 @@ const NAV_LINKS: { label: string; view: View }[] = [
   { label: "Services", view: "services" },
   { label: "My Appointments", view: "my-appointments" },
   { label: "Salon Portal 💈", view: "salon-dashboard" },
-  { label: "Reviews", view: "reviews" },
 ];
 
 function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) => void; unread: number; isOwner: boolean }) {
@@ -242,7 +192,6 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
     { label: "Services", view: "services" },
     { label: "My Appointments", view: "my-appointments" },
     ...(isOwner ? [{ label: "Salon Portal 💈", view: "salon-dashboard" as View }] : []),
-    { label: "Reviews", view: "reviews" },
   ];
 
   return (
@@ -287,7 +236,12 @@ function Nav({ current, go, unread, isOwner }: { current: View; go: (v: View) =>
 
           <button onClick={() => go("client-profile")} title="Account Profile" className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 hover:opacity-90 transition-opacity ring-2 ring-[#E8E0D5]"
             style={{ background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
-            <div className="w-full h-full flex items-center justify-center text-xs font-bold text-white">ZA</div>
+            <div className="w-full h-full flex items-center justify-center text-white">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </div>
           </button>
 
           {/* Desktop Only Buttons */}
@@ -468,7 +422,7 @@ function Footer({ go }: { go: (v: View) => void }) {
           <div className="md:col-span-3">
             <p className="text-xs font-semibold tracking-widest uppercase mb-4" style={{ color: "#C4955A" }}>Platform</p>
             <ul className="space-y-2.5">
-              {(["home", "find-salon", "services", "my-appointments", "reviews"] as View[]).map(v => (
+              {(["home", "find-salon", "services", "my-appointments"] as View[]).map(v => (
                 <li key={v}><button onClick={() => go(v)} className="text-sm hover:text-white transition-colors capitalize" style={{ color: "#7A6050" }}>
                   {v.replace(/-/g, " ")}
                 </button></li>
@@ -506,6 +460,8 @@ function Footer({ go }: { go: (v: View) => void }) {
    HOME PAGE
 ══════════════════════════════════════════════════════════ */
 function HomePage({ go }: { go: (v: View) => void }) {
+  const [viewStyleModal, setViewStyleModal] = useState<any | null>(null);
+
   return (
     <div>
       {/* ── Hero ──────────────────────────────────────────── */}
@@ -540,60 +496,12 @@ function HomePage({ go }: { go: (v: View) => void }) {
                 Explore Services
               </button>
             </div>
-
-            {/* Stats row */}
-            <div className="flex gap-10 mt-14 pt-14 border-t" style={{ borderColor: "rgba(255,255,255,0.12)" }}>
-              {[["500+", "Hair Salons"], ["12K+", "Happy Clients"], ["4.8 ★", "Avg Rating"]].map(([n, l]) => (
-                <div key={l}>
-                  <div className="font-display text-2xl font-semibold text-white">{n}</div>
-                  <div className="text-xs mt-0.5" style={{ color: "rgba(255,255,255,0.45)" }}>{l}</div>
-                </div>
-              ))}
-            </div>
           </div>
-        </div>
-
-        {/* Floating portrait card */}
-        <div className="absolute right-16 top-1/2 -translate-y-1/2 hidden xl:block anim-up" style={{ animationDelay: "0.15s" }}>
-          <div className="w-72 rounded-3xl overflow-hidden shadow-2xl border border-white/10">
-            <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=500&h=640&fit=crop&auto=format"
-              alt="Hair style" className="w-full h-96 object-cover" />
-            <div className="p-4" style={{ background: "rgba(28,14,8,0.85)", backdropFilter: "blur(8px)" }}>
-              <p className="font-display text-white text-lg font-semibold">Afro Natural</p>
-              <div className="flex items-center justify-between mt-1">
-                <Stars n={5} size={12} />
-                <span className="text-xs" style={{ color: "#C4955A" }}>from ZMK 90</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Search Widget ─────────────────────────────────── */}
-      <section className="relative z-10 max-w-5xl mx-auto px-6 -mt-10">
-        <div className="rounded-3xl p-6 sm:p-8 shadow-2xl border" style={{ background: "white", borderColor: "#E8E0D5" }}>
-          <h2 className="font-display text-2xl font-semibold mb-5" style={{ color: "#2C1810" }}>Find Your Perfect Style</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
-            {[
-              { emoji: "📍", label: "Location", placeholder: "e.g. Accra, Ghana" },
-              { emoji: "✂️", label: "Hair Service", placeholder: "Braiding, Cornrows…" },
-              { emoji: "📅", label: "Preferred Date", placeholder: "Pick a date" },
-            ].map(({ emoji, label, placeholder }) => (
-              <div key={label}>
-                <label className="block text-[11px] font-semibold uppercase tracking-wide mb-2" style={{ color: "#8B7355" }}>{label}</label>
-                <div className="flex items-center gap-2.5 px-4 py-3 rounded-xl border transition-colors focus-within:border-[#C4955A]" style={{ borderColor: "#E8E0D5", background: "#FAF7F2" }}>
-                  <span>{emoji}</span>
-                  <input placeholder={placeholder} className="flex-1 text-sm bg-transparent outline-none" style={{ color: "#2C1810" }} />
-                </div>
-              </div>
-            ))}
-          </div>
-          <Btn variant="primary" className="w-full py-3.5 text-sm" onClick={() => go("find-salon")}>Search Salons</Btn>
         </div>
       </section>
 
       {/* ── Popular Services ──────────────────────────────── */}
-      <section className="max-w-7xl mx-auto px-6 pt-24 pb-10">
+      <section className="max-w-7xl mx-auto px-6 pt-16 pb-10">
         <div className="flex items-end justify-between mb-10">
           <div>
             <SectionLabel>Our Services</SectionLabel>
@@ -603,7 +511,7 @@ function HomePage({ go }: { go: (v: View) => void }) {
         </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
           {SERVICES_LIST.map(s => (
-            <button key={s.id} onClick={() => go("find-salon")} className="group text-left rounded-2xl overflow-hidden border card-hover" style={{ background: "white", borderColor: "#E8E0D5" }}>
+            <button key={s.id} onClick={() => setViewStyleModal(s)} className="group text-left rounded-2xl overflow-hidden border card-hover" style={{ background: "white", borderColor: "#E8E0D5" }}>
               <div className="relative h-44 bg-amber-50 overflow-hidden">
                 <img src={s.img} alt={s.name} className="w-full h-full object-cover group-hover:scale-[1.06] transition-transform duration-500" />
                 <div className="absolute inset-0" style={{ background: "linear-gradient(to top,rgba(28,14,8,0.65) 0%,transparent 55%)" }} />
@@ -611,15 +519,35 @@ function HomePage({ go }: { go: (v: View) => void }) {
               </div>
               <div className="p-4">
                 <p className="text-xs leading-relaxed mb-3" style={{ color: "#8B7355" }}>{s.desc}</p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold" style={{ color: "#C4955A" }}>from ZMK {s.price}</span>
-                  <span className="text-xs font-semibold" style={{ color: "#2C1810" }}>View →</span>
+                <div className="flex items-center justify-end">
+                  <span className="text-xs font-semibold" style={{ color: "#2C1810" }}>View Style →</span>
                 </div>
               </div>
             </button>
           ))}
         </div>
       </section>
+
+      {/* Full View Hairstyle Modal */}
+      {viewStyleModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl border border-[#E8E0D5]">
+            <div className="relative h-64 bg-[#F2EDE5]">
+              <img src={viewStyleModal.img} alt={viewStyleModal.name} className="w-full h-full object-cover" />
+              <button onClick={() => setViewStyleModal(null)} className="absolute top-4 right-4 w-9 h-9 rounded-full bg-black/50 text-white font-bold flex items-center justify-center hover:bg-black/70 transition-colors">✕</button>
+            </div>
+            <div className="p-6">
+              <h3 className="font-display text-2xl font-bold text-[#2C1810] mb-2">{viewStyleModal.name}</h3>
+              <p className="text-xs font-semibold px-3 py-1 rounded-full bg-[#F2EDE5] text-[#8B7355] w-fit mb-4">⏱ Estimated Duration: {viewStyleModal.dur}</p>
+              <p className="text-sm leading-relaxed text-[#8B7355] mb-6">{viewStyleModal.desc || "Professional styling service for all hair types."}</p>
+              <div className="flex gap-3">
+                <button onClick={() => setViewStyleModal(null)} className="px-5 py-3 rounded-2xl text-xs font-semibold border text-[#8B7355]" style={{ borderColor: "#E8E0D5" }}>Close</button>
+                <Btn variant="primary" className="flex-1 py-3 text-xs" onClick={() => { setViewStyleModal(null); go("find-salon"); }}>Find Salon to Book This Style →</Btn>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Featured Salons ───────────────────────────────── */}
       <section className="py-16 mt-6" style={{ background: "#F2EDE5" }}>
@@ -631,14 +559,9 @@ function HomePage({ go }: { go: (v: View) => void }) {
             </div>
             <button onClick={() => go("find-salon")} className="hidden sm:block text-sm font-semibold" style={{ color: "#C4955A" }}>Find More →</button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {SALONS.map(s => <SalonCard key={s.id} salon={s} go={go} />)}
-          </div>
+          <FeaturedSalonsGrid go={go} />
         </div>
       </section>
-
-      {/* ── Reviews snippet ───────────────────────────────── */}
-      <ReviewsSection />
 
       {/* ── CTA Banner ────────────────────────────────────── */}
       <div className="max-w-7xl mx-auto px-6 mb-10">
@@ -656,14 +579,76 @@ function HomePage({ go }: { go: (v: View) => void }) {
   );
 }
 
-/* ── Salon Card (reused) ─────────────────────────────── */
+function FeaturedSalonsGrid({ go }: { go: (v: View) => void }) {
+  const [salons, setSalons] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("salons").select("*");
+      if (data) setSalons(data);
+      setLoading(false);
+    })();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center py-10">
+        <div className="w-8 h-8 border-2 border-[#C4955A] border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (salons.length === 0) {
+    return (
+      <div className="p-10 text-center rounded-3xl border bg-white max-w-lg mx-auto shadow-sm" style={{ borderColor: "#E8E0D5" }}>
+        <p className="font-semibold text-base mb-1" style={{ color: "#2C1810" }}>No Salons Listed Yet</p>
+        <p className="text-xs mb-4" style={{ color: "#8B7355" }}>Be the first salon owner to list your barbershop or beauty studio on StyleHub!</p>
+        <button onClick={() => go("client-profile-add-salon")} className="px-5 py-2.5 rounded-xl text-xs font-semibold text-white bg-[#2C1810] hover:bg-[#3D2418] transition-all">
+          💈 Register Your Salon
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      {salons.map(s => <SalonCard key={s.id} salon={s} go={go} />)}
+    </div>
+  );
+}
+
 function SalonCard({ salon, go, onSelect }: { salon: any; go: (v: View) => void; onSelect?: (s: any) => void }) {
-  // DB salons have owner_id; mock salons have img
+  const [realRating, setRealRating] = useState<string | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await supabase.from("reviews").select("rating");
+      if (data && data.length > 0) {
+        // Query reviews for this salon by salon_id or salon_name
+        const { data: revs } = await supabase
+          .from("reviews")
+          .select("rating")
+          .or(`salon_id.eq.${salon.id || "0"},salon_name.ilike.${salon.name || ""}`);
+        if (revs && revs.length > 0) {
+          const avg = revs.reduce((acc, r) => acc + Number(r.rating || 5), 0) / revs.length;
+          setRealRating(avg.toFixed(1));
+        } else if (salon.rating) {
+          setRealRating(Number(salon.rating).toFixed(1));
+        } else {
+          setRealRating(null);
+        }
+      } else if (salon.rating) {
+        setRealRating(Number(salon.rating).toFixed(1));
+      } else {
+        setRealRating(null);
+      }
+    })();
+  }, [salon.id, salon.name]);
+
   const coverImg = salon.cover_url || salon.img ||
     "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop&auto=format";
-  const logoImg = salon.logo_url || salon.img || "";
-  const rating = salon.rating ?? 4.8;
-  const price = salon.price ?? "from ZMK 150";
+  const price = salon.price;
   const tags = (salon.tags as string[]) || [];
   const dist = salon.dist ? ` · ${salon.dist}` : "";
 
@@ -678,9 +663,13 @@ function SalonCard({ salon, go, onSelect }: { salon: any; go: (v: View) => void;
           onError={e => { (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop&auto=format"; }}
         />
         <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold text-white"
-          style={{ background: "rgba(28,14,8,0.72)", backdropFilter: "blur(4px)" }}>★ {rating}</div>
-        <div className="absolute bottom-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full"
-          style={{ background: "rgba(196,149,90,0.92)", color: "white" }}>{price}</div>
+          style={{ background: "rgba(28,14,8,0.72)", backdropFilter: "blur(4px)" }}>
+          ★ {realRating ? realRating : "New"}
+        </div>
+        {price && (
+          <div className="absolute bottom-3 left-3 text-xs font-semibold px-2.5 py-1 rounded-full"
+            style={{ background: "rgba(196,149,90,0.92)", color: "white" }}>{price}</div>
+        )}
       </div>
       <div className="p-4">
         <h3 className="font-semibold mb-0.5 truncate" style={{ color: "#2C1810" }}>{salon.name}</h3>
@@ -718,11 +707,7 @@ function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectS
     })();
   }, []);
 
-  // Merge: DB salons first, then mock salons not already covered
-  const allSalons: any[] = [
-    ...dbSalons,
-    ...SALONS.filter(ms => !dbSalons.some(db => db.name.toLowerCase() === ms.name.toLowerCase()))
-  ];
+  const allSalons: any[] = dbSalons;
 
   const filtered = allSalons.filter(s => {
     const qs = q.toLowerCase();
@@ -746,16 +731,6 @@ function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectS
           </svg>
           <input value={q} onChange={e => setQ(e.target.value)} placeholder="Search salon or location…" className="flex-1 text-sm bg-transparent outline-none" />
         </div>
-        <select value={svc} onChange={e => setSvc(e.target.value)} className="px-4 py-3 rounded-xl border text-sm outline-none" style={{ background: "white", borderColor: "#E8E0D5", color: "#2C1810" }}>
-          <option value="all">All Services</option>
-          {["Braiding", "Cornrows", "Dreadlocks", "Weaving", "Natural Hair", "Styling", "Hair Treatment", "Hair Cutting"].map(s => <option key={s} value={s}>{s}</option>)}
-        </select>
-        <select value={rat} onChange={e => setRat(e.target.value)} className="px-4 py-3 rounded-xl border text-sm outline-none" style={{ background: "white", borderColor: "#E8E0D5", color: "#2C1810" }}>
-          <option value="all">Any Rating</option>
-          <option value="4.5">4.5+ Stars</option>
-          <option value="4.7">4.7+ Stars</option>
-          <option value="4.9">4.9 Stars</option>
-        </select>
       </div>
 
       {/* Quick filters */}
@@ -1106,17 +1081,76 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
 function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }) {
   const [step, setStep] = useState(1);
   const [selSvc, setSelSvc] = useState<typeof SERVICES_LIST[0] | null>(null);
+  const [currDate, setCurrDate] = useState(new Date());
   const [selDate, setSelDate] = useState<number | null>(null);
+  const [selectedDateStr, setSelectedDateStr] = useState<string | null>(null);
   const [selTime, setSelTime] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitErr, setSubmitErr] = useState<string | null>(null);
 
-  const salonName = salon?.name || "Glam Studio";
+  const salonName = salon?.name || "StyleHub Partner";
   const salonCity = salon?.city || "Lusaka, Zambia";
   const salonImg = salon?.logo_url || salon?.cover_url || salon?.img ||
     "https://images.unsplash.com/photo-1560066984-138dadb4c035?w=200&h=200&fit=crop&auto=format";
 
   const STEPS = ["Select Service", "Select Date", "Select Time", "Confirm"];
+
+  const monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const year = currDate.getFullYear();
+  const month = currDate.getMonth();
+
+  const handlePrevMonth = () => {
+    setCurrDate(new Date(year, month - 1, 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrDate(new Date(year, month + 1, 1));
+  };
+
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const firstDayIndex = new Date(year, month, 1).getDay();
+  const offset = (firstDayIndex + 6) % 7;
+
+  const handleSelectDay = (d: number) => {
+    setSelDate(d);
+    const monthShort = monthNames[month].slice(0, 3);
+    const formatted = `${monthShort} ${d}, ${year}`;
+    setSelectedDateStr(formatted);
+  };
+
+  const [clientNotes, setClientNotes] = useState("");
+  const [refPhotoUrl, setRefPhotoUrl] = useState("");
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingPhoto(true);
+    const fileExt = file.name.split('.').pop();
+    const fileName = `ref-${Date.now()}.${fileExt}`;
+    const filePath = `booking-photos/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("salon-images")
+      .upload(filePath, file, { upsert: true });
+
+    if (uploadError) {
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setRefPhotoUrl(ev.target?.result as string);
+        setUploadingPhoto(false);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      const { data } = supabase.storage.from("salon-images").getPublicUrl(filePath);
+      setRefPhotoUrl(data.publicUrl);
+      setUploadingPhoto(false);
+    }
+  };
 
   async function handleConfirm() {
     if (!selSvc || !selDate || !selTime) return;
@@ -1125,7 +1159,7 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
     if (!user) { setSubmitErr("Please sign in to book."); setSubmitting(false); return; }
     if (!salon?.id) { setSubmitErr("Salon not found. Please go back and try again."); setSubmitting(false); return; }
 
-    const dateStr = `Sep ${selDate}, 2026`;
+    const dateStr = selectedDateStr || `${monthNames[month].slice(0, 3)} ${selDate}, ${year}`;
     const { error } = await supabase.from("bookings").insert({
       salon_id: salon.id,
       client_id: user.id,
@@ -1137,6 +1171,8 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
       date: dateStr,
       time: selTime,
       status: "pending",
+      notes: clientNotes.trim() || null,
+      photo_url: refPhotoUrl || null,
     });
     setSubmitting(false);
     if (error) {
@@ -1210,12 +1246,12 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
       {step === 2 && (
         <div className="anim-up">
           <h1 className="font-display text-3xl font-semibold mb-2" style={{ color: "#2C1810" }}>Select a Date</h1>
-          <p className="text-sm mb-7" style={{ color: "#8B7355" }}>Choose your preferred appointment date in September 2026.</p>
+          <p className="text-sm mb-7" style={{ color: "#8B7355" }}>Choose your preferred appointment date in {monthNames[month]} {year}.</p>
           <div className="rounded-3xl border p-6 mb-6" style={{ background: "white", borderColor: "#E8E0D5" }}>
             <div className="flex items-center justify-between mb-6">
-              <button className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[#F2EDE5] text-lg">‹</button>
-              <span className="font-semibold" style={{ color: "#2C1810" }}>September 2026</span>
-              <button className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[#F2EDE5] text-lg">›</button>
+              <button onClick={handlePrevMonth} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[#F2EDE5] text-lg font-bold">‹</button>
+              <span className="font-semibold text-base" style={{ color: "#2C1810" }}>{monthNames[month]} {year}</span>
+              <button onClick={handleNextMonth} className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-[#F2EDE5] text-lg font-bold">›</button>
             </div>
             <div className="grid grid-cols-7 text-center mb-3">
               {["M", "T", "W", "T", "F", "S", "S"].map((d, i) => (
@@ -1223,10 +1259,16 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
               ))}
             </div>
             <div className="grid grid-cols-7 text-center gap-y-1">
-              {Array.from({ length: 30 }, (_, i) => i + 1).map(d => {
-                const past = d < 6, sel = selDate === d;
+              {Array.from({ length: offset }).map((_, i) => (
+                <div key={`empty-${i}`} className="w-9 h-9 mx-auto" />
+              ))}
+              {Array.from({ length: daysInMonth }, (_, i) => i + 1).map(d => {
+                const today = new Date();
+                const thisDayObj = new Date(year, month, d);
+                const past = thisDayObj.getTime() < new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+                const sel = selDate === d && selectedDateStr === `${monthNames[month].slice(0, 3)} ${d}, ${year}`;
                 return (
-                  <button key={d} disabled={past} onClick={() => setSelDate(d)}
+                  <button key={d} disabled={past} onClick={() => handleSelectDay(d)}
                     className={`w-9 h-9 mx-auto rounded-xl text-sm font-medium transition-all flex items-center justify-center ${past ? "opacity-30 cursor-not-allowed" : sel ? "text-white" : "hover:bg-[#F2EDE5]"}`}
                     style={{ background: sel ? "#2C1810" : "transparent", color: sel ? "white" : "#2C1810" }}>
                     {d}
@@ -1235,9 +1277,9 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
               })}
             </div>
           </div>
-          {selDate && (
+          {selectedDateStr && (
             <div className="px-4 py-3 rounded-xl mb-4 text-sm font-medium" style={{ background: "#FFF8EE", color: "#8B6039" }}>
-              📅 Selected: September {selDate}, 2026
+              📅 Selected: {selectedDateStr}
             </div>
           )}
           <div className="flex gap-3">
@@ -1312,6 +1354,51 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
                 <span className="text-sm font-semibold" style={{ color: l === "Price" ? "#C4955A" : "#2C1810" }}>{v}</span>
               </div>
             ))}
+          </div>
+
+          {/* Notes & Style Photo input */}
+          <div className="rounded-3xl border p-6 mb-5" style={{ background: "white", borderColor: "#E8E0D5" }}>
+            <h3 className="font-semibold text-sm mb-3" style={{ color: "#2C1810" }}>Additional Notes & Style Photo (Optional)</h3>
+            
+            <div className="mb-4">
+              <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>Special Instructions / Notes</label>
+              <textarea
+                value={clientNotes}
+                onChange={e => setClientNotes(e.target.value)}
+                placeholder="e.g. Please make braids waist-length, I will bring my own hair extensions..."
+                rows={3}
+                className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] resize-none transition-colors"
+                style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>Reference Style Photo</label>
+              <div className="flex items-center gap-3">
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="booking-style-photo"
+                  onChange={handlePhotoUpload}
+                  className="hidden"
+                />
+                <label
+                  htmlFor="booking-style-photo"
+                  className="px-4 py-2.5 rounded-xl border text-xs font-semibold cursor-pointer hover:bg-[#F2EDE5] transition-colors"
+                  style={{ borderColor: "#C4955A", color: "#C4955A" }}
+                >
+                  {uploadingPhoto ? "Uploading Photo..." : "📷 Upload Reference Photo"}
+                </label>
+                {refPhotoUrl && (
+                  <span className="text-xs text-green-600 font-semibold">✓ Photo attached</span>
+                )}
+              </div>
+              {refPhotoUrl && (
+                <div className="mt-3 w-24 h-24 rounded-2xl overflow-hidden border shadow-sm">
+                  <img src={refPhotoUrl} alt="Reference style" className="w-full h-full object-cover" />
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="px-4 py-3.5 rounded-2xl mb-6 text-xs leading-relaxed" style={{ background: "#FFF8EE", color: "#8B6039", border: "1px solid #F5E6C8" }}>
@@ -1871,7 +1958,19 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
     if (data) setSalons(data);
   };
 
-  useEffect(() => { fetchSalons(); }, []);
+  const [profileUser, setProfileUser] = useState<any>(null);
+
+  useEffect(() => {
+    fetchSalons();
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) setProfileUser(user);
+    })();
+  }, []);
+
+  const profileName = profileUser?.user_metadata?.full_name || (profileUser?.email ? profileUser.email.split("@")[0] : "Client Profile");
+  const profileEmail = profileUser?.email || "Not specified";
+  const profilePhone = profileUser?.phone || profileUser?.user_metadata?.phone || "Not specified";
 
   const openNewForm = () => {
     setFormId(null);
@@ -1982,12 +2081,16 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
             </div>
             <div className="px-6 pb-6">
               <div className="flex flex-col sm:flex-row sm:items-end gap-4 -mt-10 mb-5">
-                <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0" style={{ borderColor: "white" }}>
-                  <img src="https://images.unsplash.com/photo-1632765854612-9b02b6ec2b15?w=200&h=200&fit=crop&auto=format" alt="Avatar" className="w-full h-full object-cover" />
+                <div className="w-20 h-20 rounded-2xl overflow-hidden border-4 flex-shrink-0 flex items-center justify-center text-white"
+                  style={{ borderColor: "white", background: "linear-gradient(135deg,#C4955A 0%,#2C1810 100%)" }}>
+                  <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
                 </div>
                 <div className="pb-1">
-                  <h2 className="font-display text-2xl font-semibold" style={{ color: "#2C1810" }}>Zara Asante</h2>
-                  <p className="text-sm" style={{ color: "#8B7355" }}>Member since Jan 2025</p>
+                  <h2 className="font-display text-2xl font-semibold" style={{ color: "#2C1810" }}>{profileName}</h2>
+                  <p className="text-sm" style={{ color: "#8B7355" }}>StyleHub Member</p>
                 </div>
                 <Btn variant="secondary" className="sm:ml-auto px-5 py-2.5 text-sm self-start sm:self-end" onClick={() => setEditing(!editing)}>
                   {editing ? "Cancel" : "Edit Profile"}
@@ -1995,7 +2098,7 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
               </div>
               {editing ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Date of Birth", "March 15, 1995"]].map(([l, v]) => (
+                  {[["Full Name", profileName], ["Phone", profilePhone], ["Email", profileEmail], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Hair Care"]].map(([l, v]) => (
                     <div key={l}>
                       <label className="block text-xs font-semibold uppercase tracking-wide mb-1.5" style={{ color: "#8B7355" }}>{l}</label>
                       <input defaultValue={v} className="w-full px-4 py-2.5 rounded-xl border text-sm outline-none focus:border-[#C4955A] transition-colors" style={{ borderColor: "#E8E0D5", background: "#FAF7F2", color: "#2C1810" }} />
@@ -2007,7 +2110,7 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
                 </div>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {[["Full Name", "Zara Asante"], ["Phone", "+260 97 567 8901"], ["Email", "zara@email.com"], ["Location", "Lusaka, Zambia"], ["Preferred Service", "Braiding"], ["Member Since", "January 2025"]].map(([l, v]) => (
+                  {[["Full Name", profileName], ["Phone", profilePhone], ["Email", profileEmail], ["Location", "Lusaka, Zambia"]].map(([l, v]) => (
                     <div key={l} className="py-3 border-b last:border-0" style={{ borderColor: "#F2EDE5" }}>
                       <p className="text-[11px] font-semibold uppercase tracking-wide mb-1" style={{ color: "#8B7355" }}>{l}</p>
                       <p className="text-sm font-medium" style={{ color: "#2C1810" }}>{v}</p>
@@ -2601,20 +2704,43 @@ function SalonDashboardPage({ go }: { go: (v: View) => void }) {
   const approved = bookings.filter(b => b.status === "approved");
   const completed = bookings.filter(b => b.status === "completed");
 
-  const todaySchedule = [
-    { time: "09:00", client: null },
-    { time: "09:30", client: null },
-    { time: "10:00", client: { name: "Sarah Mensah", svc: "Box Braids", bg: "#FFF8EE", border: "#F5E6C8" } },
-    { time: "10:30", client: { name: "Sarah Mensah", svc: "(cont.)", bg: "#FFF8EE", border: "#F5E6C8" } },
-    { time: "11:00", client: null },
-    { time: "11:30", client: { name: "John Asante", svc: "Haircut", bg: "#F0FDF4", border: "#BBF7D0" } },
-    { time: "12:00", client: null },
-    { time: "12:30", client: { name: "Amara Osei", svc: "Cornrows", bg: "#FAF2EE", border: "#EACDBE" } },
-    { time: "13:00", client: { name: "Amara Osei", svc: "(cont.)", bg: "#FAF2EE", border: "#EACDBE" } },
-    { time: "13:30", client: null },
-    { time: "14:00", client: { name: "Fatima Diallo", svc: "Weaving", bg: "#FFF8EE", border: "#F5E6C8" } },
-    { time: "15:00", client: { name: "Nana Boateng", svc: "Hair Treatment", bg: "#F0FDF4", border: "#BBF7D0" } },
+  const timeSlots = [
+    "09:00", "09:30", "10:00", "10:30", "11:00", "11:30",
+    "12:00", "12:30", "13:00", "13:30", "14:00", "14:30",
+    "15:00", "15:30", "16:00", "16:30"
   ];
+
+  const todaySchedule = timeSlots.map(slotTime => {
+    const matched = bookings.find(b => {
+      if (!b.time) return false;
+      const bTimeLower = b.time.toLowerCase();
+      const slotLower = slotTime.toLowerCase();
+      const hourMin = bTimeLower.replace(/\s*(am|pm)/g, '').padStart(5, '0');
+      return bTimeLower.includes(slotLower) || hourMin === slotTime;
+    });
+
+    if (!matched) return { time: slotTime, client: null };
+
+    let bg = "#FFF8EE";
+    let border = "#F5E6C8";
+    if (matched.status === "approved") {
+      bg = "#F0FDF4";
+      border = "#BBF7D0";
+    } else if (matched.status === "rejected" || matched.status === "cancelled") {
+      bg = "#FEF2F2";
+      border = "#FCA5A5";
+    }
+
+    return {
+      time: slotTime,
+      client: {
+        name: matched.client_name || "Client",
+        svc: `${matched.service_name} (${matched.status})`,
+        bg,
+        border
+      }
+    };
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
@@ -2957,42 +3083,60 @@ function AppointmentRequestsPage() {
 ══════════════════════════════════════════════════════════ */
 function SalonCalendarPage() {
   const [calView, setCalView] = useState<"day" | "week">("day");
+  const [bookings, setBookings] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const daySlots = [
-    { time: "09:00", entry: null },
-    { time: "09:30", entry: null },
-    { time: "10:00", entry: { name: "Sarah Mensah", svc: "Box Braids", bg: "#FFF8EE", brd: "#F5E6C8" } },
-    { time: "10:30", entry: { name: "Sarah Mensah", svc: "Box Braids", bg: "#FFF8EE", brd: "#F5E6C8" } },
-    { time: "11:00", entry: null },
-    { time: "11:30", entry: { name: "John Asante", svc: "Haircut", bg: "#F0FDF4", brd: "#BBF7D0" } },
-    { time: "12:00", entry: null },
-    { time: "12:30", entry: { name: "Amara Osei", svc: "Cornrows", bg: "#FAF2EE", brd: "#EACDBE" } },
-    { time: "13:00", entry: { name: "Amara Osei", svc: "Cornrows", bg: "#FAF2EE", brd: "#EACDBE" } },
-    { time: "13:30", entry: null },
-    { time: "14:00", entry: { name: "Fatima Diallo", svc: "Weaving", bg: "#FFF8EE", brd: "#F5E6C8" } },
-    { time: "14:30", entry: { name: "Fatima Diallo", svc: "Weaving", bg: "#FFF8EE", brd: "#F5E6C8" } },
-    { time: "15:00", entry: null },
-    { time: "15:30", entry: { name: "Nana Boateng", svc: "Hair Treatment", bg: "#F0FDF4", brd: "#BBF7D0" } },
-    { time: "16:00", entry: null },
-    { time: "16:30", entry: null },
-  ];
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setLoading(false); return; }
+      const { data: salons } = await supabase.from("salons").select("id").eq("owner_id", user.id);
+      let res;
+      if (salons && salons.length > 0) {
+        const salonIds = salons.map((s: any) => s.id);
+        res = await supabase.from("bookings").select("*").in("salon_id", salonIds).order("created_at", { ascending: false });
+      } else {
+        res = await supabase.from("bookings").select("*").order("created_at", { ascending: false });
+      }
+      if (res.data) setBookings(res.data);
+      setLoading(false);
+    })();
+  }, []);
 
-  const weekDays = ["Mon 7", "Tue 8", "Wed 9", "Thu 10", "Fri 11"];
-  const weekData: (string | null)[][] = [
-    [null, "Kofi – Cut", null, "Sarah – Braids", null],
-    [null, "Kofi – Cut", null, "Sarah – Braids", null],
-    ["Amara – Cornrows", null, "Yemi – Weave", null, null],
-    ["Amara – Cornrows", null, "Yemi – Weave", null, null],
-    [null, null, "Yemi – Weave", null, "Nana – Treat"],
-    [null, null, null, null, "Nana – Treat"],
-    [null, null, null, null, null],
-    ["Fatima – Braids", null, null, "John – Cut", null],
-    ["Fatima – Braids", null, null, null, null],
-    ["Fatima – Braids", null, null, null, null],
-    [null, "Adwoa – Locs", null, null, null],
-    [null, "Adwoa – Locs", null, null, null],
-  ];
-  const weekTimes = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30"];
+  const timeList = ["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"];
+
+  const daySlots = timeList.map(t => {
+    const matched = bookings.find(b => {
+      if (!b.time) return false;
+      const bTimeLower = b.time.toLowerCase();
+      return bTimeLower.includes(t) || bTimeLower.replace(/\s*(am|pm)/g, '').padStart(5, '0') === t;
+    });
+
+    if (!matched) return { time: t, entry: null };
+
+    return {
+      time: t,
+      entry: {
+        name: matched.client_name || "Client",
+        svc: `${matched.service_name} (${matched.status})`,
+        bg: matched.status === "approved" ? "#F0FDF4" : "#FFF8EE",
+        brd: matched.status === "approved" ? "#BBF7D0" : "#F5E6C8"
+      }
+    };
+  });
+
+  const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+  const weekTimes = timeList;
+  const weekData: (string | null)[][] = weekTimes.map(t => {
+    return weekDays.map(() => {
+      const match = bookings.find(b => {
+        if (!b.time) return false;
+        return b.time.toLowerCase().includes(t);
+      });
+      return match ? `${match.client_name} – ${match.service_name}` : null;
+    });
+  });
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
@@ -3760,7 +3904,22 @@ export default function App() {
     return () => { isMounted = false; };
   }, [authUser, view]);
 
-  const unread = NOTIFS.filter(n => !n.read).length;
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setUnreadCount(0); return; }
+      const { data: ownedSalons } = await supabase.from("salons").select("id").eq("owner_id", user.id);
+      const ownerSalonIds = ownedSalons?.map(s => s.id) || [];
+      const { data: ownerPending } = ownerSalonIds.length > 0
+        ? await supabase.from("bookings").select("id").in("salon_id", ownerSalonIds).eq("status", "pending")
+        : { data: [] };
+      setUnreadCount(ownerPending?.length || 0);
+    })();
+  }, [authUser, view]);
+
+  const unread = unreadCount;
 
   // Wrap setView to scroll to top on navigation, gating protected views
   const go = (v: View) => {
