@@ -71,11 +71,11 @@ CREATE POLICY "Clients can cancel own bookings"
   ON public.bookings FOR UPDATE
   USING (auth.uid() = client_id AND status = 'pending');
 
--- 6. Allow authenticated users to view & update bookings
+-- 6. Allow all users (authenticated & anon) to select bookings for schedule availability
 DROP POLICY IF EXISTS "Authenticated users can select bookings" ON public.bookings;
-CREATE POLICY "Authenticated users can select bookings"
+DROP POLICY IF EXISTS "Anyone can select bookings" ON public.bookings;
+CREATE POLICY "Anyone can select bookings"
   ON public.bookings FOR SELECT
-  TO authenticated
   USING (true);
 
 DROP POLICY IF EXISTS "Authenticated users can update bookings" ON public.bookings;

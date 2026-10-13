@@ -71,15 +71,15 @@ const SERVICES_LIST = [
   // Note: prices above are in ZMK (Zambian Kwacha)
 ];
 
-const TIME_SLOTS = [
-  { t: "09:00 AM", booked: false }, { t: "09:30 AM", booked: false },
-  { t: "10:00 AM", booked: true }, { t: "10:30 AM", booked: true },
-  { t: "11:00 AM", booked: false }, { t: "11:30 AM", booked: false },
-  { t: "12:00 PM", booked: false }, { t: "12:30 PM", booked: true },
-  { t: "01:00 PM", booked: false }, { t: "01:30 PM", booked: false },
-  { t: "02:00 PM", booked: true }, { t: "02:30 PM", booked: false },
-  { t: "03:00 PM", booked: false }, { t: "03:30 PM", booked: true },
-  { t: "04:00 PM", booked: false }, { t: "04:30 PM", booked: false },
+const BASE_TIME_SLOTS = [
+  "09:00 AM", "09:30 AM",
+  "10:00 AM", "10:30 AM",
+  "11:00 AM", "11:30 AM",
+  "12:00 PM", "12:30 PM",
+  "01:00 PM", "01:30 PM",
+  "02:00 PM", "02:30 PM",
+  "03:00 PM", "03:30 PM",
+  "04:00 PM", "04:30 PM",
 ];
 
 const APPTS_INIT: Appt[] = [];
@@ -459,7 +459,7 @@ function Footer({ go }: { go: (v: View) => void }) {
 /* ══════════════════════════════════════════════════════════
    HOME PAGE
 ══════════════════════════════════════════════════════════ */
-function HomePage({ go }: { go: (v: View) => void }) {
+function HomePage({ go, onSelectSalon }: { go: (v: View) => void; onSelectSalon?: (s: any) => void }) {
   const [viewStyleModal, setViewStyleModal] = useState<any | null>(null);
 
   return (
@@ -559,7 +559,7 @@ function HomePage({ go }: { go: (v: View) => void }) {
             </div>
             <button onClick={() => go("find-salon")} className="hidden sm:block text-sm font-semibold" style={{ color: "#C4955A" }}>Find More →</button>
           </div>
-          <FeaturedSalonsGrid go={go} />
+          <FeaturedSalonsGrid go={go} onSelect={onSelectSalon} />
         </div>
       </section>
 
@@ -579,7 +579,7 @@ function HomePage({ go }: { go: (v: View) => void }) {
   );
 }
 
-function FeaturedSalonsGrid({ go }: { go: (v: View) => void }) {
+function FeaturedSalonsGrid({ go, onSelect }: { go: (v: View) => void; onSelect?: (s: any) => void }) {
   const [salons, setSalons] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -613,7 +613,7 @@ function FeaturedSalonsGrid({ go }: { go: (v: View) => void }) {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      {salons.map(s => <SalonCard key={s.id} salon={s} go={go} />)}
+      {salons.map(s => <SalonCard key={s.id} salon={s} go={go} onSelect={onSelect} />)}
     </div>
   );
 }
@@ -790,7 +790,7 @@ function ServicesPage({ go }: { go: (v: View) => void }) {
                 <span className="font-semibold text-sm" style={{ color: "#C4955A" }}>from ZMK {s.price}</span>
                 <span className="text-xs px-2.5 py-1 rounded-full" style={{ background: "#F2EDE5", color: "#8B7355" }}>{s.dur}</span>
               </div>
-              <Btn variant="primary" className="w-full py-2.5 text-sm" onClick={() => go("find-salon")}>View Shops</Btn>
+              <Btn variant="primary" className="w-full py-2.5 text-sm" onClick={() => go("find-salon")}>View Saloons</Btn>
             </div>
           </div>
         ))}
@@ -1078,7 +1078,7 @@ function SalonDetailPage({ salon, go }: { salon: any | null; go: (v: View) => vo
 /* ══════════════════════════════════════════════════════════
    BOOKING FLOW (4 steps)
 ══════════════════════════════════════════════════════════ */
-function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }) {
+function BookingPage({ go, salon, onBookingSuccess }: { go: (v: View) => void; salon: any | null; onBookingSuccess?: (b: any) => void }) {
   const [step, setStep] = useState(1);
   const [selSvc, setSelSvc] = useState<typeof SERVICES_LIST[0] | null>(null);
   const [currDate, setCurrDate] = useState(new Date());
@@ -1087,6 +1087,9 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
   const [selTime, setSelTime] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitErr, setSubmitErr] = useState<string | null>(null);
+
+  const [bookedTimes, setBookedTimes] = useState<string[]>([]);
+  const [loadingTimes, setLoadingTimes] = useState(false);
 
   const salonName = salon?.name || "StyleHub Partner";
   const salonCity = salon?.city || "Lusaka, Zambia";
@@ -1121,6 +1124,52 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
     const formatted = `${monthShort} ${d}, ${year}`;
     setSelectedDateStr(formatted);
   };
+
+  const effectiveDateStr = selectedDateStr || (selDate ? `${monthNames[month].slice(0, 3)} ${selDate}, ${year}` : "");
+
+  // Fetch real-time booked times for this salon on this date
+  useEffect(() => {
+    if (!salon?.id || !effectiveDateStr) {
+      setBookedTimes([]);
+      return;
+    }
+
+    const fetchBookedTimes = async () => {
+      setLoadingTimes(true);
+      const { data } = await supabase
+        .from("bookings")
+        .select("time, status, date")
+        .eq("salon_id", salon.id)
+        .in("status", ["pending", "approved"]);
+
+      if (data) {
+        const normEffective = effectiveDateStr.toLowerCase().replace(/,/g, '').trim();
+        const booked = data
+          .filter(b => {
+            if (!b.date) return false;
+            const normBDate = b.date.toLowerCase().replace(/,/g, '').trim();
+            return normBDate === normEffective || normBDate.includes(normEffective) || normEffective.includes(normBDate);
+          })
+          .map(b => (b.time || "").trim());
+
+        setBookedTimes(booked);
+      }
+      setLoadingTimes(false);
+    };
+
+    fetchBookedTimes();
+
+    const channel = supabase
+      .channel(`realtime-bookings-slot-${salon.id}`)
+      .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () => {
+        fetchBookedTimes();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [salon?.id, effectiveDateStr]);
 
   const [clientNotes, setClientNotes] = useState("");
   const [refPhotoUrl, setRefPhotoUrl] = useState("");
@@ -1160,6 +1209,29 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
     if (!salon?.id) { setSubmitErr("Salon not found. Please go back and try again."); setSubmitting(false); return; }
 
     const dateStr = selectedDateStr || `${monthNames[month].slice(0, 3)} ${selDate}, ${year}`;
+
+    // Verify if slot has already been booked by another client
+    const normSelTime = selTime.toLowerCase().replace(/\s+/g, "");
+    const { data: conflictCheck } = await supabase
+      .from("bookings")
+      .select("id, time, date")
+      .eq("salon_id", salon.id)
+      .in("status", ["pending", "approved"]);
+
+    const normTargetDate = dateStr.toLowerCase().replace(/,/g, '').trim();
+    const hasConflict = conflictCheck?.some(b => {
+      const normBDate = (b.date || "").toLowerCase().replace(/,/g, '').trim();
+      const normBTime = (b.time || "").toLowerCase().replace(/\s+/g, "");
+      const dateMatches = normBDate === normTargetDate || normBDate.includes(normTargetDate) || normTargetDate.includes(normBDate);
+      return dateMatches && normBTime === normSelTime;
+    });
+
+    if (hasConflict) {
+      setSubmitErr("This time slot has already been booked. Please go back and select a different time.");
+      setSubmitting(false);
+      return;
+    }
+
     const { error } = await supabase.from("bookings").insert({
       salon_id: salon.id,
       client_id: user.id,
@@ -1178,6 +1250,15 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
     if (error) {
       setSubmitErr("Could not send request: " + error.message);
     } else {
+      if (onBookingSuccess) {
+        onBookingSuccess({
+          salonName,
+          serviceName: selSvc.name,
+          date: dateStr,
+          time: selTime,
+          status: "pending",
+        });
+      }
       go("booking-sent");
     }
   }
@@ -1294,33 +1375,53 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
         <div className="anim-up">
           <h1 className="font-display text-3xl font-semibold mb-1" style={{ color: "#2C1810" }}>Select a Time</h1>
           <p className="text-sm mb-6" style={{ color: "#8B7355" }}>
-            {selDate ? `September ${selDate}, 2026` : "Choose an available time slot."}
+            {effectiveDateStr || "Choose an available time slot."}
           </p>
           <div className="flex items-center gap-6 px-4 py-3 rounded-2xl mb-6" style={{ background: "#F2EDE5" }}>
             <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-[#2C1810]" /><span className="text-xs font-medium" style={{ color: "#8B7355" }}>Available</span></div>
             <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-red-300" /><span className="text-xs font-medium" style={{ color: "#8B7355" }}>Booked</span></div>
             <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-[#C4955A]" /><span className="text-xs font-medium" style={{ color: "#8B7355" }}>Selected</span></div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
-            {TIME_SLOTS.map(({ t, booked }) => {
-              const sel = selTime === t;
-              return (
-                <button key={t} disabled={booked} onClick={() => !booked && setSelTime(t)}
-                  className={`relative py-3.5 px-4 rounded-2xl text-sm font-medium border transition-all ${booked ? "cursor-not-allowed" : sel ? "ring-2 ring-[#C4955A]" : "hover:scale-[1.02] active:scale-[.98]"}`}
-                  style={{
-                    background: booked ? "#FEF2F2" : sel ? "#2C1810" : "white",
-                    color: booked ? "#F87171" : sel ? "white" : "#2C1810",
-                    borderColor: booked ? "#FECACA" : sel ? "#2C1810" : "#E8E0D5",
-                  }}>
-                  {t}
-                  {booked && <span className="absolute bottom-1 right-2 text-[10px] font-bold text-red-400">Booked</span>}
-                </button>
-              );
-            })}
-          </div>
+
+          {loadingTimes ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+              {BASE_TIME_SLOTS.map(t => (
+                <div key={t} className="h-14 rounded-2xl bg-[#F2EDE5] animate-pulse" />
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-8">
+              {BASE_TIME_SLOTS.map(t => {
+                const normT = t.toLowerCase().replace(/\s+/g, "");
+                const isBooked = bookedTimes.some(b => b.toLowerCase().replace(/\s+/g, "") === normT);
+                const sel = selTime === t;
+
+                return (
+                  <button key={t} disabled={isBooked} onClick={() => !isBooked && setSelTime(t)}
+                    className={`relative py-3.5 px-4 rounded-2xl text-sm font-medium border transition-all ${isBooked ? "cursor-not-allowed opacity-80" : sel ? "ring-2 ring-[#C4955A]" : "hover:scale-[1.02] active:scale-[.98]"}`}
+                    style={{
+                      background: isBooked ? "#FEF2F2" : sel ? "#2C1810" : "white",
+                      color: isBooked ? "#F87171" : sel ? "white" : "#2C1810",
+                      borderColor: isBooked ? "#FECACA" : sel ? "#2C1810" : "#E8E0D5",
+                    }}>
+                    {t}
+                    {isBooked && <span className="absolute bottom-1 right-2 text-[10px] font-bold text-red-500">Booked</span>}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+
           <div className="flex gap-3">
             <Btn variant="secondary" className="px-6 py-4 text-sm" onClick={() => setStep(2)}>← Back</Btn>
-            <Btn variant="primary" className="flex-1 py-4 text-sm" onClick={() => selTime && setStep(4)}>Continue → Confirm</Btn>
+            <Btn variant="primary" className="flex-1 py-4 text-sm" onClick={() => {
+              if (!selTime) return;
+              const normSel = selTime.toLowerCase().replace(/\s+/g, "");
+              const isBooked = bookedTimes.some(b => b.toLowerCase().replace(/\s+/g, "") === normSel);
+              if (!isBooked) setStep(4);
+            }}>
+              Continue → Confirm
+            </Btn>
           </div>
         </div>
       )}
@@ -1433,7 +1534,12 @@ function BookingPage({ go, salon }: { go: (v: View) => void; salon: any | null }
 /* ══════════════════════════════════════════════════════════
    BOOKING SENT
 ══════════════════════════════════════════════════════════ */
-function BookingSentPage({ go }: { go: (v: View) => void }) {
+function BookingSentPage({ go, lastBooking, salon }: { go: (v: View) => void; lastBooking?: any; salon?: any }) {
+  const currentSalonName = lastBooking?.salonName || salon?.name || "The Salon";
+  const currentServiceName = lastBooking?.serviceName || "Selected Service";
+  const currentDate = lastBooking?.date || "Upcoming Date";
+  const currentTime = lastBooking?.time || "Scheduled Time";
+
   return (
     <div className="max-w-md mx-auto px-6 py-20 text-center anim-up">
       <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"
@@ -1444,15 +1550,15 @@ function BookingSentPage({ go }: { go: (v: View) => void }) {
       </div>
       <h1 className="font-display text-3xl font-semibold mb-3" style={{ color: "#2C1810" }}>Appointment Request Sent!</h1>
       <p className="text-sm leading-relaxed mb-6" style={{ color: "#8B7355" }}>
-        Glam Studio has received your request. They will review it and you'll be notified once it is approved or rejected.
+        {currentSalonName} has received your request. They will review it and you'll be notified once it is approved or rejected.
       </p>
 
       <div className="rounded-3xl border p-5 mb-8 text-left" style={{ background: "white", borderColor: "#E8E0D5" }}>
         {[
-          { l: "Salon", v: "Glam Studio" },
-          { l: "Service", v: "Box Braids" },
-          { l: "Date", v: "Saturday, Sep 13, 2026" },
-          { l: "Time", v: "11:00 AM" },
+          { l: "Salon", v: currentSalonName },
+          { l: "Service", v: currentServiceName },
+          { l: "Date", v: currentDate },
+          { l: "Time", v: currentTime },
         ].map(({ l, v }) => (
           <div key={l} className="flex justify-between items-center py-3 border-b last:border-0" style={{ borderColor: "#E8E0D5" }}>
             <span className="text-xs" style={{ color: "#8B7355" }}>{l}</span>
@@ -3901,6 +4007,7 @@ export default function App() {
   const [appts, setAppts] = useState<Appt[]>(APPTS_INIT);
   const [detail, setDetail] = useState<Appt | null>(null);
   const [selectedSalon, setSelectedSalon] = useState<any>(null);
+  const [lastBooking, setLastBooking] = useState<any>(null);
   const [authUser, setAuthUser] = useState<User | null>(null);
   const [authModal, setAuthModal] = useState<{ open: boolean; defaultTab: "signin" | "signup" }>({ open: false, defaultTab: "signin" });
   const [authReady, setAuthReady] = useState(false); // prevent flicker before session restore
@@ -4015,12 +4122,12 @@ export default function App() {
 
   function renderView() {
     switch (view) {
-      case "home": return <HomePage go={go} />;
+      case "home": return <HomePage go={go} onSelectSalon={setSelectedSalon} />;
       case "find-salon": return <FindSalonPage go={go} onSelectSalon={setSelectedSalon} />;
       case "services": return <ServicesPage go={go} />;
       case "salon-detail": return <SalonDetailPage salon={selectedSalon} go={go} />;
-      case "booking": return <BookingPage go={go} salon={selectedSalon} />;
-      case "booking-sent": return <BookingSentPage go={go} />;
+      case "booking": return <BookingPage go={go} salon={selectedSalon} onBookingSuccess={setLastBooking} />;
+      case "booking-sent": return <BookingSentPage go={go} lastBooking={lastBooking} salon={selectedSalon} />;
       case "my-appointments": return <MyAppointmentsPage appts={appts} setAppts={setAppts} go={go} setDetail={setDetail} />;
       case "appointment-detail": return <ApptDetailPage appt={detail} go={go} />;
       case "notifications": return <NotificationsPage onRefreshUnread={fetchUnreadCount} />;
