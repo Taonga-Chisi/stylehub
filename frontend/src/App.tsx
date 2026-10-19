@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import type { User } from "@supabase/supabase-js";
 import { supabase } from "./lib/supabase";
 import { signIn, signUp, signOut, signUpSalonOwner } from "./lib/auth";
+import { AdminLoginPage, AdminDashboardPage } from "./AdminPortal";
 
 /* ══════════════════════════════════════════════════════════
    TYPES
@@ -13,7 +14,8 @@ type View =
   | "notifications" | "client-dashboard" | "client-profile" | "client-profile-add-salon"
   | "reviews"
   | "salon-login" | "salon-dashboard" | "appointment-requests"
-  | "salon-calendar" | "manage-services" | "salon-profile" | "salon-reviews";
+  | "salon-calendar" | "manage-services" | "salon-profile" | "salon-reviews"
+  | "admin-login" | "admin-dashboard";
 
 type ApptStatus = "pending" | "approved" | "rejected" | "cancelled" | "completed";
 
@@ -449,6 +451,7 @@ function Footer({ go }: { go: (v: View) => void }) {
             {["Privacy Policy", "Terms of Service", "Cookie Policy"].map(t => (
               <span key={t} className="text-xs cursor-pointer hover:text-white transition-colors" style={{ color: "#4A3028" }}>{t}</span>
             ))}
+            <button onClick={() => go("admin-login")} className="text-xs hover:text-white transition-colors" style={{ color: "#4A3028" }}>Admin portal</button>
           </div>
         </div>
       </div>
@@ -585,7 +588,7 @@ function FeaturedSalonsGrid({ go, onSelect }: { go: (v: View) => void; onSelect?
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("salons").select("*");
+      const { data } = await supabase.from("salons").select("*").eq("approval_status", "approved").eq("is_active", true);
       if (data) setSalons(data);
       setLoading(false);
     })();
@@ -701,7 +704,7 @@ function FindSalonPage({ go, onSelectSalon }: { go: (v: View) => void; onSelectS
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase.from("salons").select("*");
+      const { data } = await supabase.from("salons").select("*").eq("approval_status", "approved").eq("is_active", true);
       if (data) setDbSalons(data);
       setLoadingDB(false);
     })();
@@ -1212,16 +1215,17 @@ function BookingPage({ go, salon, onBookingSuccess }: { go: (v: View) => void; s
 
     // Verify if slot has already been booked by another client
     const normSelTime = selTime.toLowerCase().replace(/\s+/g, "");
-    const { data: conflictCheck } = await supabase
-      .from("bookings")
-      .select("id, time, date")
-      .eq("salon_id", salon.id)
-      .in("status", ["pending", "approved"]);
+    const { data: conflictCheck, error: conflictError } = await supabase.rpc("get_booked_slots", { p_salon_id: salon.id });
+    if (conflictError) {
+      setSubmitErr("We could not verify this time slot. Please try again shortly.");
+      setSubmitting(false);
+      return;
+    }
 
     const normTargetDate = dateStr.toLowerCase().replace(/,/g, '').trim();
     const hasConflict = conflictCheck?.some(b => {
-      const normBDate = (b.date || "").toLowerCase().replace(/,/g, '').trim();
-      const normBTime = (b.time || "").toLowerCase().replace(/\s+/g, "");
+    const normBDate = (b.booked_date || "").toLowerCase().replace(/,/g, '').trim();
+    const normBTime = (b.booked_time || "").toLowerCase().replace(/\s+/g, "");
       const dateMatches = normBDate === normTargetDate || normBDate.includes(normTargetDate) || normTargetDate.includes(normBDate);
       return dateMatches && normBTime === normSelTime;
     });
@@ -1834,6 +1838,11 @@ function NotificationsPage({ onRefreshUnread }: { onRefreshUnread?: () => void }
     // Fetch user's salons if owner
     const { data: ownedSalons } = await supabase.from("salons").select("id, name").eq("owner_id", user.id);
     const ownerSalonIds = ownedSalons?.map(s => s.id) || [];
+    const { data: salonNotices } = await supabase
+      .from("salon_notifications")
+      .select("id,title,message,created_at,read_at")
+      .eq("owner_id", user.id)
+      .order("created_at", { ascending: false });
 
     // Fetch bookings where user is client OR where salon belongs to owner
     let resClient = await supabase.from("bookings").select("*").eq("client_id", user.id).order("created_at", { ascending: false });
@@ -1856,6 +1865,19 @@ function NotificationsPage({ onRefreshUnread }: { onRefreshUnread?: () => void }
         body: `${b.client_name || b.client_email} scheduled ${b.service_name} for ${b.date} at ${b.time}.`,
         time: new Date(b.updated_at || b.created_at || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
         read: readIds.includes(id),
+      });
+    });
+
+    (salonNotices || []).forEach((item: any) => {
+      const id = `salon-notice-${item.id}`;
+      liveNotifs.push({
+        id,
+        dbId: item.id,
+        type: "approved",
+        title: item.title,
+        body: item.message,
+        time: new Date(item.created_at || Date.now()).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        read: Boolean(item.read_at) || readIds.includes(id),
       });
     });
 
@@ -1896,6 +1918,9 @@ function NotificationsPage({ onRefreshUnread }: { onRefreshUnread?: () => void }
       .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () => {
         fetchLiveNotifs();
       })
+      .on("postgres_changes", { event: "*", schema: "public", table: "salon_notifications" }, () => {
+        fetchLiveNotifs();
+      })
       .subscribe();
 
     return () => {
@@ -1909,6 +1934,10 @@ function NotificationsPage({ onRefreshUnread }: { onRefreshUnread?: () => void }
       const updated = [...readIds, id];
       localStorage.setItem("stylehub_read_notifs", JSON.stringify(updated));
     }
+    const target = notifs.find(item => item.id === id);
+    if (target?.dbId) {
+      void supabase.from("salon_notifications").update({ read_at: new Date().toISOString() }).eq("id", target.dbId);
+    }
     setNotifs(ns => ns.map(x => x.id === id ? { ...x, read: true } : x));
     if (onRefreshUnread) onRefreshUnread();
   };
@@ -1918,6 +1947,10 @@ function NotificationsPage({ onRefreshUnread }: { onRefreshUnread?: () => void }
     const readIds: string[] = JSON.parse(localStorage.getItem("stylehub_read_notifs") || "[]");
     const updated = Array.from(new Set([...readIds, ...allIds]));
     localStorage.setItem("stylehub_read_notifs", JSON.stringify(updated));
+    const noticeIds = notifs.filter(item => item.dbId).map(item => item.dbId);
+    if (noticeIds.length > 0) {
+      void supabase.from("salon_notifications").update({ read_at: new Date().toISOString() }).in("id", noticeIds);
+    }
     setNotifs(n => n.map(x => ({ ...x, read: true })));
     if (onRefreshUnread) onRefreshUnread();
   };
@@ -2074,6 +2107,7 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
 
   // ── Business section ─────────────────────────────────────
   const [salons, setSalons] = useState<any[]>([]);
+  const [salonNotices, setSalonNotices] = useState<any[]>([]);
   const [bizOpen, setBizOpen] = useState(autoOpenForm);
   const [showForm, setShowForm] = useState(autoOpenForm);
   const [formId, setFormId] = useState<string | null>(null);
@@ -2097,6 +2131,8 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
     if (!user) return;
     const { data } = await supabase.from("salons").select("*").eq("owner_id", user.id);
     if (data) setSalons(data);
+    const { data: notices } = await supabase.from("salon_notifications").select("id,title,message,created_at,read_at").eq("owner_id", user.id).order("created_at", { ascending: false }).limit(5);
+    if (notices) setSalonNotices(notices);
   };
 
   const [profileUser, setProfileUser] = useState<any>(null);
@@ -2305,6 +2341,17 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
         {/* Salon list */}
         {bizOpen && !showForm && (
           <div className="border-t px-4 sm:px-6 py-6" style={{ borderColor: "#E8E0D5" }}>
+            {salonNotices.length > 0 && (
+              <div className="mb-5 space-y-2">
+                {salonNotices.map((item: any) => (
+                  <div key={item.id} className="rounded-2xl border px-4 py-3" style={{ borderColor: "#EED9B8", background: "#FFFBF3" }}>
+                    <p className="text-sm font-semibold" style={{ color: "#5C3A21" }}>{item.title}</p>
+                    <p className="mt-1 text-xs leading-5" style={{ color: "#725333" }}>{item.message}</p>
+                    <p className="mt-1 text-[10px]" style={{ color: "#A48B71" }}>{item.created_at ? new Date(item.created_at).toLocaleString() : ""}</p>
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="flex justify-between items-center mb-4">
               <h3 className="font-semibold text-sm" style={{ color: "#2C1810" }}>Managed Properties</h3>
               <button onClick={openNewForm} className="text-xs font-semibold px-3 py-1.5 rounded-xl border flex items-center gap-1"
@@ -2330,6 +2377,16 @@ function ClientProfilePage({ appts, go, autoOpenForm = false }: { appts: Appt[];
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-sm truncate" style={{ color: "#2C1810" }}>{s.name}</p>
                     <p className="text-xs truncate" style={{ color: "#8B7355" }}>📍 {s.city} · 🕐 {s.hours}</p>
+                    <div className="mt-2">
+                      <span className={`inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold ${s.is_active === false ? "bg-gray-100 text-gray-700" : s.approval_status === "approved" ? "bg-green-50 text-green-700" : s.approval_status === "rejected" ? "bg-red-50 text-red-700" : "bg-amber-50 text-amber-700"}`}>
+                        {s.is_active === false ? "Removed from public site" : s.approval_status === "approved" ? "Approved · Operational" : s.approval_status === "rejected" ? "Not approved" : "Awaiting admin approval"}
+                      </span>
+                    </div>
+                    {s.approval_status === "approved" && s.is_active !== false && (
+                      <p className="mt-2 max-w-2xl text-xs leading-5" style={{ color: "#725333" }}>
+                        StyleHub commission: 5% of the total value of this salon’s bookings for each month. Cancelled bookings are excluded.
+                      </p>
+                    )}
                   </div>
                   <button onClick={() => editSalon(s)}
                     className="text-xs font-semibold px-3 py-1.5 rounded-lg border flex-shrink-0"
@@ -4012,6 +4069,7 @@ export default function App() {
   const [authModal, setAuthModal] = useState<{ open: boolean; defaultTab: "signin" | "signup" }>({ open: false, defaultTab: "signin" });
   const [authReady, setAuthReady] = useState(false); // prevent flicker before session restore
   const [isOwner, setIsOwner] = useState(false);
+  const isAdmin = authUser?.app_metadata?.role === "admin";
 
   // Restore session from localStorage on mount
   useEffect(() => {
@@ -4071,7 +4129,10 @@ export default function App() {
       return !readIds.includes(id);
     }).length;
 
-    setUnreadCount(unreadOwnerCount + unreadClientCount);
+    const { data: salonNotices } = await supabase.from("salon_notifications").select("id,read_at").eq("owner_id", user.id);
+    const unreadSalonNotices = (salonNotices || []).filter(item => !item.read_at).length;
+
+    setUnreadCount(unreadOwnerCount + unreadClientCount + unreadSalonNotices);
   };
 
   useEffect(() => {
@@ -4080,6 +4141,9 @@ export default function App() {
     const channel = supabase
       .channel("realtime-app-unread-badge")
       .on("postgres_changes", { event: "*", schema: "public", table: "bookings" }, () => {
+        fetchUnreadCount();
+      })
+      .on("postgres_changes", { event: "*", schema: "public", table: "salon_notifications" }, () => {
         fetchUnreadCount();
       })
       .subscribe();
@@ -4093,6 +4157,11 @@ export default function App() {
 
   // Wrap setView to scroll to top on navigation, gating protected views
   const go = (v: View) => {
+    if (v === "admin-dashboard" && !isAdmin) {
+      setView("admin-login");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
     if (PROTECTED_VIEWS.includes(v) && !authUser) {
       setAuthModal({ open: true, defaultTab: "signin" });
       return;
@@ -4116,7 +4185,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const noFooter: View[] = ["booking", "booking-sent", "salon-login"];
+  const noFooter: View[] = ["booking", "booking-sent", "salon-login", "admin-login", "admin-dashboard"];
   const salonOwnerViews: View[] = ["salon-login", "salon-dashboard", "appointment-requests", "salon-calendar", "manage-services", "salon-profile", "salon-reviews"];
   const isSalonOwner = salonOwnerViews.includes(view);
 
@@ -4142,6 +4211,10 @@ export default function App() {
       case "manage-services": return <ManageServicesPage />;
       case "salon-profile": return <SalonProfilePage />;
       case "salon-reviews": return <SalonReviewsPage />;
+      case "admin-login": return <AdminLoginPage onSuccess={() => { setView("admin-dashboard"); window.scrollTo({ top: 0, behavior: "smooth" }); }} onCancel={() => go("home")} />;
+      case "admin-dashboard": return isAdmin
+        ? <AdminDashboardPage user={authUser!} onSignOut={handleSignOut} />
+        : <AdminLoginPage onSuccess={() => { setView("admin-dashboard"); window.scrollTo({ top: 0, behavior: "smooth" }); }} onCancel={() => go("home")} />;
       default: return <HomePage go={go} />;
     }
   }

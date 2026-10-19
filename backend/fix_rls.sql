@@ -1,4 +1,4 @@
--- Run this in your Supabase SQL Editor to fix the search visibility issue.
+ -- Run this in your Supabase SQL Editor to fix the search visibility issue.
 -- This ensures ANY visitor (logged in or not) can see all salon listings.
 
 -- Drop conflicting policies first if they exist
