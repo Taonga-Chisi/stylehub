@@ -47,25 +47,25 @@ export interface MonthlyCommission {
 }
 
 export async function getAdminSalons() {
-  return adminRequest<{ salons: ManagedSalon[] }>("/api/admin/salons/");
+  return adminRequest<{ salons: ManagedSalon[] }>("/api/auth/admin/salons/");
 }
 
 export async function setSalonApproval(id: string, decision: "approved" | "rejected") {
   return adminRequest<{ salon: ManagedSalon; notice_saved: boolean; email_sent: boolean }>(
-    `/api/admin/salons/${encodeURIComponent(id)}/decision/`,
+    `/api/auth/admin/salons/${encodeURIComponent(id)}/decision/`,
     { method: "POST", body: JSON.stringify({ decision }) },
   );
 }
 
 export async function setSalonListing(id: string, is_active: boolean) {
   return adminRequest<{ salon: ManagedSalon }>(
-    `/api/admin/salons/${encodeURIComponent(id)}/listing/`,
+    `/api/auth/admin/salons/${encodeURIComponent(id)}/listing/`,
     { method: "PATCH", body: JSON.stringify({ is_active }) },
   );
 }
 
 export async function getMonthlyCommissions(month: string) {
   return adminRequest<{ month: string; rate: number; currency: string; salons: MonthlyCommission[] }>(
-    `/api/admin/commissions/?month=${encodeURIComponent(month)}`,
+    `/api/auth/admin/commissions/?month=${encodeURIComponent(month)}`,
   );
 }
